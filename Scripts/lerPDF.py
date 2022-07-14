@@ -30,8 +30,8 @@ def lerPDF(path, numberOfPages):
         text=text+pageObj.extractText()
 
     #Tratar Texto (Remover Quebra de Linhas)
-    text = re.sub('\r', '', text) 
-    text = re.sub('\n', '', text)
+    #text = re.sub('\r', '', text) 
+    #text = re.sub('\n', '', text)
 
     #Retornar Texto
     return text
