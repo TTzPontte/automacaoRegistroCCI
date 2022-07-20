@@ -1,4 +1,4 @@
-from lerPDF import lerPDF
+from lerPDFLaudo import lerPDF
 
 def lerLaudo(laudoPDF):
     #Extrair Texto
