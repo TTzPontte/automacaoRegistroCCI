@@ -121,10 +121,10 @@ def lerSimulador(path):
     return keyValue
 
 # TESTES #
-files_dir = r"C:\Users\Matheus\Documents\Git\Pontte\automacaoRegistroAztronic\automacaoRegistroCCI\Simuladores"
-simuladorFiles = [f for f in os.listdir(files_dir) if f.endswith(".xlsm")]
+# files_dir = r"C:\Users\Matheus\Documents\Git\Pontte\automacaoRegistroAztronic\automacaoRegistroCCI\Simuladores"
+# simuladorFiles = [f for f in os.listdir(files_dir) if f.endswith(".xlsm")]
 
-for file in simuladorFiles:
-    path = os.path.join(files_dir, file)
-    print(file)
-    print(lerSimulador(path))
+# for file in simuladorFiles:
+#     path = os.path.join(files_dir, file)
+#     print(file)
+#     print(lerSimulador(path))
