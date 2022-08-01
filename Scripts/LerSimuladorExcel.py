@@ -2,7 +2,6 @@ import openpyxl as xl
 from time import sleep
 from datetime import datetime
 import warnings
-import os
 
 #Remover Avisos
 warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
@@ -119,12 +118,3 @@ def lerSimulador(path):
     
     #Retornar Chave e Valor
     return keyValue
-
-# TESTES #
-# files_dir = r"C:\Users\Matheus\Documents\Git\Pontte\automacaoRegistroAztronic\automacaoRegistroCCI\Simuladores"
-# simuladorFiles = [f for f in os.listdir(files_dir) if f.endswith(".xlsm")]
-
-# for file in simuladorFiles:
-#     path = os.path.join(files_dir, file)
-#     print(file)
-#     print(lerSimulador(path))

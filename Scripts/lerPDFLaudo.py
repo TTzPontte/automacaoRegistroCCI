@@ -1,6 +1,5 @@
 # importa as bibliotecas necessárias
 import re
-import os
 import PyPDF2
 import pikepdf
 
