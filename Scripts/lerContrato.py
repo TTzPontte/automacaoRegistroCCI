@@ -218,4 +218,3 @@ def lerContrato(path):
         dict_keyValue    
 
 
-lerContrato(patha)
