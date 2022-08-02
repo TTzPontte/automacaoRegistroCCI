@@ -5,7 +5,7 @@ import pandas as pd
 import os
 
 # Apagar ao finalizar:
-# patha = r'C:\Users\Matheus\Documents\Git\Pontte\automacaoRegistroAztronic\automacaoRegistroCCI\Contratos\FI_Contrato_Juliana_Assinatura Digital.pdf'
+patha = r'C:\Users\Matheus\Documents\Git\Pontte\automacaoRegistroAztronic\automacaoRegistroCCI\Contratos\FI_Contrato_Juliana_Assinatura Digital.pdf'
 
 
 def lerContrato(path):
@@ -96,7 +96,7 @@ def lerContrato(path):
                 item1 = paragrafo4[inicioItens[0]:inicioItens[1]-1]
 
                 listaFinal = [item1]
-                print(listaFinal)
+                #print(listaFinal)
                 listaValor = []
 
                 for itemAux in listaFinal:
@@ -133,7 +133,7 @@ def lerContrato(path):
 
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
-        print(dict_keyValue)
+        #print(dict_keyValue)
     
     elif "HE_" in path:
         #Faz a leitura usando a biblioteca
@@ -217,3 +217,5 @@ def lerContrato(path):
         dict_keyValue = dict(zip(listaKey,listaValues))
         return dict_keyValue    
 
+teste = lerContrato(patha)
+print(teste)
