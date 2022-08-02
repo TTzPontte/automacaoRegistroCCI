@@ -215,6 +215,6 @@ def lerContrato(path):
 
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
-        dict_keyValue    
+    return dict_keyValue    
 
 
