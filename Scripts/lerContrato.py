@@ -6,7 +6,6 @@ import pandas as pd
 # Apagar ao finalizar:
 patha = r'C:\Users\Matheus\Documents\Git\Pontte\automacaoRegistroAztronic\automacaoRegistroCCI\Contratos\HE_Contrato_PatriciaMarcondes_Assinatura Digital_VFinal.pdf'
 
-
 def lerContrato(path):
     if "FI_" in path:
         #Faz a leitura usando a biblioteca
@@ -83,7 +82,7 @@ def lerContrato(path):
                 #Criar Paragráfo Auxiliar (Somente com os sub itens do tópico 4. Despesas)
                 paragrafo4 = text[inicioTopico+len(topico4)+1:finalTopico-1]
                 paragrafo4 = re.sub('\s+',' ', paragrafo4)
-                paragrafo4
+                
 
                 listaChave = ['4.3.','4.4.']
                 inicioItens = []
@@ -118,7 +117,7 @@ def lerContrato(path):
 
         listaKey.append('Matrícula')
         listaValues.append(valorExtraido)
-        valorExtraido
+        
 
         # Extraindo cartório
         inicioFrase = text.find(f'Matriculado sob nº {valorExtraido}, no',0)
@@ -128,11 +127,11 @@ def lerContrato(path):
 
         listaKey.append('Cartório')
         listaValues.append(valorExtraido)
-        valorExtraido
+        
 
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
-        #print(dict_keyValue)
+        
     
     elif "HE_" in path:
         #Faz a leitura usando a biblioteca
@@ -214,7 +213,7 @@ def lerContrato(path):
 
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
-        return dict_keyValue    
+    return dict_keyValue    
 
 teste = lerContrato(patha)
 print(teste)
