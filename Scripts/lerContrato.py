@@ -38,39 +38,6 @@ def lerContrato(path):
         for key, value in listaDePara.items():
             if key == 'registro':
 
-                inicFrase = '4.3. Despesas'
-                fimFrase = 'Registro: R$'
-
-                #Pegar posição das variáveis auxiliares no texto
-                inicioTopico = text.find(inicFrase, 0)
-                finalTopico = text.find(fimFrase, 0)
-
-                #Criar Paragráfo Auxiliar (Somente com os sub itens do tópico 4. Despesas)
-                paragrafo4 = text[inicioTopico+len(inicFrase)+1:finalTopico-1]
-                value = f'{inicFrase} {paragrafo4} {fimFrase}'
-                
-                
-
-        
-            inicioFrase = text.find(value,0)
-            finalFrase = inicioFrase + len(value) + 1
-            proximoEspaco = text.find(" ", finalFrase)
-            valorExtraido = text[finalFrase:proximoEspaco]
-
-            #Ajustar Valores Númericos
-            if '.' in valorExtraido:
-                valorExtraido = valorExtraido.replace(".", "")
-                valorExtraido = valorExtraido.replace(",", ".")
-            
-            #Ajustar Valores Percentuais
-            if '%' in valorExtraido:
-                valorExtraido = valorExtraido.replace(",", ".")
-                valorExtraido = valorExtraido.replace("%", "")
-                valorExtraido = round(float(valorExtraido)/100,4)
-            elif 'IPCA' or 'IGPM' in valorExtraido:
-                valorExtraido = valorExtraido.replace(",", "")
-            
-            elif key == 'registro':
                 #Definir Variáveis Auxiliares
                 topico4 = '4. Despesas'
                 topico5 = '5. Valor Destinado'
@@ -82,9 +49,9 @@ def lerContrato(path):
                 #Criar Paragráfo Auxiliar (Somente com os sub itens do tópico 4. Despesas)
                 paragrafo4 = text[inicioTopico+len(topico4)+1:finalTopico-1]
                 paragrafo4 = re.sub('\s+',' ', paragrafo4)
-                
+                print(paragrafo4)
 
-                listaChave = ['4.3.','4.4.']
+                listaChave = ['4.3.','4.4.', '4.5.']
                 inicioItens = []
 
                 for item in listaChave:
@@ -92,18 +59,63 @@ def lerContrato(path):
                     inicioItens.append(inicioP)
                     
                 item1 = paragrafo4[inicioItens[0]:inicioItens[1]-1]
+                try:
+                    item2 = paragrafo4[inicioItens[1]:inicioItens[2]-1]
+                except:
+                    item2 = paragrafo4[inicioItens[2]:len(paragrafo4)]
+                try:
+                    item3 = paragrafo4[inicioItens[2]:len(paragrafo4)]
+                except:
+                    item3 = "N/A"
 
-                listaFinal = [item1]
-                #print(listaFinal)
+                listaFinal = [item1, item2, item3,]
+                print(listaFinal)
                 listaValor = []
 
                 for itemAux in listaFinal:
                     if '[X]' in itemAux:
                         inicioAux = itemAux.find('R$ ', 0)
                         fimAux = itemAux.find(",", inicioAux) + 3
-                        valorExtraido = itemAux[inicioAux+3:fimAux]
+                        resultadoAux = itemAux[inicioAux+3:fimAux]
+                        if '.' in resultadoAux:
+                            resultadoAux = resultadoAux.replace(".", "")
+                            resultadoAux = resultadoAux.replace(",", ".")
                     else:
-                        valorExtraido = '0,00'
+                        resultadoAux = '0.00'
+
+                    listaValor.append(resultadoAux)
+
+                #Criar Dicionario das duas Listas
+                dict_chaveValor = dict(zip(listaChave,listaValor))
+                print(dict_chaveValor) 
+                
+                # Somar valores de registro
+                sumRegistro = 0
+                for key, value in dict_chaveValor.items():
+                    print(value)
+                    sumRegistro = sumRegistro + float(value)
+                valorExtraido = sumRegistro
+                key = 'registro'
+
+            else:
+                inicioFrase = text.find(value,0)
+                finalFrase = inicioFrase + len(value) + 1
+                proximoEspaco = text.find(" ", finalFrase)
+                valorExtraido = text[finalFrase:proximoEspaco]
+
+                #Ajustar Valores Númericos
+                if '.' in valorExtraido:
+                    valorExtraido = valorExtraido.replace(".", "")
+                    valorExtraido = valorExtraido.replace(",", ".")
+                
+                #Ajustar Valores Percentuais
+                if '%' in valorExtraido:
+                    valorExtraido = valorExtraido.replace(",", ".")
+                    valorExtraido = valorExtraido.replace("%", "")
+                    valorExtraido = round(float(valorExtraido)/100,4)
+                elif 'IPCA' or 'IGPM' in valorExtraido:
+                    valorExtraido = valorExtraido.replace(",", "")
+
             listaKey.append(key)
             listaValues.append(valorExtraido)
 
