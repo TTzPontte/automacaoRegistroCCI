@@ -5,7 +5,7 @@ import pandas as pd
 import os
 
 # Apagar ao finalizar:
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Juliana_Assinatura Digital.pdf'
+# patha = r'C:\Users\Matheus\Documents\Git\Pontte\automacaoRegistroAztronic\automacaoRegistroCCI\Contratos\FI_Contrato_Juliana_Assinatura Digital.pdf'
 
 
 def lerContrato(path):
@@ -215,6 +215,6 @@ def lerContrato(path):
 
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
-        dict_keyValue    
+        dict_keyValue
 
 
