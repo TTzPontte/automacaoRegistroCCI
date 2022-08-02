@@ -2,7 +2,6 @@
 import PyPDF2
 import re
 import pandas as pd
-import os
 
 # Apagar ao finalizar:
 patha = r'C:\Users\Matheus\Documents\Git\Pontte\automacaoRegistroAztronic\automacaoRegistroCCI\Contratos\FI_Contrato_Juliana_Assinatura Digital.pdf'
