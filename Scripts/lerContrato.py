@@ -3,8 +3,8 @@ import PyPDF2
 import re
 import pandas as pd
 
-# Apagar ao finalizar:
-patha = r'C:\Users\Matheus\Documents\Git\Pontte\automacaoRegistroAztronic\automacaoRegistroCCI\Contratos\HE_Contrato_PatriciaMarcondes_Assinatura Digital_VFinal.pdf'
+# Apagar ao finalizar
+patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Agostinho_Assinatura Digital_VFinal.pdf'
 
 def lerContrato(path):
     if "FI_" in path:
@@ -25,7 +25,6 @@ def lerContrato(path):
         #Tratar Texto (Remover Quebra de Linhas)
         text = re.sub('\r', '', text) 
         text = re.sub('\n', '', text)    
-
         listaDePara = {'valorTotal':'1. Valor do Financiamento: R$','tabela': 'Sistema de Amortização:','Taxa ao Mes':'2.1.1. Juros de','registro':'4.3. Despesas','valorLiquido': '7. Valor Líquido a Liberar do  Financiamento : R$',
                 'prazoMes': 'PRAZO DE AMORTIZAÇÃO :','valorPrimeiraParcelaComEncargos':'VALOR TOTAL DO PRIMEIRO ENCARGO, NESTA DATA:  R$',
                 'valorImóvel':'Imóvel para fins de leilão:  R$','prazoContrato': 'N.º DE PRESTAÇÕES: ','ultimaParcela':'DATA DE VENCIMENTO DA ÚLTIMA PRESTAÇÃO: ','dataContrato': 'Data de Liberação dos Recursos: ',
@@ -163,7 +162,7 @@ def lerContrato(path):
         #Tratar Texto (Remover Quebra de Linhas)
         text = re.sub('\r', '', text) 
         text = re.sub('\n', '', text)
-
+        print(text)
         listaDePara = {'valorTotal':'VALOR DO EMPRÉSTIMO: R$','tabela': 'SISTEMA DE AMORTIZAÇÃO:','registro': 'DESPESAS DE REGISTRO: R$','Taxa ao Mes':'H.1. NOMINAL:','valorLiquido': 'VALOR LÍQUIDO DO EMPRÉSTIMO (A-J-K-L-M-N): R$',
                 'prazoMes': 'PRAZO DE AMORTIZAÇÃO:','valorPrimeiraParcelaComEncargos':'VALOR TOTAL DO PRIMEIRO ENCARGO, NESTA DATA:  R$',
                 'valorImóvel':'Valor de avaliação do Imóvel para fins de leilão:  R$','prazoContrato': 'N.º DE PRESTAÇÕES:','ultimaParcela':'DATA DO TÉRMINO DO PRAZO CONTRATUAL: ','dataContrato': 'DATA DE DESEMBOLSO:',
@@ -197,12 +196,12 @@ def lerContrato(path):
             listaValues.append(valorExtraido)
 
         # Extraindo numero da matricula
-        inicioFrase = text.find('na matrícula nº',0)
-        finalFrase = inicioFrase + len('na matrícula nº') + 1
+        inicioFrase = text.find('matrícula nº',0)
+        finalFrase = inicioFrase + len('matrícula nº') + 1
         ultimaMatricula = text.find("do", finalFrase)
         valorExtraido = text[finalFrase:ultimaMatricula]
         valorExtraido = valorExtraido.replace(",", "")
-        if 3 <= len(valorExtraido) > 6:
+        if len(valorExtraido) > 6:
             valorExtraido = 0
             inicioFrase = text.find('nas matrículas nºs',0)
             finalFrase = inicioFrase + len('nas matrículas nºs') + 1
