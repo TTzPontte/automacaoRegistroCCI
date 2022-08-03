@@ -201,7 +201,7 @@ def lerContrato(path):
         ultimaMatricula = text.find("do", finalFrase)
         valorExtraido = text[finalFrase:ultimaMatricula]
         valorExtraido = valorExtraido.replace(",", "")
-        if len(valorExtraido) > 6:
+        if len(valorExtraido) > 9:
             valorExtraido = 0
             inicioFrase = text.find('nas matrículas nºs',0)
             finalFrase = inicioFrase + len('nas matrículas nºs') + 1
