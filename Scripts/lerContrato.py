@@ -48,7 +48,6 @@ def lerContrato(path):
                 #Criar Paragráfo Auxiliar (Somente com os sub itens do tópico 4. Despesas)
                 paragrafo4 = text[inicioTopico+len(topico4)+1:finalTopico-1]
                 paragrafo4 = re.sub('\s+',' ', paragrafo4)
-                print(paragrafo4)
 
                 listaChave = ['4.3.','4.4.', '4.5.']
                 inicioItens = []
@@ -68,7 +67,6 @@ def lerContrato(path):
                     item3 = "N/A"
 
                 listaFinal = [item1, item2, item3,]
-                print(listaFinal)
                 listaValor = []
 
                 for itemAux in listaFinal:
@@ -86,12 +84,12 @@ def lerContrato(path):
 
                 #Criar Dicionario das duas Listas
                 dict_chaveValor = dict(zip(listaChave,listaValor))
-                print(dict_chaveValor) 
+                 
                 
                 # Somar valores de registro
                 sumRegistro = 0
                 for key, value in dict_chaveValor.items():
-                    print(value)
+
                     sumRegistro = sumRegistro + float(value)
                 valorExtraido = sumRegistro
                 key = 'registro'
@@ -162,7 +160,7 @@ def lerContrato(path):
         #Tratar Texto (Remover Quebra de Linhas)
         text = re.sub('\r', '', text) 
         text = re.sub('\n', '', text)
-        print(text)
+        
         listaDePara = {'valorTotal':'VALOR DO EMPRÉSTIMO: R$','tabela': 'SISTEMA DE AMORTIZAÇÃO:','registro': 'DESPESAS DE REGISTRO: R$','Taxa ao Mes':'H.1. NOMINAL:','valorLiquido': 'VALOR LÍQUIDO DO EMPRÉSTIMO (A-J-K-L-M-N): R$',
                 'prazoMes': 'PRAZO DE AMORTIZAÇÃO:','valorPrimeiraParcelaComEncargos':'VALOR TOTAL DO PRIMEIRO ENCARGO, NESTA DATA:  R$',
                 'valorImóvel':'Valor de avaliação do Imóvel para fins de leilão:  R$','prazoContrato': 'N.º DE PRESTAÇÕES:','ultimaParcela':'DATA DO TÉRMINO DO PRAZO CONTRATUAL: ','dataContrato': 'DATA DE DESEMBOLSO:',
@@ -226,5 +224,4 @@ def lerContrato(path):
         dict_keyValue = dict(zip(listaKey,listaValues))
     return dict_keyValue    
 
-teste = lerContrato(patha)
-print(teste)
+# teste = lerContrato(patha)
