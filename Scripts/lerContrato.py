@@ -3,8 +3,6 @@ import PyPDF2
 import re
 import pandas as pd
 
-# Apagar ao finalizar:
-patha = r'C:\Users\Matheus\Documents\Git\Pontte\automacaoRegistroAztronic\automacaoRegistroCCI\Contratos\HE_Contrato_PatriciaMarcondes_Assinatura Digital_VFinal.pdf'
 
 def lerContrato(path):
     if "FI_" in path:
@@ -214,6 +212,3 @@ def lerContrato(path):
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
     return dict_keyValue    
-
-teste = lerContrato(patha)
-print(teste)
