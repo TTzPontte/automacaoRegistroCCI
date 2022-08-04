@@ -4,7 +4,7 @@ import re
 import pandas as pd
 
 # Apagar ao finalizar
-patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Agostinho_Assinatura Digital_VFinal.pdf'
+# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Agostinho_Assinatura Digital_VFinal.pdf'
 
 def lerContrato(path):
     if "FI_" in path:
@@ -224,4 +224,4 @@ def lerContrato(path):
         dict_keyValue = dict(zip(listaKey,listaValues))
     return dict_keyValue    
 
-# teste = lerContrato(patha)
+# test = lerContrato(patha)
