@@ -35,3 +35,6 @@ def lerLaudo(laudoPDF):
             listaDePara['Cartório'] = cartorio
     
     return listaDePara
+
+teste = r'C:\Users\Matheus\Documents\Git\Pontte\automacaoRegistroAztronic\automacaoRegistroCCI\Arquivos Simulação\5. Laudo - Agostinho.pdf'
+print(teste)
