@@ -161,7 +161,7 @@ def lerContrato(path):
         text = re.sub('\r', '', text) 
         text = re.sub('\n', '', text)
         
-        listaDePara = {'valorTotal':'VALOR DO EMPRÉSTIMO: R$','tabela': 'SISTEMA DE AMORTIZAÇÃO:','registro': 'DESPESAS DE REGISTRO: R$','Taxa ao Mes':'H.1. NOMINAL:','valorLiquido': 'VALOR LÍQUIDO DO EMPRÉSTIMO (A-J-K-L-M-N): R$',
+        listaDePara = {'valorTotal':'VALOR DO EMPRÉSTIMO: R$','tabela': 'SISTEMA DE AMORTIZAÇÃO:','registro': 'DESPESAS DE REGISTRO: R$','Taxa ao Mes':'H.1. NOMINAL:','valorLiquido': '-J-K-L-M-N): R$',
                 'prazoMes': 'PRAZO DE AMORTIZAÇÃO:','valorPrimeiraParcelaComEncargos':'VALOR TOTAL DO PRIMEIRO ENCARGO, NESTA DATA:  R$',
                 'valorImóvel':'Valor de avaliação do Imóvel para fins de leilão:  R$','prazoContrato': 'N.º DE PRESTAÇÕES:','ultimaParcela':'DATA DO TÉRMINO DO PRAZO CONTRATUAL: ','dataContrato': 'DATA DE DESEMBOLSO:',
                 'valorPrimeiraParcela':'VALOR DA PARCELA MENSAL (AMORTIZAÇÃO E JUROS), NESTA DATA:  R$','primeiraParcela':'VENCIMENTO DA PRIMEIRA PRESTAÇÃO :','indice':'ÍNDICE: MENSAL do'
