@@ -1,20 +1,43 @@
 from lerPDFLaudo import lerPDF
+import re 
 
 def lerLaudo(laudoPDF):
     #Extrair Texto
     pathDocument = laudoPDF
-    extTexto = lerPDF(pathDocument,2)
-    
+    extTexto = lerPDF(pathDocument,4)
+#    print(extTexto)
     #DICT DE-PARA dos arquivos que serão extraídos
-    listaDePara = {"Valor de Mercado: ": "","Matrícula: ": "", "Cartório": ""}
+    listaDePara = {"Valor de Mercado: ": "","Matrícula: ": "", "Cartório": "", "Endereço: ": "", "Número: ":"", "Complemento: ": "","Bairro: ":"","Cidade: ":"","UF: ":"", "CEP ": ""}
 
     for key, value in listaDePara.items(): 
-        if key == "Valor de Mercado: ":
+        if key == "Valor de Mercado: " or key == "Endereço: ":
+            #Extrair Valores
             inicioFrase = extTexto.find(key,0)
             finalFrase = inicioFrase + len(key)
             breakLine = extTexto.find(" | ", finalFrase)
-            valorMercado = extTexto[finalFrase+3:breakLine]
-            listaDePara['Valor de Mercado: '] = valorMercado
+            saida = extTexto[finalFrase:breakLine]
+
+            #Tratamento Endereço
+            if key == "Endereço: ":
+                posicaoNumero = saida.find("nº") + len("nº")
+                nextSpace = saida.find(" ", posicaoNumero)
+                if posicaoNumero == nextSpace:
+                    nextSpace = saida.find(" ", posicaoNumero+1)
+                numeroEndereco = saida[posicaoNumero:nextSpace]
+                auxComplemento = len(saida)-(posicaoNumero+len(numeroEndereco))
+                if auxComplemento >= 5:
+                    complemento = saida[nextSpace+3:len(saida)]
+                else:
+                    complemento = 'N/A'
+
+                saida = saida[0:posicaoNumero-len("nº ")]
+                
+                #Adicionar na Lista
+                listaDePara["Número: "] = numeroEndereco.strip()
+                listaDePara["Complemento: "] = complemento.strip()
+            
+            #Atribuir Valor ao DICT
+            listaDePara[key] = saida.strip()
             
         elif key == "Matrícula: ":
             #Extrair Número da Matrícula
@@ -33,8 +56,27 @@ def lerLaudo(laudoPDF):
             #Atribuir Valor ao DICT
             listaDePara['Matrícula: '] = numeroMat
             listaDePara['Cartório'] = cartorio
+        
+        elif key=="Bairro: " or key=="Cidade: " or key=="UF: ":
+            inicioFrase = extTexto.find(key,0)
+            if key=="Bairro: ":
+                finalFrase=extTexto.find("Cidade",inicioFrase)
+            elif key=="Cidade: ":
+                finalFrase=extTexto.find("UF",inicioFrase)
+            else:
+                finalFrase=extTexto.find(" | ",inicioFrase)
+
+            result = extTexto[inicioFrase+len(key):finalFrase].replace('\xa0', '').replace(' | ', '')
+            listaDePara[key] = result
+
+        elif key=="CEP ":
+            inicioFrase = extTexto.find(key,0)
+            finalFrase = extTexto.find("-", inicioFrase)
+            cep = extTexto[inicioFrase+len(key):finalFrase+4]
+            listaDePara[key] = cep
+
+    print(pathDocument)
+    print(listaDePara, "\n")
+    
     
     return listaDePara
-
-teste = r'C:\Users\Matheus\Documents\Git\Pontte\automacaoRegistroAztronic\automacaoRegistroCCI\Arquivos Simulação\5. Laudo - Agostinho.pdf'
-print(teste)
