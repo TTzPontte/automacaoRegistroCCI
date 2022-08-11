@@ -233,7 +233,7 @@ def lerContrato(path):
         #Criar Paragráfo Auxiliar
         paragrafoAux = text[inicioTopico+len(campo7)+1:finalTopico-1]
         paragrafoAux = re.sub('\s+',' ', paragrafoAux)
-        print(paragrafoAux)
+        
 
         participantesKey = []
         participantesValues = []
