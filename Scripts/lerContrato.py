@@ -2,6 +2,7 @@
 import PyPDF2
 import re
 import pandas as pd
+import string
 
 # Apagar ao finalizar
 # patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Agostinho_Assinatura Digital_VFinal.pdf'
@@ -220,8 +221,45 @@ def lerContrato(path):
         listaKey.append('Cartório')
         listaValues.append(valorExtraido)
 
+        # Extraindo participantes da operação 
+
+        campo7 = 'CAMPO 7'                         #Definir Variáveis Auxiliares
+        campo8 = 'CAMPO 8 – CLÁUSULA(S)'
+
+        #Pegar posição das variáveis auxiliares no texto
+        inicioTopico = text.find(campo7, 0)
+        finalTopico = text.find(campo8, 0)
+
+        #Criar Paragráfo Auxiliar
+        paragrafoAux = text[inicioTopico+len(campo7)+1:finalTopico-1]
+        paragrafoAux = re.sub('\s+',' ', paragrafoAux)
+        print(paragrafoAux)
+
+        participantesKey = []
+        participantesValues = []
+        totalParticipantes = paragrafoAux.count('NOME: ')
+        # Extraindo participantes
+        fimValor = 0
+
+        for num in range(0, totalParticipantes):
+            paragrafoAux = paragrafoAux[fimValor:]
+            inicioFrase = paragrafoAux.find('NOME: ',0)
+            finalFrase = inicioFrase + len('NOME: ') 
+            ultimoNome = paragrafoAux.find("PARTICIPAÇÃO: ", finalFrase)
+            nomeExtraido = paragrafoAux[finalFrase:ultimoNome]
+            participantesKey.append(f'Participante{num+1}')
+            participantesKey.append(f'Participação{num+1}')
+            participantesValues.append(nomeExtraido)
+            inicioFrase = paragrafoAux.find('PARTICIPAÇÃO:',0)
+            finalFrase = inicioFrase + len('PARTICIPAÇÃO:') 
+            fimValor = paragrafoAux.find("%", finalFrase)
+            participacaoExtraido = paragrafoAux[finalFrase:fimValor+1]
+            participantesValues.append(participacaoExtraido)
+            dict_participantes = dict(zip(participantesKey,participantesValues))
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
+        dict_keyValue.update(dict_participantes)
     return dict_keyValue    
 
 # test = lerContrato(patha)
+# print(test)
