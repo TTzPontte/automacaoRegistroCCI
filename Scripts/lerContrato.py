@@ -143,9 +143,16 @@ def lerContrato(path):
         finalFrase = inicioFrase + len('NÚMERO: ') + 1
         ultimaMatricula = text.find(" ", finalFrase)
         valorExtraido = text[finalFrase:ultimaMatricula]
-        valorExtraido
         listaKey.append('CCI')
         listaValues.append(valorExtraido)
+
+        # Extraindo Titular
+        inicioFrase = text.find('COMPRADOR(ES)/DEVEDOR(ES) E ANUENTE(S) NOME: ',0)
+        finalFrase = inicioFrase + len('COMPRADOR(ES)/DEVEDOR(ES) E ANUENTE(S) NOME: ')
+        ultimaMatricula = text.find("CPF: ", finalFrase)
+        valorExtraido = text[finalFrase:ultimaMatricula]
+        listaKey.append('Titular do Contrato')
+        listaValues.append(valorExtraido.strip())
 
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
@@ -237,6 +244,14 @@ def lerContrato(path):
         valorExtraido
         listaKey.append('CCI')
         listaValues.append(valorExtraido)
+
+        # Extraindo Titular
+        inicioFrase = text.find('FIDUCIANTE   NOME: ',0)
+        finalFrase = inicioFrase + len('FIDUCIANTE   NOME : ')
+        ultimaMatricula = text.find("CPF: ", finalFrase)
+        valorExtraido = text[finalFrase:ultimaMatricula]
+        listaKey.append('Titular do Contrato')
+        listaValues.append(valorExtraido.strip())
 
         # Extraindo participantes da operação 
 
