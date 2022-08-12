@@ -221,6 +221,15 @@ def lerContrato(path):
         listaKey.append('Cartório')
         listaValues.append(valorExtraido)
 
+        # Extraindo CCI
+        inicioFrase = text.find('NÚMERO: ',0)
+        finalFrase = inicioFrase + len('NÚMERO: ') + 1
+        ultimaMatricula = text.find(" ", finalFrase)
+        valorExtraido = text[finalFrase:ultimaMatricula]
+        valorExtraido
+        listaKey.append('CCI')
+        listaValues.append(valorExtraido)
+
         # Extraindo participantes da operação 
 
         campo7 = 'CAMPO 7'                         #Definir Variáveis Auxiliares
