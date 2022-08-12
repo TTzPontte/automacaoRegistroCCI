@@ -138,6 +138,14 @@ def lerContrato(path):
         listaKey.append('Cartório')
         listaValues.append(valorExtraido)
         
+        # Extraindo CCI
+        inicioFrase = text.find('NÚMERO: ',0)
+        finalFrase = inicioFrase + len('NÚMERO: ') + 1
+        ultimaMatricula = text.find(" ", finalFrase)
+        valorExtraido = text[finalFrase:ultimaMatricula]
+        valorExtraido
+        listaKey.append('CCI')
+        listaValues.append(valorExtraido)
 
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
