@@ -289,10 +289,76 @@ def lerContrato(path):
             participacaoExtraido = paragrafoAux[finalFrase:fimValor+1]
             participantesValues.append(participacaoExtraido.strip())
         dict_participantes = dict(zip(participantesKey,participantesValues))
+
+        # Extraindo titular
+        campo2 = 'CAMPO 2 -'        # intervalo de extração 
+        campo3 = 'CAMPO 3 -'
+        operacao = 'PF'
+        # Pegar posição das variáveis auxiliares no texto
+        inicioTopico = text.find(campo2, 0)
+        finalTopico = text.find(campo3, 0)
+
+        # Criar Paragráfo Auxiliar (Somente com os sub itens do tópico 4. Despesas)
+        campoTitular= text[inicioTopico+len(campo2)+1:finalTopico-1]
+        campoTitular = re.sub('\s+',' ', campoTitular)
+        if 'RAZÃO SOCIAL' in campoTitular:
+            operacao = 'PJ'
+            inicioFrase = campoTitular.find('RAZÃO SOCIAL: ',0)
+            finalFrase = inicioFrase + len('RAZÃO SOCIAL: ')
+            fimTitular = campoTitular.find("ENDEREÇO", finalFrase)
+            valorExtraido = campoTitular[finalFrase:fimTitular]
+            valorExtraido
+            listaKey.append('Titular')
+            listaValues.append(valorExtraido)
+        elif 'FIDUCIANTE NOME:':
+            operacao = 'PF'
+            inicioFrase = campoTitular.find('FIDUCIANTE NOME: ',0)
+            finalFrase = inicioFrase + len('FIDUCIANTE NOME: ')
+            fimTitular = campoTitular.find("CPF", finalFrase)
+            valorExtraido = campoTitular[finalFrase:fimTitular]
+            valorExtraido
+            listaKey.append('Titular')
+            listaValues.append(valorExtraido)
+
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
         dict_keyValue.update(dict_participantes)
     return dict_keyValue    
 
+
+def numParticipantes(path):
+    #Faz a leitura usando a biblioteca
+    pdf_file = open(path, 'rb')
+    read_pdf = PyPDF2.PdfFileReader(pdf_file)
+
+    #Extriar Texto Página 1 a 5
+    text=''
+    for i in range(0,9):
+        #Ler Página PDF
+        pageObj = read_pdf.getPage(i)
+        #Extrair Texto
+        text=text+pageObj.extractText()
+
+    #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
+    text = re.sub('\r', '', text) 
+    text = re.sub('\n', '', text)
+    text = re.sub(' {2,}', ' ', text).strip(' ')
+
+    # Extraindo participantes da operação 
+    campo7 = 'CAMPO 7'                         #inicio e fim da extração
+    campo8 = 'CAMPO 8 – CLÁUSULA(S)'
+
+    #Pegar posição das variáveis auxiliares no texto
+    inicioTopico = text.find(campo7, 0)
+    finalTopico = text.find(campo8, 0)
+
+    #Criar Paragráfo Auxiliar
+    paragrafoAux = text[inicioTopico+len(campo7)+1:finalTopico-1]
+    paragrafoAux = re.sub('\s+',' ', paragrafoAux)
+    totalParticipantes = paragrafoAux.count('NOME: ')
+
+    return totalParticipantes
+
+testnum = numParticipantes(patha)
 test = lerContrato(patha)
 print(test)
