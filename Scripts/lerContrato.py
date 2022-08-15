@@ -5,7 +5,7 @@ import pandas as pd
 import string
 
 # Apagar ao finalizar
-patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_PatriciaMarcondes_Assinatura Digital_VFinal.pdf'
+# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_PatriciaMarcondes_Assinatura Digital_VFinal.pdf'
 
 def lerContrato(path):
     if "FI_" in path:
@@ -359,6 +359,6 @@ def numParticipantes(path):
 
     return totalParticipantes
 
-testnum = numParticipantes(patha)
-test = lerContrato(patha)
-print(test)
+#testnum = numParticipantes(patha)
+#test = lerContrato(patha)
+#print(test)
