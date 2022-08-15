@@ -5,8 +5,8 @@ import pandas as pd
 import string
 
 # Apagar ao finalizar
-#patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Agostinho_Assinatura Digital_VFinal.pdf'
-#patha = r'C:\Users\Matheus\Documents\Git\Pontte\automacaoRegistroAztronic\automacaoRegistroCCI\Contratos\HE_Contrato_Agostinho_Assinatura Digital_VFinal.pdf'
+# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_PatriciaMarcondes_Assinatura Digital_VFinal.pdf'
+
 def lerContrato(path):
     if "FI_" in path:
         #Faz a leitura usando a biblioteca
@@ -138,6 +138,21 @@ def lerContrato(path):
         listaKey.append('Cartório')
         listaValues.append(valorExtraido)
         
+        # Extraindo CCI
+        inicioFrase = text.find('NÚMERO: ',0)
+        finalFrase = inicioFrase + len('NÚMERO: ') + 1
+        ultimaMatricula = text.find(" ", finalFrase)
+        valorExtraido = text[finalFrase:ultimaMatricula]
+        listaKey.append('CCI')
+        listaValues.append(valorExtraido)
+
+        # Extraindo Titular
+        inicioFrase = text.find('COMPRADOR(ES)/DEVEDOR(ES) E ANUENTE(S) NOME: ',0)
+        finalFrase = inicioFrase + len('COMPRADOR(ES)/DEVEDOR(ES) E ANUENTE(S) NOME: ')
+        ultimaMatricula = text.find("CPF: ", finalFrase)
+        valorExtraido = text[finalFrase:ultimaMatricula]
+        listaKey.append('Titular do Contrato')
+        listaValues.append(valorExtraido.strip())
 
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
@@ -210,7 +225,7 @@ def lerContrato(path):
             valorExtraido = valorExtraido.replace("e ", "")
 
         listaKey.append('Matrícula')
-        listaValues.append(valorExtraido)
+        listaValues.append(valorExtraido.strip())
 
         # Extraindo cartório
         inicioFrase = text.find(' do Livro N°',0)
@@ -220,6 +235,23 @@ def lerContrato(path):
 
         listaKey.append('Cartório')
         listaValues.append(valorExtraido)
+
+        # Extraindo CCI
+        inicioFrase = text.find('NÚMERO: ',0)
+        finalFrase = inicioFrase + len('NÚMERO: ') + 1
+        ultimaMatricula = text.find(" ", finalFrase)
+        valorExtraido = text[finalFrase:ultimaMatricula]
+        valorExtraido
+        listaKey.append('CCI')
+        listaValues.append(valorExtraido)
+
+        # Extraindo Titular
+        inicioFrase = text.find('FIDUCIANTE   NOME: ',0)
+        finalFrase = inicioFrase + len('FIDUCIANTE   NOME : ')
+        ultimaMatricula = text.find("CPF: ", finalFrase)
+        valorExtraido = text[finalFrase:ultimaMatricula]
+        listaKey.append('Titular do Contrato')
+        listaValues.append(valorExtraido.strip())
 
         # Extraindo participantes da operação 
 
@@ -233,7 +265,7 @@ def lerContrato(path):
         #Criar Paragráfo Auxiliar
         paragrafoAux = text[inicioTopico+len(campo7)+1:finalTopico-1]
         paragrafoAux = re.sub('\s+',' ', paragrafoAux)
-        print(paragrafoAux)
+        
 
         participantesKey = []
         participantesValues = []
@@ -249,13 +281,13 @@ def lerContrato(path):
             nomeExtraido = paragrafoAux[finalFrase:ultimoNome]
             participantesKey.append(f'Participante{num+1}')
             participantesKey.append(f'Participação{num+1}')
-            participantesValues.append(nomeExtraido)
+            participantesValues.append(nomeExtraido.strip())
             inicioFrase = paragrafoAux.find('PARTICIPAÇÃO:',0)
             finalFrase = inicioFrase + len('PARTICIPAÇÃO:') 
             fimValor = paragrafoAux.find("%", finalFrase)
             participacaoExtraido = paragrafoAux[finalFrase:fimValor+1]
             participantesValues.append(participacaoExtraido)
-            dict_participantes = dict(zip(participantesKey,participantesValues))
+        dict_participantes = dict(zip(participantesKey,participantesValues))
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
         dict_keyValue.update(dict_participantes)
