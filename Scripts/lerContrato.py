@@ -5,7 +5,7 @@ import pandas as pd
 import string
 
 # Apagar ao finalizar
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_PatriciaMarcondes_Assinatura Digital_VFinal.pdf'
+patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_PatriciaMarcondes_Assinatura Digital_VFinal.pdf'
 
 def lerContrato(path):
     if "FI_" in path:
@@ -167,7 +167,7 @@ def lerContrato(path):
 
         #Extriar Texto Página 1 a 5
         text=''
-        for i in range(0,4):
+        for i in range(0,9):
             #Ler Página PDF
             pageObj = read_pdf.getPage(i)
             #Extrair Texto
@@ -176,11 +176,12 @@ def lerContrato(path):
         #Tratar Texto (Remover Quebra de Linhas)
         text = re.sub('\r', '', text) 
         text = re.sub('\n', '', text)
+        text = re.sub(' {2,}', ' ', text).strip(' ')
         
         listaDePara = {'valorTotal':'VALOR DO EMPRÉSTIMO: R$','tabela': 'SISTEMA DE AMORTIZAÇÃO:','registro': 'DESPESAS DE REGISTRO: R$','Taxa ao Mes':'H.1. NOMINAL:','valorLiquido': '-J-K-L-M-N): R$',
-                'prazoMes': 'PRAZO DE AMORTIZAÇÃO:','valorPrimeiraParcelaComEncargos':'VALOR TOTAL DO PRIMEIRO ENCARGO, NESTA DATA:  R$',
-                'valorImóvel':'Valor de avaliação do Imóvel para fins de leilão:  R$','prazoContrato': 'N.º DE PRESTAÇÕES:','ultimaParcela':'DATA DO TÉRMINO DO PRAZO CONTRATUAL: ','dataContrato': 'DATA DE DESEMBOLSO:',
-                'valorPrimeiraParcela':'VALOR DA PARCELA MENSAL (AMORTIZAÇÃO E JUROS), NESTA DATA:  R$','primeiraParcela':'VENCIMENTO DA PRIMEIRA PRESTAÇÃO :','indice':'ÍNDICE: MENSAL do'
+                'prazoMes': 'PRAZO DE AMORTIZAÇÃO:','valorPrimeiraParcelaComEncargos':'VALOR TOTAL DO PRIMEIRO ENCARGO, NESTA DATA: R$',
+                'valorImóvel':'Valor de avaliação do Imóvel para fins de leilão: R$','prazoContrato': 'N.º DE PRESTAÇÕES:','ultimaParcela':'DATA DO TÉRMINO DO PRAZO CONTRATUAL:','dataContrato': 'DATA DE DESEMBOLSO:',
+                'valorPrimeiraParcela':'VALOR DA PARCELA MENSAL (AMORTIZAÇÃO E JUROS), NESTA DATA: R$','primeiraParcela':'VENCIMENTO DA PRIMEIRA PRESTAÇÃO :','indice':'ÍNDICE: MENSAL do'
                 }
 
         #len(listaHE) # <--- Qtd de Itens na Lista
@@ -237,8 +238,8 @@ def lerContrato(path):
         listaValues.append(valorExtraido)
 
         # Extraindo CCI
-        inicioFrase = text.find('NÚMERO: ',0)
-        finalFrase = inicioFrase + len('NÚMERO: ') + 1
+        inicioFrase = text.find('NÚMERO:',0)
+        finalFrase = inicioFrase + len('NÚMERO:') + 1
         ultimaMatricula = text.find(" ", finalFrase)
         valorExtraido = text[finalFrase:ultimaMatricula]
         valorExtraido
@@ -246,12 +247,12 @@ def lerContrato(path):
         listaValues.append(valorExtraido)
 
         # Extraindo Titular
-        inicioFrase = text.find('FIDUCIANTE   NOME: ',0)
-        finalFrase = inicioFrase + len('FIDUCIANTE   NOME : ')
+        inicioFrase = text.find('FIDUCIANTE NOME : ',0)
+        finalFrase = inicioFrase + len('FIDUCIANTE NOME : ')
         ultimaMatricula = text.find("CPF: ", finalFrase)
         valorExtraido = text[finalFrase:ultimaMatricula]
-        listaKey.append('Titular do Contrato')
-        listaValues.append(valorExtraido.strip())
+        # listaKey.append('Titular do Contrato')
+        # listaValues.append(valorExtraido.strip())
 
         # Extraindo participantes da operação 
 
@@ -286,12 +287,12 @@ def lerContrato(path):
             finalFrase = inicioFrase + len('PARTICIPAÇÃO:') 
             fimValor = paragrafoAux.find("%", finalFrase)
             participacaoExtraido = paragrafoAux[finalFrase:fimValor+1]
-            participantesValues.append(participacaoExtraido)
+            participantesValues.append(participacaoExtraido.strip())
         dict_participantes = dict(zip(participantesKey,participantesValues))
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
         dict_keyValue.update(dict_participantes)
     return dict_keyValue    
 
-#test = lerContrato(patha)
-#print(test)
+test = lerContrato(patha)
+print(test)
