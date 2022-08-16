@@ -5,7 +5,7 @@ import pandas as pd
 import string
 
 # Apagar ao finalizar
-patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Romilton_Assinatura Digital-Manifesto.pdf'
+patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_RNContabil_Assinatura Digital_172464-Manifesto1.pdf'
 
 def lerContrato(path):
     if "FI_" in path:
@@ -27,10 +27,11 @@ def lerContrato(path):
         text = re.sub('\r', '', text) 
         text = re.sub('\n', '', text)
         text = re.sub(' {2,}', ' ', text).strip(' ')
-        listaDePara = {'valorTotal':'1. Valor do Financiamento: R$','tabela': 'Sistema de Amortização:','Taxa ao Mes':'2.1.1. Juros de','registro':'4.3. Despesas','valorLiquido': '7. Valor Líquido a Liberar do Financiamento : R$',
-                'prazoMes': 'PRAZO DE AMORTIZAÇÃO :','valorPrimeiraParcelaComEncargos':'VALOR TOTAL DO PRIMEIRO ENCARGO, NESTA DATA: R$',
+        text = re.sub(' :', ':', text)
+        listaDePara = {'valorTotal':'1. Valor do Financiamento: R$','tabela': 'Sistema de Amortização:','Taxa ao Mes':'2.1.1. Juros de','registro':'4.3. Despesas','valorLiquido': '7. Valor Líquido a Liberar do Financiamento: R$',
+                'prazoMes': 'PRAZO DE AMORTIZAÇÃO:','valorPrimeiraParcelaComEncargos':'VALOR TOTAL DO PRIMEIRO ENCARGO, NESTA DATA: R$',
                 'valorImóvel':'Imóvel para fins de leilão: R$','prazoContrato': 'N.º DE PRESTAÇÕES:','ultimaParcela':'DATA DE VENCIMENTO DA ÚLTIMA PRESTAÇÃO:','dataContrato': 'Data de Liberação dos Recursos: ',
-                'valorPrimeiraParcela':'VALOR DA PARCELA MENSAL (AMORTIZAÇÃO E JUROS), NESTA DATA: R$','primeiraParcela':'DATA DE VENCIMENTO DA PRIMEIRA PRESTAÇÃO: ','indice':'ÍNDICE: MENSAL do'
+                'valorPrimeiraParcela':'), NESTA DATA: R$','primeiraParcela':'DATA DE VENCIMENTO DA PRIMEIRA PRESTAÇÃO: ','indice':'ÍNDICE: MENSAL do'
                 }
 
         listaKey = []
@@ -428,5 +429,6 @@ def numParticipantes(path):
     return totalParticipantes
 
 testnum = numParticipantes(patha)
-#test = lerContrato(patha)
+test = lerContrato(patha)
 print(testnum)
+print(test)
