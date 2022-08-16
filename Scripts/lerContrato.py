@@ -1,11 +1,9 @@
 # importa as bibliotecas necessárias
+from multiprocessing.sharedctypes import Value
 import PyPDF2
 import re
 import pandas as pd
 import string
-
-# Apagar ao finalizar
-patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_RNContabil_Assinatura Digital_172464-Manifesto1.pdf'
 
 def lerContrato(path):
     if "FI_" in path:
@@ -148,13 +146,35 @@ def lerContrato(path):
         listaKey.append('CCI')
         listaValues.append(valorExtraido)
 
-        # Extraindo Titular
-        inicioFrase = text.find('COMPRADOR(ES)/DEVEDOR(ES) E ANUENTE(S) NOME: ',0)
-        finalFrase = inicioFrase + len('COMPRADOR(ES)/DEVEDOR(ES) E ANUENTE(S) NOME: ')
-        ultimaMatricula = text.find("CPF: ", finalFrase)
-        valorExtraido = text[finalFrase:ultimaMatricula]
-        listaKey.append('Titular do Contrato')
-        listaValues.append(valorExtraido.strip())
+        # Extraindo titular
+        campo3 = 'CAMPO 3 -'        # intervalo de extração 
+        campo4 = 'CARACTERÍSTICAS DO FINANCIAMENTO'
+        operacao = 'PF'
+        # Pegar posição das variáveis auxiliares no texto
+        inicioTopico = text.find(campo3, 0)
+        finalTopico = text.find(campo4, 0)
+
+        # Criar Paragráfo Auxiliar (Somente com os sub itens do tópico 4. Despesas)
+        campoTitular= text[inicioTopico+len(campo3)+1:finalTopico-1]
+        campoTitular = re.sub('\s+',' ', campoTitular)
+        if 'RAZÃO SOCIAL' in campoTitular:
+            operacao = 'PJ'
+            inicioFrase = campoTitular.find('RAZÃO SOCIAL: ',0)
+            finalFrase = inicioFrase + len('RAZÃO SOCIAL: ')
+            fimTitular = campoTitular.find("ENDEREÇO", finalFrase)
+            valorExtraido = campoTitular[finalFrase:fimTitular]
+            print(valorExtraido)
+            listaKey.append('Titular')
+            listaValues.append(valorExtraido)
+        elif 'FIDUCIANTE NOME:':
+            operacao = 'PF'
+            inicioFrase = campoTitular.find('ANUENTE(S) NOME: ',0)
+            finalFrase = inicioFrase + len('ANUENTE(S) NOME: ')
+            fimTitular = campoTitular.find("CPF", finalFrase)
+            valorExtraido = campoTitular[finalFrase:fimTitular]
+            print(valorExtraido)
+            listaKey.append('Titular')
+            listaValues.append(valorExtraido)
 
         # Extraindo participantes da operação 
         campo5 = 'fins de indenização do Seguro'                         #inicio e fim da extração
@@ -345,7 +365,6 @@ def lerContrato(path):
             finalFrase = inicioFrase + len('RAZÃO SOCIAL: ')
             fimTitular = campoTitular.find("ENDEREÇO", finalFrase)
             valorExtraido = campoTitular[finalFrase:fimTitular]
-            valorExtraido
             listaKey.append('Titular')
             listaValues.append(valorExtraido)
         elif 'FIDUCIANTE NOME:':
@@ -354,7 +373,6 @@ def lerContrato(path):
             finalFrase = inicioFrase + len('FIDUCIANTE NOME: ')
             fimTitular = campoTitular.find("CPF", finalFrase)
             valorExtraido = campoTitular[finalFrase:fimTitular]
-            valorExtraido
             listaKey.append('Titular')
             listaValues.append(valorExtraido)
 
@@ -428,7 +446,13 @@ def numParticipantes(path):
 
     return totalParticipantes
 
-testnum = numParticipantes(patha)
-test = lerContrato(patha)
-print(testnum)
-print(test)
+
+### Area de teste ###
+
+# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Juliana_Assinatura Digital.pdf'
+
+# testnum = numParticipantes(patha)
+# test = lerContrato(patha)
+# print(testnum)
+# for key, valu in test.items():
+#     print(f'{key} : {valu}')
