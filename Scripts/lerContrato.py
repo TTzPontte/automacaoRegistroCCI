@@ -5,7 +5,7 @@ import pandas as pd
 import string
 
 # Apagar ao finalizar
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_PatriciaMarcondes_Assinatura Digital_VFinal.pdf'
+patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Romilton_Assinatura Digital-Manifesto.pdf'
 
 def lerContrato(path):
     if "FI_" in path:
@@ -25,11 +25,12 @@ def lerContrato(path):
 
         #Tratar Texto (Remover Quebra de Linhas)
         text = re.sub('\r', '', text) 
-        text = re.sub('\n', '', text)    
-        listaDePara = {'valorTotal':'1. Valor do Financiamento: R$','tabela': 'Sistema de Amortização:','Taxa ao Mes':'2.1.1. Juros de','registro':'4.3. Despesas','valorLiquido': '7. Valor Líquido a Liberar do  Financiamento : R$',
-                'prazoMes': 'PRAZO DE AMORTIZAÇÃO :','valorPrimeiraParcelaComEncargos':'VALOR TOTAL DO PRIMEIRO ENCARGO, NESTA DATA:  R$',
-                'valorImóvel':'Imóvel para fins de leilão:  R$','prazoContrato': 'N.º DE PRESTAÇÕES: ','ultimaParcela':'DATA DE VENCIMENTO DA ÚLTIMA PRESTAÇÃO: ','dataContrato': 'Data de Liberação dos Recursos: ',
-                'valorPrimeiraParcela':'VALOR  DA  PARCELA  MENSAL  (AMORTIZAÇÃO  E  JUROS),  NESTA  DATA: R$','primeiraParcela':'DATA DE VENCIMENTO DA PRIMEIRA PRESTAÇÃO: ','indice':'ÍNDICE: MENSAL do'
+        text = re.sub('\n', '', text)
+        text = re.sub(' {2,}', ' ', text).strip(' ')
+        listaDePara = {'valorTotal':'1. Valor do Financiamento: R$','tabela': 'Sistema de Amortização:','Taxa ao Mes':'2.1.1. Juros de','registro':'4.3. Despesas','valorLiquido': '7. Valor Líquido a Liberar do Financiamento : R$',
+                'prazoMes': 'PRAZO DE AMORTIZAÇÃO :','valorPrimeiraParcelaComEncargos':'VALOR TOTAL DO PRIMEIRO ENCARGO, NESTA DATA: R$',
+                'valorImóvel':'Imóvel para fins de leilão: R$','prazoContrato': 'N.º DE PRESTAÇÕES:','ultimaParcela':'DATA DE VENCIMENTO DA ÚLTIMA PRESTAÇÃO:','dataContrato': 'Data de Liberação dos Recursos: ',
+                'valorPrimeiraParcela':'VALOR DA PARCELA MENSAL (AMORTIZAÇÃO E JUROS), NESTA DATA: R$','primeiraParcela':'DATA DE VENCIMENTO DA PRIMEIRA PRESTAÇÃO: ','indice':'ÍNDICE: MENSAL do'
                 }
 
         listaKey = []
@@ -154,8 +155,44 @@ def lerContrato(path):
         listaKey.append('Titular do Contrato')
         listaValues.append(valorExtraido.strip())
 
+        # Extraindo participantes da operação 
+        campo5 = 'fins de indenização do Seguro'                         #inicio e fim da extração
+        campo6 = 'VI – CLÁUSULA(S)'
+
+        #Pegar posição das variáveis auxiliares no texto
+        inicioTopico = text.find(campo5, 0)
+        finalTopico = text.find(campo6, 0)
+
+        #Criar Paragráfo Auxiliar
+        paragrafoAux = text[inicioTopico+len(campo5)+1:finalTopico-1]
+        paragrafoAux = re.sub('\s+',' ', paragrafoAux)
+        totalParticipantes = paragrafoAux.count('Nome: ')
+
+        participantesKey = []
+        participantesValues = []
+
+        # Extraindo participantes
+        fimValor = 0
+
+        for num in range(0, totalParticipantes):
+            paragrafoAux = paragrafoAux[fimValor:]
+            inicioFrase = paragrafoAux.find('Nome: ',0)
+            finalFrase = inicioFrase + len('Nome: ') 
+            ultimoNome = paragrafoAux.find("Participação: ", finalFrase)
+            nomeExtraido = paragrafoAux[finalFrase:ultimoNome]
+            participantesKey.append(f'Participante{num+1}')
+            participantesKey.append(f'Participação{num+1}')
+            participantesValues.append(nomeExtraido.strip())
+            inicioFrase = paragrafoAux.find('Participação:',0)
+            finalFrase = inicioFrase + len('Participação:') 
+            fimValor = paragrafoAux.find("%", finalFrase)
+            participacaoExtraido = paragrafoAux[finalFrase:fimValor+1]
+            participantesValues.append(participacaoExtraido.strip())
+            dict_participantes = dict(zip(participantesKey,participantesValues))
+
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
+        dict_keyValue.update(dict_participantes)
         
     
     elif "HE_" in path:
@@ -360,5 +397,5 @@ def numParticipantes(path):
     return totalParticipantes
 
 #testnum = numParticipantes(patha)
-#test = lerContrato(patha)
-#print(test)
+test = lerContrato(patha)
+print(test)
