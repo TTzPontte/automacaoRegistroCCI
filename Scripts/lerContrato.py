@@ -364,38 +364,69 @@ def lerContrato(path):
 
 
 def numParticipantes(path):
-    #Faz a leitura usando a biblioteca
-    pdf_file = open(path, 'rb')
-    read_pdf = PyPDF2.PdfFileReader(pdf_file)
+    if "HE_" in path:
+        #Faz a leitura usando a biblioteca
+        pdf_file = open(path, 'rb')
+        read_pdf = PyPDF2.PdfFileReader(pdf_file)
 
-    #Extriar Texto Página 1 a 5
-    text=''
-    for i in range(0,9):
-        #Ler Página PDF
-        pageObj = read_pdf.getPage(i)
-        #Extrair Texto
-        text=text+pageObj.extractText()
+        #Extriar Texto Página 1 a 5
+        text=''
+        for i in range(0,9):
+            #Ler Página PDF
+            pageObj = read_pdf.getPage(i)
+            #Extrair Texto
+            text=text+pageObj.extractText()
 
-    #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
-    text = re.sub('\r', '', text) 
-    text = re.sub('\n', '', text)
-    text = re.sub(' {2,}', ' ', text).strip(' ')
+        #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
+        text = re.sub('\r', '', text) 
+        text = re.sub('\n', '', text)
+        text = re.sub(' {2,}', ' ', text).strip(' ')
 
-    # Extraindo participantes da operação 
-    campo7 = 'CAMPO 7'                         #inicio e fim da extração
-    campo8 = 'CAMPO 8 – CLÁUSULA(S)'
+        # Extraindo participantes da operação 
+        campo7 = 'CAMPO 7'                         #inicio e fim da extração
+        campo8 = 'CAMPO 8 – CLÁUSULA(S)'
 
-    #Pegar posição das variáveis auxiliares no texto
-    inicioTopico = text.find(campo7, 0)
-    finalTopico = text.find(campo8, 0)
+        #Pegar posição das variáveis auxiliares no texto
+        inicioTopico = text.find(campo7, 0)
+        finalTopico = text.find(campo8, 0)
 
-    #Criar Paragráfo Auxiliar
-    paragrafoAux = text[inicioTopico+len(campo7)+1:finalTopico-1]
-    paragrafoAux = re.sub('\s+',' ', paragrafoAux)
-    totalParticipantes = paragrafoAux.count('NOME: ')
+        #Criar Paragráfo Auxiliar
+        paragrafoAux = text[inicioTopico+len(campo7)+1:finalTopico-1]
+        paragrafoAux = re.sub('\s+',' ', paragrafoAux)
+        totalParticipantes = paragrafoAux.count('NOME: ')
+    
+    elif "FI_" in path:
+        #Faz a leitura usando a biblioteca
+        read_pdf = PyPDF2.PdfFileReader(path)
+
+        #Extriar Texto Página 1 a 5
+        text=''
+        for i in range(0,6):
+            #Ler Página PDF
+            pageObj = read_pdf.getPage(i)
+            #Extrair Texto
+            text=text+pageObj.extractText()
+
+        #Tratar Texto (Remover Quebra de Linhas)
+        text = re.sub('\r', '', text) 
+        text = re.sub('\n', '', text)
+        text = re.sub(' {2,}', ' ', text).strip(' ')
+
+        # Extraindo participantes da operação 
+        campo5 = 'fins de indenização do Seguro'                         #inicio e fim da extração
+        campo6 = 'VI – CLÁUSULA(S)'
+
+        #Pegar posição das variáveis auxiliares no texto
+        inicioTopico = text.find(campo5, 0)
+        finalTopico = text.find(campo6, 0)
+
+        #Criar Paragráfo Auxiliar
+        paragrafoAux = text[inicioTopico+len(campo5)+1:finalTopico-1]
+        paragrafoAux = re.sub('\s+',' ', paragrafoAux)
+        totalParticipantes = paragrafoAux.count('Nome: ')
 
     return totalParticipantes
 
-#testnum = numParticipantes(patha)
-test = lerContrato(patha)
-print(test)
+testnum = numParticipantes(patha)
+#test = lerContrato(patha)
+print(testnum)
