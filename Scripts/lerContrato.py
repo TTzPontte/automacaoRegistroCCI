@@ -124,16 +124,24 @@ def lerContrato(path):
         valorExtraido = text[finalFrase:ultimaMatricula]
         valorExtraido = valorExtraido.replace(",", "")
         valorExtraido = valorExtraido.replace(" ", "")
+        if len(valorExtraido) > 9:
+            valorExtraido = 0
+            inicioFrase = text.find('Matriculados sob nºs',0)
+            finalFrase = inicioFrase + len('Matriculados sob nºs') + 1
+            ultimaMatricula = text.find("no", finalFrase)
+            valorExtraido = text[finalFrase:ultimaMatricula]
+            valorExtraido = valorExtraido.replace(",", "")
+            valorExtraido = valorExtraido.replace("e ", "")
 
         listaKey.append('Matrícula')
         listaValues.append(valorExtraido)
         
 
         # Extraindo cartório
-        inicioFrase = text.find(f'Matriculado sob nº {valorExtraido}, no',0)
-        finalFrase = inicioFrase + len(f'Matriculado sob nº {valorExtraido}, no') + 1
+        inicioFrase = text.find(f'{valorExtraido[-4:].strip()}, no',0)
+        finalFrase = inicioFrase + len(f'{valorExtraido[-4:].strip()}, no') + 1
         ultimaMatricula = text.find("Forma de aquisição", finalFrase)
-        valorExtraido = text[finalFrase:ultimaMatricula-2]
+        valorExtraido = text[finalFrase:ultimaMatricula-1]
 
         listaKey.append('Cartório')
         listaValues.append(valorExtraido)
@@ -163,7 +171,6 @@ def lerContrato(path):
             finalFrase = inicioFrase + len('RAZÃO SOCIAL: ')
             fimTitular = campoTitular.find("ENDEREÇO", finalFrase)
             valorExtraido = campoTitular[finalFrase:fimTitular]
-            print(valorExtraido)
             listaKey.append('Titular')
             listaValues.append(valorExtraido)
         elif 'FIDUCIANTE NOME:':
@@ -172,7 +179,6 @@ def lerContrato(path):
             finalFrase = inicioFrase + len('ANUENTE(S) NOME: ')
             fimTitular = campoTitular.find("CPF", finalFrase)
             valorExtraido = campoTitular[finalFrase:fimTitular]
-            print(valorExtraido)
             listaKey.append('Titular')
             listaValues.append(valorExtraido)
 
@@ -310,8 +316,8 @@ def lerContrato(path):
         finalFrase = inicioFrase + len('FIDUCIANTE NOME : ')
         ultimaMatricula = text.find("CPF: ", finalFrase)
         valorExtraido = text[finalFrase:ultimaMatricula]
-        # listaKey.append('Titular do Contrato')
-        # listaValues.append(valorExtraido.strip())
+        listaKey.append('Titular do Contrato')
+        listaValues.append(valorExtraido.strip())
 
         # Extraindo participantes da operação 
 
@@ -450,7 +456,7 @@ def numParticipantes(path):
 
 ### Area de teste ###
 
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Juliana_Assinatura Digital.pdf'
+# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Cristiano_Assinatura Digital-Manifesto.pdf'
 
 # testnum = numParticipantes(patha)
 # test = lerContrato(patha)
