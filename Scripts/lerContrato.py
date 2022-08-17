@@ -124,7 +124,7 @@ def lerContrato(path):
         valorExtraido = text[finalFrase:ultimaMatricula]
         valorExtraido = valorExtraido.replace(",", "")
         valorExtraido = valorExtraido.replace(" ", "")
-        if len(valorExtraido) > 9:
+        if 3 > len(valorExtraido) > 9:
             valorExtraido = 0
             inicioFrase = text.find('Matriculados sob nºs',0)
             finalFrase = inicioFrase + len('Matriculados sob nºs') + 1
@@ -281,7 +281,7 @@ def lerContrato(path):
         ultimaMatricula = text.find("do", finalFrase)
         valorExtraido = text[finalFrase:ultimaMatricula]
         valorExtraido = valorExtraido.replace(",", "")
-        if len(valorExtraido) > 9:
+        if 3 > len(valorExtraido) > 9:
             valorExtraido = 0
             inicioFrase = text.find('nas matrículas nºs',0)
             finalFrase = inicioFrase + len('nas matrículas nºs') + 1
@@ -456,10 +456,10 @@ def numParticipantes(path):
 
 ### Area de teste ###
 
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Cristiano_Assinatura Digital-Manifesto.pdf'
+patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Cristiano_Assinatura Digital-Manifesto.pdf'
 
-# testnum = numParticipantes(patha)
-# test = lerContrato(patha)
-# print(testnum)
-# for key, valu in test.items():
-#     print(f'{key} : {valu}')
+testnum = numParticipantes(patha)
+test = lerContrato(patha)
+print(testnum)
+for key, valu in test.items():
+    print(f'{key} : {valu}')
