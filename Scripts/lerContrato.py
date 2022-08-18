@@ -5,12 +5,6 @@ import re
 import pandas as pd
 import string
 
-<<<<<<< HEAD
-# Apagar ao finalizar
-#patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_PatriciaMarcondes_Assinatura Digital_VFinal.pdf'
-
-=======
->>>>>>> f04798850826ec996dcc9743619e5778414a5e49
 def lerContrato(path):
     if "FI_" in path:
         #Faz a leitura usando a biblioteca
@@ -394,10 +388,6 @@ def lerContrato(path):
         dict_keyValue.update(dict_participantes)
     return dict_keyValue    
 
-<<<<<<< HEAD
-#test = lerContrato(patha)
-#print(test)
-=======
 
 def numParticipantes(path):
     if "HE_" in path:
@@ -463,14 +453,3 @@ def numParticipantes(path):
 
     return totalParticipantes
 
-
-### Area de teste ###
-
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Cristiano_Assinatura Digital-Manifesto.pdf'
-
-# testnum = numParticipantes(patha)
-# test = lerContrato(patha)
-# print(testnum)
-# for key, valu in test.items():
-#     print(f'{key} : {valu}')
->>>>>>> f04798850826ec996dcc9743619e5778414a5e49
