@@ -537,10 +537,12 @@ def numParticipantes(path):
 
 ### Area de teste ###
 
-patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Cristiano_Assinatura Digital-Manifesto.pdf'
+# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Cristiano_Assinatura Digital-Manifesto.pdf'
 
-testnum = numParticipantes(patha)
-test = lerContrato(patha)
-print(testnum)
-for key, valu in test.items():
-    print(f'{key} : {valu}')
+# testnum = numParticipantes(patha)
+# test = lerContrato(patha)
+# print(testnum)
+# for key, valu in test.items():
+#     print(f'{key} : {valu}')
+
+
