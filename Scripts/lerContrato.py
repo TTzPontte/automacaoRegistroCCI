@@ -5,7 +5,7 @@ import pandas as pd
 import string
 
 # Apagar ao finalizar
-patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_PatriciaMarcondes_Assinatura Digital_VFinal.pdf'
+#patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_PatriciaMarcondes_Assinatura Digital_VFinal.pdf'
 
 def lerContrato(path):
     if "FI_" in path:
@@ -294,5 +294,5 @@ def lerContrato(path):
         dict_keyValue.update(dict_participantes)
     return dict_keyValue    
 
-test = lerContrato(patha)
-print(test)
+#test = lerContrato(patha)
+#print(test)
