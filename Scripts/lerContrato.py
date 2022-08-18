@@ -220,8 +220,48 @@ def lerContrato(path):
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
         dict_keyValue.update(dict_participantes)
-        
-    
+        # Extraindo data do contrato
+
+        text=''
+        #Ler Página PDF
+        pageObj = read_pdf.getPage(number_of_pages-2)
+        text=text+pageObj.extractText()
+        pageObj = read_pdf.getPage(number_of_pages-1)
+        text=text+pageObj.extractText()
+        #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
+        text = re.sub('\r', '', text) 
+        text = re.sub('\n', '', text)
+        text = re.sub(' {2,}', ' ', text).strip(' ')
+        inicioFrase = text.find('SÃO PAULO, ',0)
+        finalFrase = inicioFrase + len('SÃO PAULO, ')
+        ultimaMatricula = text.find(".", finalFrase)
+        valorExtraido = text[finalFrase:ultimaMatricula]
+        valorExtraido = valorExtraido.replace(' DE ','/').strip()
+        if 'JANEIRO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('JANEIRO','01')
+        elif 'FEVEREIRO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('FEVEREIRO','02')
+        elif 'MARÇO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('MARÇO','03')
+        elif 'ABRIL' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('ABRIL','04')
+        elif 'MAIO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('MAIO','05')
+        elif 'JUNHO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('JUNHO','06')
+        elif 'JULHO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('JULHO','07')
+        elif 'AGOSTO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('AGOSTO','08')
+        elif 'SETEMBRO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('SETEMBRO','09')
+        elif 'OUTUBRO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('OUTUBRO','10')
+        elif 'NOVEMBRO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('NOVEMBRO','11')
+        elif 'DEZEMBRO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('DEZEMBRO','12')
+            
     elif "HE_" in path:
         #Faz a leitura usando a biblioteca
         read_pdf = PyPDF2.PdfFileReader(path)
@@ -386,6 +426,47 @@ def lerContrato(path):
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
         dict_keyValue.update(dict_participantes)
+
+        # Extraindo data do contrato
+
+        text=''
+        #Ler Página PDF
+        pageObj = read_pdf.getPage(number_of_pages-2)
+        text=text+pageObj.extractText()
+        #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
+        text = re.sub('\r', '', text) 
+        text = re.sub('\n', '', text)
+        text = re.sub(' {2,}', ' ', text).strip(' ')
+
+        inicioFrase = text.find('SÃO PAULO, ',0)
+        finalFrase = inicioFrase + len('SÃO PAULO, ')
+        ultimaMatricula = text.find(".", finalFrase)
+        valorExtraido = text[finalFrase:ultimaMatricula]
+        valorExtraido = valorExtraido.replace(' DE ','/').strip()
+        if 'JANEIRO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('JANEIRO','01')
+        elif 'FEVEREIRO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('FEVEREIRO','02')
+        elif 'MARÇO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('MARÇO','03')
+        elif 'ABRIL' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('ABRIL','04')
+        elif 'MAIO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('MAIO','05')
+        elif 'JUNHO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('JUNHO','06')
+        elif 'JULHO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('JULHO','07')
+        elif 'AGOSTO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('AGOSTO','08')
+        elif 'SETEMBRO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('SETEMBRO','09')
+        elif 'OUTUBRO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('OUTUBRO','10')
+        elif 'NOVEMBRO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('NOVEMBRO','11')
+        elif 'DEZEMBRO' in valorExtraido:
+            dict_keyValue['dataContrato'] = valorExtraido.replace('DEZEMBRO','12')
     return dict_keyValue    
 
 
@@ -456,10 +537,10 @@ def numParticipantes(path):
 
 ### Area de teste ###
 
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Cristiano_Assinatura Digital-Manifesto.pdf'
+patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Cristiano_Assinatura Digital-Manifesto.pdf'
 
-# testnum = numParticipantes(patha)
-# test = lerContrato(patha)
-# print(testnum)
-# for key, valu in test.items():
-#     print(f'{key} : {valu}')
+testnum = numParticipantes(patha)
+test = lerContrato(patha)
+print(testnum)
+for key, valu in test.items():
+    print(f'{key} : {valu}')
