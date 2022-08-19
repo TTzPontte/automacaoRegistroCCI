@@ -351,14 +351,6 @@ def lerContrato(path):
         listaKey.append('CCI')
         listaValues.append(valorExtraido)
 
-        # Extraindo Titular
-        inicioFrase = text.find('FIDUCIANTE NOME : ',0)
-        finalFrase = inicioFrase + len('FIDUCIANTE NOME : ')
-        ultimaMatricula = text.find("CPF: ", finalFrase)
-        valorExtraido = text[finalFrase:ultimaMatricula]
-        listaKey.append('Titular do Contrato')
-        listaValues.append(valorExtraido.strip())
-
         # Extraindo participantes da operação 
 
         campo7 = 'CAMPO 7'                         #Definir Variáveis Auxiliares
@@ -470,14 +462,15 @@ def lerContrato(path):
     return dict_keyValue    
 
 
-def numParticipantes(path):
+def dadosParticipantes(path, contrato):
+    #Faz a leitura usando a biblioteca
+    pdf_file = open(path, 'rb')
+    read_pdf = PyPDF2.PdfFileReader(pdf_file)
+    #Extriar Texto Página 1 a 5
+    text=''
+    listaKey = []
+    listaValues = []
     if "HE_" in path:
-        #Faz a leitura usando a biblioteca
-        pdf_file = open(path, 'rb')
-        read_pdf = PyPDF2.PdfFileReader(pdf_file)
-
-        #Extriar Texto Página 1 a 5
-        text=''
         for i in range(0,9):
             #Ler Página PDF
             pageObj = read_pdf.getPage(i)
@@ -501,13 +494,60 @@ def numParticipantes(path):
         paragrafoAux = text[inicioTopico+len(campo7)+1:finalTopico-1]
         paragrafoAux = re.sub('\s+',' ', paragrafoAux)
         totalParticipantes = paragrafoAux.count('NOME: ')
+        listaKey.append('Quantidade')
+        listaValues.append(totalParticipantes)
+
+        # Extrair dados dos participantes
+        listaDePara = {'cpf':'CPF:','data de nascimento':'DATA DE NASCIMENTO:','endereço':'ENDEREÇO RESIDENCIAL E DOMICILIAR:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:','cep':'CEP:',
+                'telefone':'TELEFONE(S)','email':'EMAIL:'}
+        for qtdParticipantes in range(0, totalParticipantes):
+            # Extraindo participantes da operação 
+            começo = contrato[f'Participante{qtdParticipantes+1}']                        #inicio e fim da extração
+            fim = 'CAMPO 3 -'
+            #Pegar posição das variáveis auxiliares no texto
+            inicioTopico = text.find(começo, 0)
+            finalTopico = text.find(fim, 0)
+
+            #Criar Paragráfo Auxiliar
+            paragrafoAux = text[inicioTopico+len(começo)+1:finalTopico-1]
+            paragrafoAux = re.sub('\s+',' ', paragrafoAux)
+            for key, value in listaDePara.items():
+                if key == 'endereço':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("COMPLEMENTO:", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                elif key == 'complemento':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("BAIRRO:", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                elif key == 'bairro':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("CIDADE:", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                elif key == 'cidade':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("UF:", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                elif key == 'telefone':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("EMAIL:", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco].strip()
+                else:
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find(" ", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+
+                listaKey.append(f'{key}{qtdParticipantes+1}')
+                listaValues.append(valorExtraido.strip())
+
     
     elif "FI_" in path:
-        #Faz a leitura usando a biblioteca
-        read_pdf = PyPDF2.PdfFileReader(path)
-
-        #Extriar Texto Página 1 a 5
-        text=''
         for i in range(0,6):
             #Ler Página PDF
             pageObj = read_pdf.getPage(i)
@@ -531,18 +571,71 @@ def numParticipantes(path):
         paragrafoAux = text[inicioTopico+len(campo5)+1:finalTopico-1]
         paragrafoAux = re.sub('\s+',' ', paragrafoAux)
         totalParticipantes = paragrafoAux.count('Nome: ')
+        listaKey.append('Quantidade')
+        listaValues.append(totalParticipantes)
+        # Extrair dados dos participantes
+        listaDePara = {'cpf':'CPF:','data de nascimento':'DATA DE NASCIMENTO:','endereço':'ENDEREÇO RESIDENCIAL E DOMICILIAR:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:','cep':'CEP:',
+                'telefone':'TELEFONE(S)','email':'EMAIL:'}
+        for qtdParticipantes in range(0, totalParticipantes):
+            # Extraindo participantes da operação 
+            começo = contrato[f'Participante{qtdParticipantes+1}']                        #inicio e fim da extração
+            fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
+            #Pegar posição das variáveis auxiliares no texto
+            inicioTopico = text.find(começo, 0)
+            finalTopico = text.find(fim, 0)
 
-    return totalParticipantes
+            #Criar Paragráfo Auxiliar
+            paragrafoAux = text[inicioTopico+len(começo)+1:finalTopico-1]
+            paragrafoAux = re.sub('\s+',' ', paragrafoAux)
+            paragrafoAux
+            for key, value in listaDePara.items():
+                if key == 'endereço':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("COMPLEMENTO:", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                elif key == 'complemento':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("BAIRRO:", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                elif key == 'bairro':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("CIDADE:", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                elif key == 'cidade':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("UF:", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                elif key == 'telefone':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("EMAIL:", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco].strip()
+                else:
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find(" ", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+
+                listaKey.append(f'{key}{qtdParticipantes+1}')
+                listaValues.append(valorExtraido.strip())
+    #Criar Dicionario das duas Listas
+    dict_keyValue = dict(zip(listaKey,listaValues))
+    return dict_keyValue
 
 
 ### Area de teste ###
 
 # patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Cristiano_Assinatura Digital-Manifesto.pdf'
 
-# testnum = numParticipantes(patha)
 # test = lerContrato(patha)
-# print(testnum)
-# for key, valu in test.items():
-#     print(f'{key} : {valu}')
 
+# # for key, valu in test.items():
+# #     print(f'{key} : {valu}')
+
+# testnum = dadosParticipantes(patha,test)
+# print(testnum)
 
