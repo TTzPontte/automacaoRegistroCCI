@@ -406,10 +406,10 @@ def lerContrato(path):
             valorExtraido = campoTitular[finalFrase:fimTitular]
             listaKey.append('Titular')
             listaValues.append(valorExtraido)
-        elif 'FIDUCIANTE NOME:':
+        else:
             operacao = 'PF'
-            inicioFrase = campoTitular.find('FIDUCIANTE NOME: ',0)
-            finalFrase = inicioFrase + len('FIDUCIANTE NOME: ')
+            inicioFrase = campoTitular.find('NOME: ',0)
+            finalFrase = inicioFrase + len('NOME: ')
             fimTitular = campoTitular.find("CPF", finalFrase)
             valorExtraido = campoTitular[finalFrase:fimTitular]
             listaKey.append('Titular')
@@ -629,12 +629,12 @@ def dadosParticipantes(path, contrato):
 
 ### Area de teste ###
 
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Cristiano_Assinatura Digital-Manifesto.pdf'
+# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Agostinho_Assinatura Digital_VFinal.pdf'
 
 # test = lerContrato(patha)
 
-# # for key, valu in test.items():
-# #     print(f'{key} : {valu}')
+# for key, valu in test.items():
+#     print(f'{key} : {valu}')
 
 # testnum = dadosParticipantes(patha,test)
 # print(testnum)
