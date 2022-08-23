@@ -28,7 +28,7 @@ def lerContrato(path):
         text = re.sub(' :', ':', text)
         listaDePara = {'valorTotal':'1. Valor do Financiamento: R$','tabela': 'Sistema de Amortização:','Taxa ao Mes':'2.1.1. Juros de','registro':'4.3. Despesas','valorLiquido': '7. Valor Líquido a Liberar do Financiamento: R$',
                 'prazoMes': 'PRAZO DE AMORTIZAÇÃO:','valorPrimeiraParcelaComEncargos':'VALOR TOTAL DO PRIMEIRO ENCARGO, NESTA DATA: R$',
-                'valorImóvel':'Imóvel para fins de leilão: R$','prazoContrato': 'N.º DE PRESTAÇÕES:','ultimaParcela':'DATA DE VENCIMENTO DA ÚLTIMA PRESTAÇÃO:','dataContrato': 'Data de Liberação dos Recursos: ',
+                'valorImóvel':'Imóvel para fins de leilão: R$','prazoContrato': 'N.º DE PRESTAÇÕES:','ultimaParcela':'DATA DE VENCIMENTO DA ÚLTIMA PRESTAÇÃO:','dataLiberação': 'Data de Liberação dos Recursos: ',
                 'valorPrimeiraParcela':'), NESTA DATA: R$','primeiraParcela':'DATA DE VENCIMENTO DA PRIMEIRA PRESTAÇÃO: ','indice':'ÍNDICE: MENSAL do'
                 }
 
@@ -285,7 +285,7 @@ def lerContrato(path):
         
         listaDePara = {'valorTotal':'VALOR DO EMPRÉSTIMO: R$','tabela': 'SISTEMA DE AMORTIZAÇÃO:','registro': 'DESPESAS DE REGISTRO: R$','Taxa ao Mes':'H.1. NOMINAL:','valorLiquido': '-J-K-L-M-N): R$',
                 'prazoMes': 'PRAZO DE AMORTIZAÇÃO:','valorPrimeiraParcelaComEncargos':'VALOR TOTAL DO PRIMEIRO ENCARGO, NESTA DATA: R$',
-                'valorImóvel':'Valor de avaliação do Imóvel para fins de leilão: R$','prazoContrato': 'N.º DE PRESTAÇÕES:','ultimaParcela':'DATA DO TÉRMINO DO PRAZO CONTRATUAL:','dataContrato': 'DATA DE DESEMBOLSO:',
+                'valorImóvel':'Valor de avaliação do Imóvel para fins de leilão: R$','prazoContrato': 'N.º DE PRESTAÇÕES:','ultimaParcela':'DATA DO TÉRMINO DO PRAZO CONTRATUAL:','dataLiberação': 'DATA DE DESEMBOLSO:',
                 'valorPrimeiraParcela':'VALOR DA PARCELA MENSAL (AMORTIZAÇÃO E JUROS), NESTA DATA: R$','primeiraParcela':'VENCIMENTO DA PRIMEIRA PRESTAÇÃO:','indice':'ÍNDICE: MENSAL do'
                 }
 
@@ -629,13 +629,13 @@ def dadosParticipantes(path, contrato):
 
 ### Area de teste ###
 
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Agostinho_Assinatura Digital_VFinal.pdf'
+patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Agostinho_Assinatura Digital_VFinal.pdf'
 
-# test = lerContrato(patha)
+test = lerContrato(patha)
 
-# for key, valu in test.items():
-#     print(f'{key} : {valu}')
+for key, valu in test.items():
+    print(f'{key} : {valu}')
 
-# testnum = dadosParticipantes(patha,test)
-# print(testnum)
+testnum = dadosParticipantes(patha,test)
+print(testnum)
 
