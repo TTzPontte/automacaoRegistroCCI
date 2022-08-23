@@ -172,7 +172,7 @@ def lerContrato(path):
             fimTitular = campoTitular.find("ENDEREÇO", finalFrase)
             valorExtraido = campoTitular[finalFrase:fimTitular]
             listaKey.append('Titular')
-            listaValues.append(valorExtraido)
+            listaValues.append(valorExtraido.strip())
         elif 'FIDUCIANTE NOME:':
             operacao = 'PF'
             inicioFrase = campoTitular.find('ANUENTE(S) NOME: ',0)
@@ -180,7 +180,7 @@ def lerContrato(path):
             fimTitular = campoTitular.find("CPF", finalFrase)
             valorExtraido = campoTitular[finalFrase:fimTitular]
             listaKey.append('Titular')
-            listaValues.append(valorExtraido)
+            listaValues.append(valorExtraido.strip())
 
         # Extraindo participantes da operação 
         campo5 = 'fins de indenização do Seguro'                         #inicio e fim da extração
@@ -500,6 +500,20 @@ def dadosParticipantes(path, contrato):
         # Extrair dados dos participantes
         listaDePara = {'cpf':'CPF:','data de nascimento':'DATA DE NASCIMENTO:','endereço':'ENDEREÇO RESIDENCIAL E DOMICILIAR:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:','cep':'CEP:',
                 'telefone':'TELEFONE(S)','email':'EMAIL:'}
+
+        def removerText(valor):
+            # Extraindo participantes da operação 
+            começo = 'CONTRATO DE EMPRÉSTIMO'                        #inicio e fim da extração
+            fim = 'Física Página'
+            #Pegar posição das variáveis auxiliares no texto
+            inicioTopico = valor.find(começo, 0)
+            finalTopico = valor.find(fim, 0)
+
+            #Criar Paragráfo Auxiliar
+            remover = valor[inicioTopico:finalTopico+len(fim)+8]
+            remover = re.sub('\s+',' ', remover)
+            return remover
+
         for qtdParticipantes in range(0, totalParticipantes):
             # Extraindo participantes da operação 
             começo = contrato[f'Participante{qtdParticipantes+1}']                        #inicio e fim da extração
@@ -517,31 +531,54 @@ def dadosParticipantes(path, contrato):
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("COMPLEMENTO:", finalFrase)
                     valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
+
                 elif key == 'complemento':
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("BAIRRO:", finalFrase)
                     valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
+
                 elif key == 'bairro':
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("CIDADE:", finalFrase)
                     valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
+
                 elif key == 'cidade':
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("UF:", finalFrase)
                     valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
+
                 elif key == 'telefone':
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("EMAIL:", finalFrase)
                     valorExtraido = paragrafoAux[finalFrase:proximoEspaco].strip()
+                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
+
                 else:
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find(" ", finalFrase)
                     valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
 
                 listaKey.append(f'{key}{qtdParticipantes+1}')
                 listaValues.append(valorExtraido.strip())
@@ -629,13 +666,13 @@ def dadosParticipantes(path, contrato):
 
 ### Area de teste ###
 
-patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Agostinho_Assinatura Digital_VFinal.pdf'
+# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Agostinho_Assinatura Digital_VFinal.pdf'
 
-test = lerContrato(patha)
+# test = lerContrato(patha)
 
-for key, valu in test.items():
-    print(f'{key} : {valu}')
+# # for key, valu in test.items():
+# #     print(f'{key} : {valu}')
 
-testnum = dadosParticipantes(patha,test)
-print(testnum)
+# testnum = dadosParticipantes(patha,test)
+# print(testnum)
 
