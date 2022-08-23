@@ -652,6 +652,7 @@ def dadosParticipantes(path, contrato):
                     proximoEspaco = paragrafoAux.find("EMAIL:", finalFrase)
                     valorExtraido = paragrafoAux[finalFrase:proximoEspaco].strip()
                 else:
+                    paragrafoAux = paragrafoAux + ' '
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find(" ", finalFrase)
