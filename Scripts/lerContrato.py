@@ -173,6 +173,7 @@ def lerContrato(path):
             valorExtraido = campoTitular[finalFrase:fimTitular]
             listaKey.append('Titular')
             listaValues.append(valorExtraido.strip())
+
         elif 'FIDUCIANTE NOME:':
             operacao = 'PF'
             inicioFrase = campoTitular.find('ANUENTE(S) NOME: ',0)
@@ -216,7 +217,9 @@ def lerContrato(path):
             participacaoExtraido = paragrafoAux[finalFrase:fimValor+1]
             participantesValues.append(participacaoExtraido.strip())
             dict_participantes = dict(zip(participantesKey,participantesValues))
-
+        # Tipo de operação
+        listaKey.append('operação')
+        listaValues.append(operacao)
         #Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
         dict_keyValue.update(dict_participantes)
@@ -264,7 +267,7 @@ def lerContrato(path):
             
     elif "HE_" in path:
         #Faz a leitura usando a biblioteca
-        read_pdf = PyPDF2.PdfFileReader(path)
+        read_pdf = PyPDF2.PdfFileReader(path, strict = False)
 
         # pega o numero de páginas
         number_of_pages = read_pdf.getNumPages()
@@ -406,6 +409,7 @@ def lerContrato(path):
             valorExtraido = campoTitular[finalFrase:fimTitular]
             listaKey.append('Titular')
             listaValues.append(valorExtraido)
+
         else:
             operacao = 'PF'
             inicioFrase = campoTitular.find('NOME: ',0)
@@ -415,7 +419,10 @@ def lerContrato(path):
             listaKey.append('Titular')
             listaValues.append(valorExtraido)
 
-        #Criar Dicionario das duas Listas
+        # Tipo de operação 
+        listaKey.append('operação')
+        listaValues.append(operacao)
+        # Criar Dicionario das duas Listas
         dict_keyValue = dict(zip(listaKey,listaValues))
         dict_keyValue.update(dict_participantes)
 
@@ -667,12 +674,12 @@ def dadosParticipantes(path, contrato):
 
 ### Area de teste ###
 
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Agostinho_Assinatura Digital_VFinal.pdf'
+# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_PatriciaMarcondes_Assinatura Digital_VFinal.pdf'
 
 # test = lerContrato(patha)
 
-# # for key, valu in test.items():
-# #     print(f'{key} : {valu}')
+# for key, valu in test.items():
+#     print(f'{key} : {valu}')
 
 # testnum = dadosParticipantes(patha,test)
 # print(testnum)
