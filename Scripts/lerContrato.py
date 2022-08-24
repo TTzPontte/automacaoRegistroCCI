@@ -167,6 +167,8 @@ def lerContrato(path):
         campoTitular = re.sub('\s+',' ', campoTitular)
         totalParticipantes = campoTitular.count('NOME: ')
         totalParticipantes = totalParticipantes + campoTitular.count('RAZÃO SOCIAL: ')
+        listaKey.append('Quantidade')
+        listaValues.append(totalParticipantes)
 
         if 'RAZÃO SOCIAL' in campoTitular:
             operacao = 'PJ'
@@ -221,10 +223,7 @@ def lerContrato(path):
             participantesValues.append(participacaoExtraido.strip())
             dict_participantes = dict(zip(participantesKey,participantesValues))
 
-        # Tipo de operação e qtd de participantes
-        listaKey.append('Quantidade')
-        listaValues.append(totalParticipantes)
-
+        # Tipo de operação 
         listaKey.append('operação')
         listaValues.append(operacao)
 
@@ -239,6 +238,7 @@ def lerContrato(path):
         text=text+pageObj.extractText()
         pageObj = read_pdf.getPage(number_of_pages-1)
         text=text+pageObj.extractText()
+
         #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
         text = re.sub('\r', '', text) 
         text = re.sub('\n', '', text)
@@ -954,7 +954,7 @@ def dadosParticipantes(path, contrato):
 
 ### Area de teste ###
 
-patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_PatriciaMarcondes_Assinatura Digital_VFinal.pdf'
+patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Romilton_Assinatura Digital-Manifesto.pdf'
 
 test = lerContrato(patha)
 
