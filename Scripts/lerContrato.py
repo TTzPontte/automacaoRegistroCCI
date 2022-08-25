@@ -533,7 +533,14 @@ def dadosParticipantes(path, contrato):
             return remover
 
         partida = text.find('CAMPO 2 -', 0)
-        for qtdParticipantes in range(0, contrato['Quantidade']):
+
+        if  contrato['operação'] == 'PJ':
+            contador = contrato['Quantidade'] -1
+
+        else:
+            contador = contrato['Quantidade']
+
+        for qtdParticipantes in range(0, contador):
             
             # Extraindo participantes da operação 
             começo = 'NOME:'                       #inicio e fim da extração
@@ -657,7 +664,13 @@ def dadosParticipantes(path, contrato):
             return remover
 
         partida = text.find('CAMPO 3 -', 0)
-        for qtdParticipantes in range(0, contrato['Quantidade']):
+        if  contrato['operação'] == 'PJ':
+            contador = contrato['Quantidade'] -1
+
+        else:
+            contador = contrato['Quantidade']
+        
+        for qtdParticipantes in range(0, contador):
             # Extraindo participantes da operação 
             começo = 'NOME:'                       #inicio e fim da extração
             fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
@@ -1006,15 +1019,18 @@ def dadosParticipantes(path, contrato):
 
     #Criar Dicionario das duas Listas
     dict_keyValue = dict(zip(listaKey,listaValues))
-    dict_keyValue
 
+    for comparar in range(0, dict_keyValue['Quantidade']):
+        for comparar2 in range(0, contrato['Quantidade']-1):
+            if contrato[f"Participante{comparar+1}"] == dict_keyValue[f"nome{comparar2+1}"]:
+                dict_keyValue[f"participação{comparar2+1}"] = contrato[f"Participação{comparar+1}"]
 
     return dict_keyValue
 
 
 ### Area de teste ###
 
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Fabiana_Assinatura Digital.pdf'
+# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Oliboni _Assinatura Digital_VFinal.pdf'
 
 # test = lerContrato(patha)
 
