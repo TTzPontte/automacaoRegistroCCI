@@ -75,12 +75,12 @@ def lerContrato(path):
                         inicioAux = itemAux.find('R$ ', 0)
                         fimAux = itemAux.find(",", inicioAux) + 3
                         resultadoAux = itemAux[inicioAux+3:fimAux]
-                        if '.' in resultadoAux:
+                        if ',' in resultadoAux:
                             resultadoAux = resultadoAux.replace(".", "")
                             resultadoAux = resultadoAux.replace(",", ".")
                     else:
                         resultadoAux = '0.00'
-
+                    
                     listaValor.append(resultadoAux)
 
                 #Criar Dicionario das duas Listas
@@ -502,6 +502,21 @@ def dadosParticipantes(path, contrato):
         text = re.sub('\n', '', text)
         text = re.sub(' {2,}', ' ', text).strip(' ')
 
+        # Extraindo participantes da operação 
+        campo7 = 'CAMPO 7'                         #inicio e fim da extração
+        campo8 = 'CAMPO 8 – CLÁUSULA(S)'
+
+        #Pegar posição das variáveis auxiliares no texto
+        inicioTopico = text.find(campo7, 0)
+        finalTopico = text.find(campo8, 0)
+
+        #Criar Paragráfo Auxiliar
+        paragrafoAux = text[inicioTopico+len(campo7)+1:finalTopico-1]
+        paragrafoAux = re.sub('\s+',' ', paragrafoAux)
+        totalParticipantes = paragrafoAux.count('NOME: ')
+        listaKey.append('Quantidade')        # Quantidade de participates com participação maior que 0%
+        listaValues.append(totalParticipantes)
+
         listaDePara = {'nome':'NOME:','cpf':'CPF:','data de nascimento':'DATA DE NASCIMENTO:','endereço':'ENDEREÇO RESIDENCIAL E DOMICILIAR:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:','cep':'CEP:',
                 'telefone':'TELEFONE(S)','email':'EMAIL:'}
 
@@ -517,9 +532,6 @@ def dadosParticipantes(path, contrato):
             remover = re.sub('\s+',' ', remover)
             return remover
 
-
-        listaKey = []
-        listaValues = []
         partida = text.find('CAMPO 2 -', 0)
         for qtdParticipantes in range(0, contrato['Quantidade']):
             
@@ -598,7 +610,8 @@ def dadosParticipantes(path, contrato):
                 listaKey.append(f'{key}{qtdParticipantes+1}')
                 listaValues.append(valorExtraido.strip())
             partida = (inicioTopico - partida) + partida + 5
-
+            listaKey.append(f'participação{qtdParticipantes+1}')
+            listaValues.append(0)
     
     elif "FI_" in path:
         for i in range(0,6):
@@ -626,56 +639,103 @@ def dadosParticipantes(path, contrato):
         totalParticipantes = paragrafoAux.count('Nome: ')
         listaKey.append('Quantidade')
         listaValues.append(totalParticipantes)
+
         # Extrair dados dos participantes
-        listaDePara = {'cpf':'CPF:','data de nascimento':'DATA DE NASCIMENTO:','endereço':'ENDEREÇO RESIDENCIAL E DOMICILIAR:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:','cep':'CEP:',
+        listaDePara = {'nome':'NOME:','cpf':'CPF:','data de nascimento':'DATA DE NASCIMENTO:','endereço':'ENDEREÇO RESIDENCIAL E DOMICILIAR:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:','cep':'CEP:',
                 'telefone':'TELEFONE(S)','email':'EMAIL:'}
-        for qtdParticipantes in range(0, totalParticipantes):
+
+        def removerText(valor):
+            começo = 'Este documento foi assinado digitalmente'                        #inicio e fim da extração
+            fim = 'CCI e Outras Avenças nº'
+            #Pegar posição das variáveis auxiliares no texto
+            inicioTopico = valor.find(começo, 0)
+            finalTopico = valor.find(fim, 0)
+
+            #Criar Paragráfo Auxiliar
+            remover = valor[inicioTopico:finalTopico+len(fim)+14]
+            remover = re.sub('\s+',' ', remover)
+            return remover
+
+        partida = text.find('CAMPO 3 -', 0)
+        for qtdParticipantes in range(0, contrato['Quantidade']):
             # Extraindo participantes da operação 
-            começo = contrato[f'Participante{qtdParticipantes+1}']                        #inicio e fim da extração
+            começo = 'NOME:'                       #inicio e fim da extração
             fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
             #Pegar posição das variáveis auxiliares no texto
-            inicioTopico = text.find(começo, 0)
+            inicioTopico = text.find(começo, partida)
             finalTopico = text.find(fim, 0)
 
             #Criar Paragráfo Auxiliar
-            paragrafoAux = text[inicioTopico+len(começo)+1:finalTopico-1]
+            paragrafoAux = text[inicioTopico:finalTopico-1]
             paragrafoAux = re.sub('\s+',' ', paragrafoAux)
-            paragrafoAux
             for key, value in listaDePara.items():
                 if key == 'endereço':
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("COMPLEMENTO:", finalFrase)
                     valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'Este documento foi assinado digitalmente' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
+                
+                elif key == 'nome':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("CPF:", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'Este documento foi assinado digitalmente' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
+
                 elif key == 'complemento':
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("BAIRRO:", finalFrase)
                     valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'Este documento foi assinado digitalmente' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
+
                 elif key == 'bairro':
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("CIDADE:", finalFrase)
                     valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'Este documento foi assinado digitalmente' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
+
                 elif key == 'cidade':
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("UF:", finalFrase)
                     valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'Este documento foi assinado digitalmente' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
                 elif key == 'telefone':
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("EMAIL:", finalFrase)
-                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco].strip()
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'Este documento foi assinado digitalmente' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
                 else:
                     paragrafoAux = paragrafoAux + ' '
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find(" ", finalFrase)
                     valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
-
+                    if 'Este documento foi assinado digitalmente' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
                 listaKey.append(f'{key}{qtdParticipantes+1}')
                 listaValues.append(valorExtraido.strip())
+            partida = (inicioTopico - partida) + partida + 5
+            listaKey.append(f'participação{qtdParticipantes+1}')
+            listaValues.append(0)
+
     
     # Estrair dados do Titular
     if contrato['operação'] == 'PJ':
@@ -954,7 +1014,7 @@ def dadosParticipantes(path, contrato):
 
 ### Area de teste ###
 
-patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Romilton_Assinatura Digital-Manifesto.pdf'
+patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Fabiana_Assinatura Digital.pdf'
 
 test = lerContrato(patha)
 
