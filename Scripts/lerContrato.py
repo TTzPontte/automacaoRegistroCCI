@@ -12,7 +12,8 @@ def lerContrato(path):
 
         # pega o numero de páginas
         number_of_pages = read_pdf.getNumPages()
-
+        listaKey = []
+        listaValues = []
         #Extriar Texto Página 1 a 5
         text=''
         for i in range(0,6):
@@ -26,14 +27,39 @@ def lerContrato(path):
         text = re.sub('\n', '', text)
         text = re.sub(' {2,}', ' ', text).strip(' ')
         text = re.sub(' :', ':', text)
-        listaDePara = {'valorTotal':'1. Valor do Financiamento: R$','tabela': 'Sistema de Amortização:','Taxa ao Mes':'2.1.1. Juros de','registro':'4.3. Despesas','valorLiquido': '7. Valor Líquido a Liberar do Financiamento: R$',
+        listaDePara = {'valorTotal':'1. Valor do Financiamento: R$','tabela': 'Sistema de Amortização:'}
+        for key, value in listaDePara.items():
+            inicioFrase = text.find(value,0)
+            finalFrase = inicioFrase + len(value) + 1
+            proximoEspaco = text.find(" ", finalFrase)
+            valorExtraido = text[finalFrase:proximoEspaco]
+
+            #Ajustar Valores Númericos
+            if '.' in valorExtraido:
+                valorExtraido = valorExtraido.replace(".", "")
+                valorExtraido = valorExtraido.replace(",", ".")
+            
+            #Ajustar Valores Percentuais
+            if '%' in valorExtraido:
+                valorExtraido = valorExtraido.replace(",", ".")
+                valorExtraido = valorExtraido.replace("%", "")
+                valorExtraido = round(float(valorExtraido)/100,4)
+            elif 'IPCA' or 'IGPM' in valorExtraido:
+                valorExtraido = valorExtraido.replace(",", "")
+
+        listaKey.append(key)
+        listaValues.append(valorExtraido.strip())
+        valorExtraido = valorExtraido.upper()
+        if valorExtraido == 'PRICE':
+            dataLib = 'Data de Liberação dos Recursos:'
+        elif valorExtraido == 'SAC':
+            dataLib = 'Data de Desembolso:'
+        
+        listaDePara = {'Taxa ao Mes':'2.1.1. Juros de','registro':'4.3. Despesas','valorLiquido': '7. Valor Líquido a Liberar do Financiamento: R$',
                 'prazoMes': 'PRAZO DE AMORTIZAÇÃO:','valorPrimeiraParcelaComEncargos':'VALOR TOTAL DO PRIMEIRO ENCARGO, NESTA DATA: R$',
-                'valorImóvel':'Imóvel para fins de leilão: R$','prazoContrato': 'N.º DE PRESTAÇÕES:','ultimaParcela':'DATA DE VENCIMENTO DA ÚLTIMA PRESTAÇÃO:','dataLiberação': 'Data de Liberação dos Recursos:',
+                'valorImóvel':'Imóvel para fins de leilão: R$','prazoContrato': 'N.º DE PRESTAÇÕES:','ultimaParcela':'DATA DE VENCIMENTO DA ÚLTIMA PRESTAÇÃO:','dataLiberação': dataLib,
                 'valorPrimeiraParcela':'), NESTA DATA: R$','primeiraParcela':'DATA DE VENCIMENTO DA PRIMEIRA PRESTAÇÃO:','indice':'ÍNDICE: MENSAL do'
                 }
-
-        listaKey = []
-        listaValues = []
 
         for key, value in listaDePara.items():
             if key == 'registro':
@@ -165,7 +191,7 @@ def lerContrato(path):
         # Criar Paragráfo Auxiliar (Somente com os sub itens do tópico 4. Despesas)
         campoTitular= text[inicioTopico+len(campo3)+1:finalTopico-1]
         campoTitular = re.sub('\s+',' ', campoTitular)
-        totalParticipantes = campoTitular.count('NOME: ')
+        totalParticipantes = campoTitular.count('NOME')
         totalParticipantes = totalParticipantes + campoTitular.count('RAZÃO SOCIAL: ')
         listaKey.append('Quantidade')
         listaValues.append(totalParticipantes)
@@ -199,7 +225,7 @@ def lerContrato(path):
         #Criar Paragráfo Auxiliar
         paragrafoAux = text[inicioTopico+len(campo5)+1:finalTopico-1]
         paragrafoAux = re.sub('\s+',' ', paragrafoAux)
-        totalParticipantes = paragrafoAux.count('Nome: ')
+        totalParticipantes = paragrafoAux.count('Nome')
 
         participantesKey = []
         participantesValues = []
@@ -378,7 +404,7 @@ def lerContrato(path):
 
         participantesKey = []
         participantesValues = []
-        totalParticipantes = paragrafoAux.count('NOME: ')
+        totalParticipantes = paragrafoAux.count('NOME')
         # Extraindo participantes
         fimValor = 0
 
@@ -409,7 +435,7 @@ def lerContrato(path):
         # Criar Paragráfo Auxiliar (Somente com os sub itens do tópico 4. Despesas)
         campoTitular= text[inicioTopico+len(campo2)+1:finalTopico-1]
         campoTitular = re.sub('\s+',' ', campoTitular)
-        totalParticipantes = campoTitular.count('NOME: ')
+        totalParticipantes = campoTitular.count('NOME')
         totalParticipantes = totalParticipantes + campoTitular.count('RAZÃO SOCIAL: ')
 
         if 'RAZÃO SOCIAL' in campoTitular:
@@ -753,7 +779,8 @@ def dadosParticipantes(path, contrato):
     # Estrair dados do Titular
     if contrato['operação'] == 'PJ':
         if "HE_" in path:
-            listaDePara = {'endereçoTitular':'ENDEREÇO COMERCIAL:','complementoTitular':'COMPLEMENTO:','bairroTitular':'BAIRRO:','cidadeTitular':'CIDADE:','ufTitular':'UF:','cepTitular':'CEP:','cnpjTitular':'CNPJ:'}
+            listaDePara = {'endereçoTitular':'ENDEREÇO COMERCIAL:','complementoTitular':'COMPLEMENTO:','bairroTitular':'BAIRRO:','cidadeTitular':'CIDADE:','ufTitular':'UF:',
+            'cepTitular':'CEP:','cnpjTitular':'CNPJ:', 'dataContituição':'DATA DA CONSTITUIÇÃO:'}
             # Extraindo participantes da operação 
             começo = contrato['Titular'].strip()                    #inicio e fim da extração
             fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
@@ -816,7 +843,8 @@ def dadosParticipantes(path, contrato):
 
 
         elif 'FI_' in path:
-            listaDePara = {'endereçoTitular':'ENDEREÇO COMERCIAL:','complementoTitular':'COMPLEMENTO:','bairroTitular':'BAIRRO:','cidadeTitular':'CIDADE:','ufTitular':'UF:','cepTitular':'CEP:','cnpjTitular':'CNPJ:'}
+            listaDePara = {'endereçoTitular':'ENDEREÇO COMERCIAL:','complementoTitular':'COMPLEMENTO:','bairroTitular':'BAIRRO:','cidadeTitular':'CIDADE:','ufTitular':'UF:',
+            'cepTitular':'CEP:','cnpjTitular':'CNPJ:', 'dataContituição':'DATA DA CONSTITUIÇÃO:'}
             # Extraindo participantes da operação 
             começo = contrato['Titular'].strip()                    #inicio e fim da extração
             fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
@@ -1030,13 +1058,13 @@ def dadosParticipantes(path, contrato):
 
 ### Area de teste ###
 
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Oliboni _Assinatura Digital_VFinal.pdf'
+patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Juliana_Assinatura Digital.pdf'
 
-# test = lerContrato(patha)
+test = lerContrato(patha)
 
-# for key, valu in test.items():
-#     print(f'{key} : {valu}')
+for key, valu in test.items():
+    print(f'{key} : {valu}')
 
-# testnum = dadosParticipantes(patha,test)
-# print(testnum)
+testnum = dadosParticipantes(patha,test)
+print(testnum)
 
