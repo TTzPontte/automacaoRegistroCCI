@@ -262,8 +262,6 @@ def lerContrato(path):
         #Ler Página PDF
         pageObj = read_pdf.getPage(number_of_pages-2)
         text=text+pageObj.extractText()
-        pageObj = read_pdf.getPage(number_of_pages-1)
-        text=text+pageObj.extractText()
 
         #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
         text = re.sub('\r', '', text) 
@@ -469,7 +467,7 @@ def lerContrato(path):
         # Extraindo data do contrato
         text=''
         #Ler Página PDF
-        pageObj = read_pdf.getPage(number_of_pages-2)
+        pageObj = read_pdf.getPage(number_of_pages-3)
         text=text+pageObj.extractText()
         #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
         text = re.sub('\r', '', text) 
@@ -1058,7 +1056,7 @@ def dadosParticipantes(path, contrato):
 
 ### Area de teste ###
 
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Oliboni _Assinatura Digital_VFinal.pdf'
+# patha = r'G:\Drives compartilhados\Pontte Crédito\0_HOME EQUITY\0_Analises\ANA LUIZA CALUZNI ID 566910258\KIT QI\HE_Contrato_AnaLuiza_Assinatura Digital_VFinal-Assinado.pdf'
 
 # test = lerContrato(patha)
 
