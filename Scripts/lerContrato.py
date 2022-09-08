@@ -27,6 +27,8 @@ def lerContrato(path):
         text = re.sub('\n', '', text)
         text = re.sub(' {2,}', ' ', text).strip(' ')
         text = re.sub(' :', ':', text)
+        text = re.sub(' /', '/', text)
+        text = re.sub('/ ', '/', text)
         listaDePara = {'valorTotal':'1. Valor do Financiamento: R$','tabela': 'Sistema de Amortização:'}
         for key, value in listaDePara.items():
             inicioFrase = text.find(value,0)
@@ -45,9 +47,9 @@ def lerContrato(path):
             listaKey.append(key)
             listaValues.append(valorExtraido.strip())
         valorExtraido = valorExtraido.upper()
-        if valorExtraido == 'PRICE':
+        if 'Data de Liberação dos Recursos:' in text:
             dataLib = 'Data de Liberação dos Recursos:'
-        elif valorExtraido == 'SAC':
+        elif 'Data de Desembolso:' in text:
             dataLib = 'Data de Desembolso:'
         
         listaDePara = {'Taxa ao Mes':'2.1.1. Juros de','registro':'4.3. Despesas','valorLiquido': '7. Valor Líquido a Liberar do Financiamento: R$',
