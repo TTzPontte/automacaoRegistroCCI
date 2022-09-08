@@ -39,16 +39,11 @@ def lerContrato(path):
                 valorExtraido = valorExtraido.replace(".", "")
                 valorExtraido = valorExtraido.replace(",", ".")
             
-            #Ajustar Valores Percentuais
-            if '%' in valorExtraido:
-                valorExtraido = valorExtraido.replace(",", ".")
-                valorExtraido = valorExtraido.replace("%", "")
-                valorExtraido = round(float(valorExtraido)/100,4)
             elif 'IPCA' or 'IGPM' in valorExtraido:
                 valorExtraido = valorExtraido.replace(",", "")
 
-        listaKey.append(key)
-        listaValues.append(valorExtraido.strip())
+            listaKey.append(key)
+            listaValues.append(valorExtraido.strip())
         valorExtraido = valorExtraido.upper()
         if valorExtraido == 'PRICE':
             dataLib = 'Data de Liberação dos Recursos:'
@@ -1056,13 +1051,13 @@ def dadosParticipantes(path, contrato):
 
 ### Area de teste ###
 
-# patha = r'G:\Drives compartilhados\Pontte Crédito\0_HOME EQUITY\0_Analises\ANA LUIZA CALUZNI ID 566910258\KIT QI\HE_Contrato_AnaLuiza_Assinatura Digital_VFinal-Assinado.pdf'
+patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Jonathan_Assinatura Digital-Assinado.pdf'
 
-# test = lerContrato(patha)
+test = lerContrato(patha)
 
-# for key, valu in test.items():
-#     print(f'{key} : {valu}')
+for key, valu in test.items():
+    print(f'{key} : {valu}')
 
-# testnum = dadosParticipantes(patha,test)
-# print(testnum)
+testnum = dadosParticipantes(patha,test)
+print(testnum)
 
