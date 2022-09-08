@@ -1052,13 +1052,15 @@ def dadosParticipantes(path, contrato):
 
 ### Area de teste ###
 
-patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Jonathan_Assinatura Digital-Assinado.pdf'
 
-test = lerContrato(patha)
+#patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Oliboni _Assinatura Digital_VFinal.pdf'
+#patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Jonathan_Assinatura Digital-Assinado.pdf'
 
-for key, valu in test.items():
-    print(f'{key} : {valu}')
+# test = lerContrato(patha)
 
-testnum = dadosParticipantes(patha,test)
-print(testnum)
+# for key, valu in test.items():
+#     print(f'{key} : {valu}')
+
+# testnum = dadosParticipantes(patha,test)
+# print(testnum)
 
