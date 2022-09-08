@@ -27,6 +27,8 @@ def lerContrato(path):
         text = re.sub('\n', '', text)
         text = re.sub(' {2,}', ' ', text).strip(' ')
         text = re.sub(' :', ':', text)
+        text = re.sub(' /', '/', text)
+        text = re.sub('/ ', '/', text)
         listaDePara = {'valorTotal':'1. Valor do Financiamento: R$','tabela': 'Sistema de Amortização:'}
         for key, value in listaDePara.items():
             inicioFrase = text.find(value,0)
@@ -39,20 +41,15 @@ def lerContrato(path):
                 valorExtraido = valorExtraido.replace(".", "")
                 valorExtraido = valorExtraido.replace(",", ".")
             
-            #Ajustar Valores Percentuais
-            if '%' in valorExtraido:
-                valorExtraido = valorExtraido.replace(",", ".")
-                valorExtraido = valorExtraido.replace("%", "")
-                valorExtraido = round(float(valorExtraido)/100,4)
             elif 'IPCA' or 'IGPM' in valorExtraido:
                 valorExtraido = valorExtraido.replace(",", "")
 
-        listaKey.append(key)
-        listaValues.append(valorExtraido.strip())
+            listaKey.append(key)
+            listaValues.append(valorExtraido.strip())
         valorExtraido = valorExtraido.upper()
-        if valorExtraido == 'PRICE':
+        if 'Data de Liberação dos Recursos:' in text:
             dataLib = 'Data de Liberação dos Recursos:'
-        elif valorExtraido == 'SAC':
+        elif 'Data de Desembolso:' in text:
             dataLib = 'Data de Desembolso:'
         
         listaDePara = {'Taxa ao Mes':'2.1.1. Juros de','registro':'4.3. Despesas','valorLiquido': '7. Valor Líquido a Liberar do Financiamento: R$',
@@ -262,8 +259,6 @@ def lerContrato(path):
         #Ler Página PDF
         pageObj = read_pdf.getPage(number_of_pages-2)
         text=text+pageObj.extractText()
-        pageObj = read_pdf.getPage(number_of_pages-1)
-        text=text+pageObj.extractText()
 
         #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
         text = re.sub('\r', '', text) 
@@ -469,7 +464,7 @@ def lerContrato(path):
         # Extraindo data do contrato
         text=''
         #Ler Página PDF
-        pageObj = read_pdf.getPage(number_of_pages-2)
+        pageObj = read_pdf.getPage(number_of_pages-3)
         text=text+pageObj.extractText()
         #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
         text = re.sub('\r', '', text) 
@@ -1058,7 +1053,11 @@ def dadosParticipantes(path, contrato):
 
 ### Area de teste ###
 
+<<<<<<< HEAD
 # patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Oliboni _Assinatura Digital_VFinal.pdf'
+=======
+patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Jonathan_Assinatura Digital-Assinado.pdf'
+>>>>>>> d8a952ab59376a79b29c1e669648e7559a20a7a5
 
 # test = lerContrato(patha)
 
