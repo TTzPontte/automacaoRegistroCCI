@@ -849,7 +849,6 @@ def dadosParticipantes(path, contrato):
 
             #Criar Paragráfo Auxiliar
             paragrafoAux = text[inicioTopico+len(começo)+1:finalTopico-1]
-            paragrafoAux = re.sub('\s+',' ', paragrafoAux)
             for key, value in listaDePara.items():
                 if key == 'endereçoTitular':
                     inicioFrase = paragrafoAux.find(value,0)
@@ -985,7 +984,7 @@ def dadosParticipantes(path, contrato):
             paragrafoAux = re.sub('\s+',' ', paragrafoAux)
 
             for key, value in listaDePara.items():
-                if key == 'endereço':
+                if key == 'endereçoTitular':
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("COMPLEMENTO:", finalFrase)
@@ -994,7 +993,7 @@ def dadosParticipantes(path, contrato):
                         apagar = removerText(valorExtraido)
                         valorExtraido = valorExtraido.replace(apagar,'')
 
-                elif key == 'complemento':
+                elif key == 'complementoTitular':
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("BAIRRO:", finalFrase)
@@ -1003,7 +1002,7 @@ def dadosParticipantes(path, contrato):
                         apagar = removerText(valorExtraido)
                         valorExtraido = valorExtraido.replace(apagar,'')
 
-                elif key == 'bairro':
+                elif key == 'bairroTitular':
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("CIDADE:", finalFrase)
@@ -1012,7 +1011,7 @@ def dadosParticipantes(path, contrato):
                         apagar = removerText(valorExtraido)
                         valorExtraido = valorExtraido.replace(apagar,'')
 
-                elif key == 'cidade':
+                elif key == 'cidadeTitular':
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("UF:", finalFrase)
@@ -1020,7 +1019,7 @@ def dadosParticipantes(path, contrato):
                     if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
                         apagar = removerText(valorExtraido)
                         valorExtraido = valorExtraido.replace(apagar,'')
-                elif key == 'telefone':
+                elif key == 'telefoneTitular':
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
                     proximoEspaco = paragrafoAux.find("EMAIL:", finalFrase)
