@@ -9,12 +9,16 @@ from lerContrato import lerContrato
 from lerPDFLaudo import lerPDF
 from lerLaudo import lerLaudo
 
-def preencherAPI(calculoFluxoPath, contratoPath, laudoPath):
+def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes):
+
+    ### Funções
 
     # Função para limpar campos
     def limparCampo(campo):
         campo.send_keys(Keys.CONTROL,"a")
         campo.send_keys(Keys.DELETE)
+
+    ### Abrir front-end
 
     #ChromeDriver
     driver = webdriver.Chrome(executable_path=r'G:\Drives compartilhados\Pontte\Operações\Automações\Scripts\Pontte\Driver\chromedriver.exe')
@@ -23,15 +27,18 @@ def preencherAPI(calculoFluxoPath, contratoPath, laudoPath):
     driver.get('http://aztronic.s3-website-us-east-1.amazonaws.com/')
     sleep(3)
 
+    ### Preencher
+
     # Upload do Calculo de fluxo 
     calculoFluxoPath = driver.find_element_by_xpath('//*[@id="main"]/div/section[1]/div/div/form/fieldset[1]/div[1]/label/input')
     calculoFluxoPath.send_keys(calculoFluxoPath)
     sleep(2)
 
+    
     # Extraido informações com o leitor de contratos
-    contrato = lerContrato(contratoPath)
-    Participantes = lc.dadosParticipantes(contratoPath,contrato)
-    Laudo = lerLaudo(laudoPath)
+    contrato = textoContrato
+    Participantes = textoParticipantes
+    Laudo = textoLaudo
 
     # Pegando Xpath para preencher API
     dataContrato = driver.find_element_by_xpath('//*[@id="data_contrato"]')
@@ -46,6 +53,7 @@ def preencherAPI(calculoFluxoPath, contratoPath, laudoPath):
     unidadeGarantia = driver.find_element_by_xpath('//*[@id="unidade"]')
     blocoGarantia = driver.find_element_by_xpath('//*[@id="Bloco"]')
     matriculaGarantia = driver.find_element_by_xpath('//*[@id="matricula"]')
+
 
     limparCampo(dataContrato)
     limparCampo(numeroGarantia)
@@ -124,22 +132,22 @@ def preencherAPI(calculoFluxoPath, contratoPath, laudoPath):
         sleep(1)
         
         # Preencher campos
-        endereco = Participantes[f'endereço{quantidade+1}'].split(',')    # Separando a Rua do numero
+        endereco = Participantes[f'endereçoP{quantidade+1}'].split(',')    # Separando a Rua do numero
 
-        nomeParticipantes.send_keys(Participantes[f'nome{quantidade+1}'])
-        emailParticipantes.send_keys(Participantes[f'email{quantidade+1}'])
-        participação.send_keys(Participantes[f'participação{quantidade+1}'])
-        cnpjCpf.send_keys(Participantes[f'cpf{quantidade+1}'])
-        dataNacimento.send_keys(Participantes[f'data de nascimento{quantidade+1}'])
-        telefone.send_keys(Participantes[f'telefone{quantidade+1}'])
+        nomeParticipantes.send_keys(Participantes[f'nomeCompletoP{quantidade+1}'])
+        emailParticipantes.send_keys(Participantes[f'emailP{quantidade+1}'])
+        participação.send_keys(Participantes[f'participacaoNaOperacaoP{quantidade+1}'])
+        cnpjCpf.send_keys(Participantes[f'cpfP{quantidade+1}'])
+        dataNacimento.send_keys(Participantes[f'dataNascimentoP{quantidade+1}'])
+        telefone.send_keys(Participantes[f'telefoneP{quantidade+1}'])
         ruaParticipantes.send_keys(endereco[0])
         numeroParticipantes.send_keys(endereco[1])
         endereco.clear()
-        complementoParticipantes.send_keys(Participantes[f'complemento{quantidade+1}'])
-        cidadeParticipantes.send_keys(Participantes[f'cidade{quantidade+1}'])
-        bairroParticipantes.send_keys(Participantes[f'bairro{quantidade+1}'])
-        ufParticipantes.send_keys(Participantes[f'uf{quantidade+1}'])
-        cepParticipantes.send_keys(Participantes[f'cep{quantidade+1}'])
+        complementoParticipantes.send_keys(Participantes[f'complementoP{quantidade+1}'])
+        cidadeParticipantes.send_keys(Participantes[f'cidadeP{quantidade+1}'])
+        bairroParticipantes.send_keys(Participantes[f'bairroP{quantidade+1}'])
+        ufParticipantes.send_keys(Participantes[f'estadoP{quantidade+1}'])
+        cepParticipantes.send_keys(Participantes[f'cepP{quantidade+1}'])
         sleep(1)
 
         if contrato['operação'] == 'PJ':

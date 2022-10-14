@@ -5,7 +5,8 @@ def lerLaudo(laudoPDF):
     #Extrair Texto
     pathDocument = laudoPDF
     extTexto = lerPDF(pathDocument,4)
-#    print(extTexto)
+    extTexto = re.sub(' {2,}', ' ', extTexto).strip(' ')
+    #print(extTexto)
     #DICT DE-PARA dos arquivos que serão extraídos
     listaDePara = {"Valor de Mercado: ": "","Matrícula: ": "", "Cartório": "", "Endereço: ": "", "Número: ":"", "Complemento: ": "","Bairro: ":"","Cidade: ":"","UF: ":"", "CEP ": ""}
 
@@ -37,7 +38,7 @@ def lerLaudo(laudoPDF):
                 listaDePara["Complemento: "] = complemento.strip()
             
             #Atribuir Valor ao DICT
-            listaDePara[key] = saida.strip()
+            listaDePara[key] = saida.strip().replace('| ', '').replace(' | ', '')
             
         elif key == "Matrícula: ":
             #Extrair Número da Matrícula
@@ -45,6 +46,15 @@ def lerLaudo(laudoPDF):
             finalFrase = inicioFrase + len(key)
             proximoEspaco = extTexto.find(" ", finalFrase)
             numeroMat = extTexto[finalFrase:proximoEspaco]
+            if "|" in numeroMat:
+                #Extrair Número da Matrícula Novamente
+                key = "Matrícula: | "
+                inicioFrase = extTexto.find(key,0)
+                finalFrase = inicioFrase + len(key)
+                proximoEspaco = extTexto.find(" ", finalFrase)
+                numeroMat = extTexto[finalFrase:proximoEspaco]
+                
+
             
             #Auxiliar Pós Número Matrícula
             posMat = extTexto.find(numeroMat,0)+len(numeroMat)+1
@@ -57,16 +67,16 @@ def lerLaudo(laudoPDF):
             listaDePara['Matrícula: '] = numeroMat
             listaDePara['Cartório'] = cartorio
         
-        elif key=="Bairro: " or key=="Cidade: " or key=="UF: ":
+        elif key=="Bairro: " or key=="Cidade: " or key=="UF: | ":
             inicioFrase = extTexto.find(key,0)
             if key=="Bairro: ":
                 finalFrase=extTexto.find("Cidade",inicioFrase)
             elif key=="Cidade: ":
                 finalFrase=extTexto.find("UF",inicioFrase)
             else:
-                finalFrase=extTexto.find(" | ",inicioFrase)
+                finalFrase=extTexto.find(" | |",inicioFrase)
 
-            result = extTexto[inicioFrase+len(key):finalFrase].replace('\xa0', '').replace(' | ', '')
+            result = extTexto[inicioFrase+len(key):finalFrase].replace('\xa0', '').replace(' | ', '').replace('| ', '')
             listaDePara[key] = result
 
         elif key=="CEP ":
@@ -80,3 +90,5 @@ def lerLaudo(laudoPDF):
     
     
     return listaDePara
+
+#lerLaudo(r'G:\Drives compartilhados\Pontte Crédito\0_HOME EQUITY\0_Analises\ILSON BARON ROTH - ID 548733160\KIT QI\5. Laudo.pdf')
