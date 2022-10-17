@@ -16,18 +16,19 @@ def lerLaudo(laudoPDF):
             inicioFrase = extTexto.find(key,0)
             finalFrase = inicioFrase + len(key)
             breakLine = extTexto.find(" | ", finalFrase)
-            saida = extTexto[finalFrase:breakLine]
+            saida = extTexto[finalFrase:breakLine+2]
 
             #Tratamento Endereço
             if key == "Endereço: ":
-                posicaoNumero = saida.find("nº") + len("nº")
+                posicaoNumero = saida.find("nº",0) + len("nº")
                 nextSpace = saida.find(" ", posicaoNumero)
                 if posicaoNumero == nextSpace:
-                    nextSpace = saida.find(" ", posicaoNumero+1)
-                numeroEndereco = saida[posicaoNumero:nextSpace]
+                    posicaoNumero = posicaoNumero+1
+                    nextSpace = saida.find(" ", posicaoNumero)
+                numeroEndereco = saida[posicaoNumero:nextSpace+1]
                 auxComplemento = len(saida)-(posicaoNumero+len(numeroEndereco))
                 if auxComplemento >= 5:
-                    complemento = saida[nextSpace+3:len(saida)]
+                    complemento = saida[nextSpace+2:len(saida)]
                 else:
                     complemento = 'N/A'
 
@@ -38,7 +39,7 @@ def lerLaudo(laudoPDF):
                 listaDePara["Complemento: "] = complemento.strip()
             
             #Atribuir Valor ao DICT
-            listaDePara[key] = saida.strip().replace('| ', '').replace(' | ', '')
+            listaDePara[key] = saida.strip().replace('| ', '')
             
         elif key == "Matrícula: ":
             #Extrair Número da Matrícula
@@ -74,7 +75,7 @@ def lerLaudo(laudoPDF):
             elif key=="Cidade: ":
                 finalFrase=extTexto.find("UF",inicioFrase)
             else:
-                finalFrase=extTexto.find(" | |",inicioFrase)
+                finalFrase=extTexto.find(" | ",inicioFrase)
 
             result = extTexto[inicioFrase+len(key):finalFrase].replace('\xa0', '').replace(' | ', '').replace('| ', '')
             listaDePara[key] = result
@@ -91,4 +92,4 @@ def lerLaudo(laudoPDF):
     
     return listaDePara
 
-#lerLaudo(r'G:\Drives compartilhados\Pontte Crédito\0_HOME EQUITY\0_Analises\ILSON BARON ROTH - ID 548733160\KIT QI\5. Laudo.pdf')
+lerLaudo(r'G:\Drives compartilhados\Pontte Crédito\0_HOME EQUITY\0_Analises\ILSON BARON ROTH - ID 548733160\KIT QI\5. Laudo.pdf')
