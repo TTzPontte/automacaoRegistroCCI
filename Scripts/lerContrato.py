@@ -773,9 +773,11 @@ def dadosParticipantes(path, contrato):
     
     # Estrair dados do Titular
     if contrato['operação'] == 'PJ':
+        contador = contrato['Quantidade'] -1
+
         if "HE_" in path:
-            listaDePara = {'endereçoTitular':'ENDEREÇO COMERCIAL:','complementoTitular':'COMPLEMENTO:','bairroTitular':'BAIRRO:','cidadeTitular':'CIDADE:','ufTitular':'UF:',
-            'cepTitular':'CEP:','cnpjTitular':'CNPJ:', 'dataContituição':'DATA DA CONSTITUIÇÃO:'}
+            listaDePara = {'endereço':'ENDEREÇO COMERCIAL:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:',
+            'cep':'CEP:','cnpj':'CNPJ:', 'dataContituição':'DATA DA CONSTITUIÇÃO:'}
             # Extraindo participantes da operação 
             começo = contrato['Titular'].strip()                    #inicio e fim da extração
             fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
@@ -787,132 +789,6 @@ def dadosParticipantes(path, contrato):
             paragrafoAux = text[inicioTopico+len(começo)+1:finalTopico-1]
             paragrafoAux = re.sub('\s+',' ', paragrafoAux)
             
-            for key, value in listaDePara.items():
-                if key == 'endereçoTitular':
-                    inicioFrase = paragrafoAux.find(value,0)
-                    finalFrase = inicioFrase + len(value) + 1
-                    proximoEspaco = paragrafoAux.find("COMPLEMENTO:", finalFrase)
-                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
-                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
-                        apagar = removerText(valorExtraido)
-                        valorExtraido = valorExtraido.replace(apagar,'')
-
-                elif key == 'complementoTitular':
-                    inicioFrase = paragrafoAux.find(value,0)
-                    finalFrase = inicioFrase + len(value) + 1
-                    proximoEspaco = paragrafoAux.find("BAIRRO:", finalFrase)
-                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
-                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
-                        apagar = removerText(valorExtraido)
-                        valorExtraido = valorExtraido.replace(apagar,'')
-
-                elif key == 'bairroTitular':
-                    inicioFrase = paragrafoAux.find(value,0)
-                    finalFrase = inicioFrase + len(value) + 1
-                    proximoEspaco = paragrafoAux.find("CIDADE:", finalFrase)
-                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
-                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
-                        apagar = removerText(valorExtraido)
-                        valorExtraido = valorExtraido.replace(apagar,'')
-
-                elif key == 'cidadeTitular':
-                    inicioFrase = paragrafoAux.find(value,0)
-                    finalFrase = inicioFrase + len(value) + 1
-                    proximoEspaco = paragrafoAux.find("UF:", finalFrase)
-                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
-                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
-                        apagar = removerText(valorExtraido)
-                        valorExtraido = valorExtraido.replace(apagar,'')
-                else:
-                    paragrafoAux = paragrafoAux + ' '
-                    inicioFrase = paragrafoAux.find(value,0)
-                    finalFrase = inicioFrase + len(value) + 1
-                    proximoEspaco = paragrafoAux.find(" ", finalFrase)
-                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
-                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
-                        apagar = removerText(valorExtraido)
-                        valorExtraido = valorExtraido.replace(apagar,'')
-            
-                listaKey.append(key)
-                listaValues.append(valorExtraido.strip())
-
-
-        elif 'FI_' in path:
-            listaDePara = {'endereçoTitular':'ENDEREÇO COMERCIAL:','complementoTitular':'COMPLEMENTO:','bairroTitular':'BAIRRO:','cidadeTitular':'CIDADE:','ufTitular':'UF:',
-            'cepTitular':'CEP:','cnpjTitular':'CNPJ:', 'dataContituição':'DATA DA CONSTITUIÇÃO:'}
-            # Extraindo participantes da operação 
-            começo = contrato['Titular'].strip()                    #inicio e fim da extração
-            fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
-            #Pegar posição das variáveis auxiliares no texto
-            inicioTopico = text.find(começo, 0)
-            finalTopico = text.find(fim, 0)
-
-            #Criar Paragráfo Auxiliar
-            paragrafoAux = text[inicioTopico+len(começo)+1:finalTopico-1]
-            for key, value in listaDePara.items():
-                if key == 'endereçoTitular':
-                    inicioFrase = paragrafoAux.find(value,0)
-                    finalFrase = inicioFrase + len(value) + 1
-                    proximoEspaco = paragrafoAux.find("COMPLEMENTO:", finalFrase)
-                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
-                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
-                        apagar = removerText(valorExtraido)
-                        valorExtraido = valorExtraido.replace(apagar,'')
-
-                elif key == 'complementoTitular':
-                    inicioFrase = paragrafoAux.find(value,0)
-                    finalFrase = inicioFrase + len(value) + 1
-                    proximoEspaco = paragrafoAux.find("BAIRRO:", finalFrase)
-                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
-                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
-                        apagar = removerText(valorExtraido)
-                        valorExtraido = valorExtraido.replace(apagar,'')
-
-                elif key == 'bairroTitular':
-                    inicioFrase = paragrafoAux.find(value,0)
-                    finalFrase = inicioFrase + len(value) + 1
-                    proximoEspaco = paragrafoAux.find("CIDADE:", finalFrase)
-                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
-                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
-                        apagar = removerText(valorExtraido)
-                        valorExtraido = valorExtraido.replace(apagar,'')
-
-                elif key == 'cidadeTitular':
-                    inicioFrase = paragrafoAux.find(value,0)
-                    finalFrase = inicioFrase + len(value) + 1
-                    proximoEspaco = paragrafoAux.find("UF:", finalFrase)
-                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
-                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
-                        apagar = removerText(valorExtraido)
-                        valorExtraido = valorExtraido.replace(apagar,'')
-                else:
-                    paragrafoAux = paragrafoAux + ' '
-                    inicioFrase = paragrafoAux.find(value,0)
-                    finalFrase = inicioFrase + len(value) + 1
-                    proximoEspaco = paragrafoAux.find(" ", finalFrase)
-                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
-                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
-                        apagar = removerText(valorExtraido)
-                        valorExtraido = valorExtraido.replace(apagar,'')
-                
-                listaKey.append(key)
-                listaValues.append(valorExtraido.strip())   
-
-    elif contrato['operação'] == 'PF':
-        if "HE_" in path:
-            listaDePara = {'cpfTitular':'CPF:','data de nascimentoTitular':'DATA DE NASCIMENTO:','endereçoTitular':'ENDEREÇO RESIDENCIAL E DOMICILIAR:','complementoTitular':'COMPLEMENTO:','bairroTitular':'BAIRRO:','cidadeTitular':'CIDADE:','ufTitular':'UF:','cepTitular':'CEP:',
-                    'telefoneTitular':'TELEFONE(S)','emailTitular':'EMAIL:'}
-            # Extraindo participantes da operação 
-            começo = contrato['Titular'].strip()                    #inicio e fim da extração
-            fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
-            #Pegar posição das variáveis auxiliares no texto
-            inicioTopico = text.find(começo, 0)
-            finalTopico = text.find(fim, 0)
-
-            #Criar Paragráfo Auxiliar
-            paragrafoAux = text[inicioTopico+len(começo)+1:finalTopico-1]
-            paragrafoAux = re.sub('\s+',' ', paragrafoAux)
-
             for key, value in listaDePara.items():
                 if key == 'endereço':
                     inicioFrase = paragrafoAux.find(value,0)
@@ -949,10 +825,64 @@ def dadosParticipantes(path, contrato):
                     if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
                         apagar = removerText(valorExtraido)
                         valorExtraido = valorExtraido.replace(apagar,'')
-                elif key == 'telefone':
+                else:
+                    paragrafoAux = paragrafoAux + ' '
                     inicioFrase = paragrafoAux.find(value,0)
                     finalFrase = inicioFrase + len(value) + 1
-                    proximoEspaco = paragrafoAux.find("EMAIL:", finalFrase)
+                    proximoEspaco = paragrafoAux.find(" ", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
+            
+                listaKey.append(f"{key}{contador+1}")
+                listaValues.append(valorExtraido.strip())
+
+
+        elif 'FI_' in path:
+            listaDePara = {'endereço':'ENDEREÇO COMERCIAL:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:',
+            'cep':'CEP:','cnpj':'CNPJ:', 'dataContituição':'DATA DA CONSTITUIÇÃO:'}
+            # Extraindo participantes da operação 
+            começo = contrato['Titular'].strip()                    #inicio e fim da extração
+            fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
+            #Pegar posição das variáveis auxiliares no texto
+            inicioTopico = text.find(começo, 0)
+            finalTopico = text.find(fim, 0)
+
+            #Criar Paragráfo Auxiliar
+            paragrafoAux = text[inicioTopico+len(começo)+1:finalTopico-1]
+            for key, value in listaDePara.items():
+                if key == 'endereço':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("COMPLEMENTO:", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
+
+                elif key == 'complemento':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("BAIRRO:", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
+
+                elif key == 'bairro':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("CIDADE:", finalFrase)
+                    valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+                    if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+                        apagar = removerText(valorExtraido)
+                        valorExtraido = valorExtraido.replace(apagar,'')
+
+                elif key == 'cidade':
+                    inicioFrase = paragrafoAux.find(value,0)
+                    finalFrase = inicioFrase + len(value) + 1
+                    proximoEspaco = paragrafoAux.find("UF:", finalFrase)
                     valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
                     if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
                         apagar = removerText(valorExtraido)
@@ -966,8 +896,80 @@ def dadosParticipantes(path, contrato):
                     if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
                         apagar = removerText(valorExtraido)
                         valorExtraido = valorExtraido.replace(apagar,'')
-                listaKey.append(key)
-                listaValues.append(valorExtraido.strip())
+                
+                listaKey.append(f"{key}{contador+1}")
+                listaValues.append(valorExtraido.strip())   
+
+    #   elif contrato['operação'] == 'PF':
+    #     if "HE_" in path:
+    #         listaDePara = {'cpfTitular':'CPF:','data de nascimentoTitular':'DATA DE NASCIMENTO:','endereçoTitular':'ENDEREÇO RESIDENCIAL E DOMICILIAR:','complementoTitular':'COMPLEMENTO:','bairroTitular':'BAIRRO:','cidadeTitular':'CIDADE:','ufTitular':'UF:','cepTitular':'CEP:',
+    #                 'telefoneTitular':'TELEFONE(S)','emailTitular':'EMAIL:'}
+    #         # Extraindo participantes da operação 
+    #         começo = contrato['Titular'].strip()                    #inicio e fim da extração
+    #         fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
+    #         #Pegar posição das variáveis auxiliares no texto
+    #         inicioTopico = text.find(começo, 0)
+    #         finalTopico = text.find(fim, 0)
+
+    #         #Criar Paragráfo Auxiliar
+    #         paragrafoAux = text[inicioTopico+len(começo)+1:finalTopico-1]
+    #         paragrafoAux = re.sub('\s+',' ', paragrafoAux)
+
+    #         for key, value in listaDePara.items():
+    #             if key == 'endereço':
+    #                 inicioFrase = paragrafoAux.find(value,0)
+    #                 finalFrase = inicioFrase + len(value) + 1
+    #                 proximoEspaco = paragrafoAux.find("COMPLEMENTO:", finalFrase)
+    #                 valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+    #                 if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+    #                     apagar = removerText(valorExtraido)
+    #                     valorExtraido = valorExtraido.replace(apagar,'')
+
+    #             elif key == 'complemento':
+    #                 inicioFrase = paragrafoAux.find(value,0)
+    #                 finalFrase = inicioFrase + len(value) + 1
+    #                 proximoEspaco = paragrafoAux.find("BAIRRO:", finalFrase)
+    #                 valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+    #                 if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+    #                     apagar = removerText(valorExtraido)
+    #                     valorExtraido = valorExtraido.replace(apagar,'')
+
+    #             elif key == 'bairro':
+    #                 inicioFrase = paragrafoAux.find(value,0)
+    #                 finalFrase = inicioFrase + len(value) + 1
+    #                 proximoEspaco = paragrafoAux.find("CIDADE:", finalFrase)
+    #                 valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+    #                 if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+    #                     apagar = removerText(valorExtraido)
+    #                     valorExtraido = valorExtraido.replace(apagar,'')
+
+    #             elif key == 'cidade':
+    #                 inicioFrase = paragrafoAux.find(value,0)
+    #                 finalFrase = inicioFrase + len(value) + 1
+    #                 proximoEspaco = paragrafoAux.find("UF:", finalFrase)
+    #                 valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+    #                 if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+    #                     apagar = removerText(valorExtraido)
+    #                     valorExtraido = valorExtraido.replace(apagar,'')
+    #             elif key == 'telefone':
+    #                 inicioFrase = paragrafoAux.find(value,0)
+    #                 finalFrase = inicioFrase + len(value) + 1
+    #                 proximoEspaco = paragrafoAux.find("EMAIL:", finalFrase)
+    #                 valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+    #                 if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+    #                     apagar = removerText(valorExtraido)
+    #                     valorExtraido = valorExtraido.replace(apagar,'')
+    #             else:
+    #                 paragrafoAux = paragrafoAux + ' '
+    #                 inicioFrase = paragrafoAux.find(value,0)
+    #                 finalFrase = inicioFrase + len(value) + 1
+    #                 proximoEspaco = paragrafoAux.find(" ", finalFrase)
+    #                 valorExtraido = paragrafoAux[finalFrase:proximoEspaco]
+    #                 if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
+    #                     apagar = removerText(valorExtraido)
+    #                     valorExtraido = valorExtraido.replace(apagar,'')
+    #             listaKey.append(key)
+    #             listaValues.append(valorExtraido.strip())
         
         elif 'FI_' in path:
             listaDePara = {'cpfTitular':'CPF:','data de nascimentoTitular':'DATA DE NASCIMENTO:','endereçoTitular':'ENDEREÇO RESIDENCIAL E DOMICILIAR:','complementoTitular':'COMPLEMENTO:','bairroTitular':'BAIRRO:','cidadeTitular':'CIDADE:','ufTitular':'UF:','cepTitular':'CEP:',
