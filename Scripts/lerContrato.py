@@ -1054,14 +1054,8 @@ def dadosParticipantes(path, contrato):
 
 ### Area de teste ###
 
-
-<<<<<<< HEAD
-# #patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Oliboni _Assinatura Digital_VFinal.pdf'
-# #patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Luciana_Assinatura Digital-Assinado.pdf'
-=======
 #patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Oliboni _Assinatura Digital_VFinal.pdf'
 #patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Luciana_Assinatura Digital-Assinado.pdf'
->>>>>>> 7089e816d29c8a311238b439a4cea081f268c0cf
 
 # test = lerContrato(patha)
 
