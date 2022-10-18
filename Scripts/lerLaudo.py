@@ -86,10 +86,9 @@ def lerLaudo(laudoPDF):
             cep = extTexto[inicioFrase+len(key):finalFrase+4]
             listaDePara[key] = cep
 
-    print(pathDocument)
-    print(listaDePara, "\n")
+    #print(pathDocument)
+    #print(listaDePara, "\n")
     
     
     return listaDePara
 
-lerLaudo(r'G:\Drives compartilhados\Pontte Crédito\0_HOME EQUITY\0_Analises\ILSON BARON ROTH - ID 548733160\KIT QI\5. Laudo.pdf')
