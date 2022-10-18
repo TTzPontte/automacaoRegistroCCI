@@ -71,16 +71,15 @@ def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes
     codigoIntegracao.send_keys(contrato['CCI'])
     driver.find_element_by_xpath('/html/body/div/main/div/section[1]/div/div/form/fieldset[3]/div/label[1]/input').send_keys(contrato['CCI'])
 
-    ruaGaranti.send_keys(Laudo['Endereço: '])                                   # Laudo
-    numeroGarantia.send_keys(Laudo['Número: '])                                  # ||
-    complementoGarantia.send_keys(Laudo['Complemento: '])                        # ||
-    cidadeGarantia.send_keys(Laudo['Cidade: '])                                  # ||
-    bairroGarantia.send_keys(Laudo['Bairro: '])                                  # ||
-    ufGarantia.send_keys(Laudo['UF: '])                                          # ||
-    cepGarantia.send_keys(Laudo['CEP '])                                         # ||
-    unidadeGarantia.send_keys('Extrair')                                         # ||
-    blocoGarantia.send_keys('Extrair')                                           # ||
-
+    ruaGaranti.send_keys(Laudo['enderecoImovel'])                                  
+    numeroGarantia.send_keys(Laudo['numeroImovel'])                                  
+    complementoGarantia.send_keys(Laudo['complementoImovel'])                        
+    cidadeGarantia.send_keys(Laudo['cidadeImovel'])                                  
+    bairroGarantia.send_keys(Laudo['bairroImovel'])                                  
+    ufGarantia.send_keys(Laudo['estadoImovel'])                                          
+    cepGarantia.send_keys(Laudo['cepImovel'])                                         
+    unidadeGarantia.send_keys(Laudo['unidadeImovel'])                                       
+    blocoGarantia.send_keys(Laudo['blocoImovel'])                                          
     matriculaGarantia.send_keys(contrato['Matrícula'])
 
     # Selecionar o cartório 
@@ -226,7 +225,7 @@ def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes
     elif contrato['tabela'] == 'SAC':
         tipoAmortização.click()
         tipoAmortização =driver.find_element_by_css_selector('#tipo_amortizacao > option:nth-child(1)').click()
-    taxaJuros.send_keys(str(contrato['Taxa ao Mes']*100).replace('.',','))
+    taxaJuros.send_keys(str(contrato['taxaAoAno']*100).replace('.',','))
     dataBase.send_keys(contrato['dataContrato'])
 
     # Upa operação para Aztronic
