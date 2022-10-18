@@ -93,13 +93,14 @@ def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes
     selectCartorio = driver.find_element_by_xpath('//*[@id="numero_cartorio"]/div[2]/ul/li[1]').click()
 
     # Adicionar campos de participantes
-    for addCampo in range(0, contrato['Quantidade'] - 1):
+    numCamposParticipantes = int(contrato['Quantidade'])
+    print(numCamposParticipantes)
+    print(type(numCamposParticipantes))
+    for addCampo in range(0, numCamposParticipantes - 1):
         driver.find_element_by_xpath('//*[@id="main"]/div/section[1]/div/div/form/button').click()
         sleep(1)
 
-    contador = contrato['Quantidade']
-    if contrato['operação'] == 'PJ':
-        contador = contrato['Quantidade'] - 1
+    contador = int(contrato['Quantidade'])
 
     for quantidade in range(0, contador):
         # Preenchendo participantes
@@ -136,79 +137,21 @@ def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes
         sleep(1)
         
         # Preencher campos
-        endereco = Participantes[f'endereçoP{quantidade+1}'].split(',')    # Separando a Rua do numero
-
         nomeParticipantes.send_keys(Participantes[f'nomeCompletoP{quantidade+1}'])
         emailParticipantes.send_keys(Participantes[f'emailP{quantidade+1}'])
         participação.send_keys(Participantes[f'participacaoNaOperacaoP{quantidade+1}'])
         cnpjCpf.send_keys(Participantes[f'cpfP{quantidade+1}'])
+        sexo.send_keys(Participantes[f'sexoP{quantidade+1}'])
         dataNacimento.send_keys(Participantes[f'dataNascimentoP{quantidade+1}'])
         telefone.send_keys(Participantes[f'telefoneP{quantidade+1}'])
-        ruaParticipantes.send_keys(endereco[0])
-        numeroParticipantes.send_keys(endereco[1])
-        endereco.clear()
+        ruaParticipantes.send_keys(Participantes[f'endereçoP{quantidade+1}'])
+        numeroParticipantes.send_keys(Participantes[f'numeroResidenciaP{quantidade+1}'])
         complementoParticipantes.send_keys(Participantes[f'complementoP{quantidade+1}'])
         cidadeParticipantes.send_keys(Participantes[f'cidadeP{quantidade+1}'])
         bairroParticipantes.send_keys(Participantes[f'bairroP{quantidade+1}'])
         ufParticipantes.send_keys(Participantes[f'estadoP{quantidade+1}'])
         cepParticipantes.send_keys(Participantes[f'cepP{quantidade+1}'])
         sleep(1)
-
-        if contrato['operação'] == 'PJ':
-            # Preenchendo Titular PJ
-            nomeParticipantes = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[3]/input')
-            emailParticipantes = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[4]/input')
-            participação = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[5]/input')
-            cnpjCpf = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[6]/input')
-            sexo = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[8]/input')
-            dataNacimento = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[9]/input')
-            telefone = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[10]/input')
-            ruaParticipantes = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[11]/input')
-            numeroParticipantes = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[12]/input')
-            complementoParticipantes = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[13]/input')
-            cidadeParticipantes = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[14]/input')
-            bairroParticipantes = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[15]/input')
-            ufParticipantes = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[16]/input')
-            cepParticipantes = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[17]/input')
-            operacao = driver.find_element_by_xpath(f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{contador+3}]/div/label[7]/select')
-            
-
-            # Limpar campos
-            limparCampo(nomeParticipantes)
-            limparCampo(emailParticipantes)
-            limparCampo(participação)
-            limparCampo(cnpjCpf)
-            limparCampo(sexo)
-            limparCampo(dataNacimento)
-            limparCampo(telefone)
-            limparCampo(ruaParticipantes)
-            limparCampo(numeroParticipantes)
-            limparCampo(complementoParticipantes)
-            limparCampo(cidadeParticipantes)
-            limparCampo(bairroParticipantes)
-            limparCampo(ufParticipantes)
-            limparCampo(cepParticipantes)
-            
-            sleep(1)
-            
-            # Preencher campos
-            endereco = Participantes[f'endereçoTitular'].split(',')    # Separando a Rua do numero
-
-            nomeParticipantes.send_keys(contrato[f'Titular'])
-            emailParticipantes.send_keys(Participantes[f'email1'])
-            participação.send_keys(0)
-            cnpjCpf.send_keys(Participantes[f'cnpjTitular'])                           
-            dataNacimento.send_keys(Participantes[f'dataContituição'])
-            telefone.send_keys(Participantes[f'telefone1'])
-            ruaParticipantes.send_keys(endereco[0])
-            numeroParticipantes.send_keys(endereco[1])
-            endereco.clear()
-            complementoParticipantes.send_keys(Participantes[f'complementoTitular'])
-            cidadeParticipantes.send_keys(Participantes[f'cidadeTitular'])
-            bairroParticipantes.send_keys(Participantes[f'bairroTitular'])
-            ufParticipantes.send_keys(Participantes[f'ufTitular'])
-            cepParticipantes.send_keys(Participantes[f'cepTitular'])
-            sleep(1)
 
     # Tabela de Venda
     dataBase = driver.find_element_by_xpath('//*[@id="data_base"]')
