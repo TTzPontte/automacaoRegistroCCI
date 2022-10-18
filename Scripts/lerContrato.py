@@ -1073,21 +1073,3 @@ def dadosParticipantes(path, contrato):
     return dict_keyValue
 
 
-# ### Area de teste ###
-
-<<<<<<< HEAD
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Oliboni _Assinatura Digital_VFinal.pdf'
-# # #patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Luciana_Assinatura Digital-Assinado.pdf'
-=======
-#patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Oliboni _Assinatura Digital_VFinal.pdf'
-# #patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Luciana_Assinatura Digital-Assinado.pdf'
->>>>>>> 533eb97723811d6783b912ee34edc9808778a36c
-
-# test = lerContrato(patha)
-
-# for key, valu in test.items():
-#     print(f'{key} : {valu}')
-
-# testnum = dadosParticipantes(patha,test)
-# for key, valu in testnum.items():
-#     print(f'{key} : {valu}')

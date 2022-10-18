@@ -10,6 +10,11 @@ from lerPDFLaudo import lerPDF
 from lerLaudo import lerLaudo
 
 def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes):
+    
+    print(calculoFluxoPath)
+    print(textoContrato)
+    print(textoLaudo)
+    print(textoParticipantes)
 
     ### Funções
 
@@ -25,13 +30,13 @@ def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes
 
     #Acessar API Aztronic
     driver.get('http://aztronic.s3-website-us-east-1.amazonaws.com/')
-    sleep(3)
+    sleep(5)
 
     ### Preencher
 
     # Upload do Calculo de fluxo 
-    calculoFluxoPath = driver.find_element_by_xpath('//*[@id="main"]/div/section[1]/div/div/form/fieldset[1]/div[1]/label/input')
-    calculoFluxoPath.send_keys(calculoFluxoPath)
+    calculoFluxoWeb = driver.find_element_by_xpath('//*[@id="main"]/div/section[1]/div/div/form/fieldset[1]/div[1]/label/input')
+    calculoFluxoWeb.send_keys(calculoFluxoPath)
     sleep(2)
 
     
