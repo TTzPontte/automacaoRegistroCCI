@@ -379,7 +379,6 @@ def lerContrato(path):
         finalFrase = inicioFrase + len('NÚMERO:') + 1
         ultimaMatricula = text.find(" ", finalFrase)
         valorExtraido = text[finalFrase:ultimaMatricula]
-        valorExtraido
         listaKey.append('CCI')
         listaValues.append(valorExtraido)
 
@@ -500,7 +499,7 @@ def lerContrato(path):
             dict_keyValue['dataContrato'] = valorExtraido.replace('NOVEMBRO','11')
         elif 'DEZEMBRO' in valorExtraido:
             dict_keyValue['dataContrato'] = valorExtraido.replace('DEZEMBRO','12')
-    return dict_keyValue    
+    return dict_keyValue  
 
 
 def dadosParticipantes(path, contrato):
@@ -776,8 +775,8 @@ def dadosParticipantes(path, contrato):
         contador = contrato['Quantidade'] -1
 
         if "HE_" in path:
-            listaDePara = {'endereço':'ENDEREÇO COMERCIAL:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:',
-            'cep':'CEP:','cnpj':'CNPJ:', 'dataContituição':'DATA DA CONSTITUIÇÃO:'}
+            listaDePara = {'nome':'RAZÃO SOCIAL:','endereço':'ENDEREÇO COMERCIAL:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:',
+            'cep':'CEP:','cpf':'CNPJ:', 'dataContituição':'DATA DA CONSTITUIÇÃO:'}
             # Extraindo participantes da operação 
             começo = contrato['Titular'].strip()                    #inicio e fim da extração
             fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
@@ -798,6 +797,9 @@ def dadosParticipantes(path, contrato):
                     if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
                         apagar = removerText(valorExtraido)
                         valorExtraido = valorExtraido.replace(apagar,'')
+
+                elif key == 'nome':
+                        valorExtraido = começo
 
                 elif key == 'complemento':
                     inicioFrase = paragrafoAux.find(value,0)
@@ -841,7 +843,7 @@ def dadosParticipantes(path, contrato):
 
         elif 'FI_' in path:
             listaDePara = {'endereço':'ENDEREÇO COMERCIAL:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:',
-            'cep':'CEP:','cnpj':'CNPJ:', 'dataContituição':'DATA DA CONSTITUIÇÃO:'}
+            'cep':'CEP:','cpf':'CNPJ:', 'dataContituição':'DATA DA CONSTITUIÇÃO:'}
             # Extraindo participantes da operação 
             começo = contrato['Titular'].strip()                    #inicio e fim da extração
             fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
@@ -869,6 +871,9 @@ def dadosParticipantes(path, contrato):
                     if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
                         apagar = removerText(valorExtraido)
                         valorExtraido = valorExtraido.replace(apagar,'')
+                        
+                elif key == 'nome':
+                        valorExtraido = começo
 
                 elif key == 'bairro':
                     inicioFrase = paragrafoAux.find(value,0)
@@ -1043,25 +1048,31 @@ def dadosParticipantes(path, contrato):
 
     #Criar Dicionario das duas Listas
     dict_keyValue = dict(zip(listaKey,listaValues))
+    if contrato['Quantidade'] == 1:
+        for comparar in range(0, dict_keyValue['Quantidade']):
+            for comparar2 in range(0, contrato['Quantidade']):
+                if contrato[f"Participante{comparar+1}"] == dict_keyValue[f"nome{comparar2+1}"]:
+                    dict_keyValue[f"participação{comparar2+1}"] = contrato[f"Participação{comparar+1}"]
 
-    for comparar in range(0, dict_keyValue['Quantidade']):
-        for comparar2 in range(0, contrato['Quantidade']-1):
-            if contrato[f"Participante{comparar+1}"] == dict_keyValue[f"nome{comparar2+1}"]:
-                dict_keyValue[f"participação{comparar2+1}"] = contrato[f"Participação{comparar+1}"]
+    else:
+        for comparar in range(0, dict_keyValue['Quantidade']):
+            for comparar2 in range(0, contrato['Quantidade']-1):
+                if contrato[f"Participante{comparar+1}"] == dict_keyValue[f"nome{comparar2+1}"]:
+                    dict_keyValue[f"participação{comparar2+1}"] = contrato[f"Participação{comparar+1}"]
 
     return dict_keyValue
 
 
 ### Area de teste ###
 
-#patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Oliboni _Assinatura Digital_VFinal.pdf'
+patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Oliboni _Assinatura Digital_VFinal.pdf'
 #patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Luciana_Assinatura Digital-Assinado.pdf'
 
-# test = lerContrato(patha)
+test = lerContrato(patha)
 
-# for key, valu in test.items():
-#     print(f'{key} : {valu}')
+for key, valu in test.items():
+    print(f'{key} : {valu}')
 
-# testnum = dadosParticipantes(patha,test)
-# print(testnum)
-
+testnum = dadosParticipantes(patha,test)
+for key, valu in testnum.items():
+    print(f'{key} : {valu}')
