@@ -768,6 +768,10 @@ def dadosParticipantes(path, contrato):
             partida = (inicioTopico - partida) + partida + 5
             listaKey.append(f'participação{qtdParticipantes+1}')
             listaValues.append(0)
+            listaKey.append(f'telefone{qtdParticipantes+1}')
+            listaValues.append(0)
+            listaKey.append(f'email{qtdParticipantes+1}')
+            listaValues.append(0)
 
     
     # Estrair dados do Titular
