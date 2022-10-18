@@ -768,10 +768,7 @@ def dadosParticipantes(path, contrato):
             partida = (inicioTopico - partida) + partida + 5
             listaKey.append(f'participação{qtdParticipantes+1}')
             listaValues.append(0)
-            listaKey.append(f'telefone{qtdParticipantes+1}')
-            listaValues.append(0)
-            listaKey.append(f'email{qtdParticipantes+1}')
-            listaValues.append(0)
+
 
     
     # Estrair dados do Titular
@@ -843,7 +840,12 @@ def dadosParticipantes(path, contrato):
             
                 listaKey.append(f"{key}{contador+1}")
                 listaValues.append(valorExtraido.strip())
-
+                listaKey.append(f'participação{contador+1}')
+                listaValues.append(0)
+                listaKey.append(f'telefone{contador+1}')
+                listaValues.append('N/A')
+                listaKey.append(f'email{contador+1}')
+                listaValues.append('N/A')
 
         elif 'FI_' in path:
             listaDePara = {'endereço':'ENDEREÇO COMERCIAL:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:',
@@ -908,8 +910,12 @@ def dadosParticipantes(path, contrato):
                 
                 listaKey.append(f"{key}{contador+1}")
                 listaValues.append(valorExtraido.strip())   
+                listaKey.append(f'telefone{contador+1}')
+                listaValues.append('N/A')
+                listaKey.append(f'email{contador+1}')
+                listaValues.append('N/A')
 
-    #   elif contrato['operação'] == 'PF':
+        #   elif contrato['operação'] == 'PF':
     #     if "HE_" in path:
     #         listaDePara = {'cpfTitular':'CPF:','data de nascimentoTitular':'DATA DE NASCIMENTO:','endereçoTitular':'ENDEREÇO RESIDENCIAL E DOMICILIAR:','complementoTitular':'COMPLEMENTO:','bairroTitular':'BAIRRO:','cidadeTitular':'CIDADE:','ufTitular':'UF:','cepTitular':'CEP:',
     #                 'telefoneTitular':'TELEFONE(S)','emailTitular':'EMAIL:'}
@@ -1069,14 +1075,14 @@ def dadosParticipantes(path, contrato):
 
 ### Area de teste ###
 
-# patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Oliboni _Assinatura Digital_VFinal.pdf'
+patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\HE_Contrato_Oliboni _Assinatura Digital_VFinal.pdf'
 # #patha = r'C:\Users\MatheusPereira\OneDrive - Pontte\Área de Trabalho\automacaoRegistroCCI\Contratos\FI_Contrato_Luciana_Assinatura Digital-Assinado.pdf'
 
-# test = lerContrato(patha)
+test = lerContrato(patha)
 
-# for key, valu in test.items():
-#     print(f'{key} : {valu}')
+for key, valu in test.items():
+    print(f'{key} : {valu}')
 
-# testnum = dadosParticipantes(patha,test)
-# for key, valu in testnum.items():
-#     print(f'{key} : {valu}')
+testnum = dadosParticipantes(patha,test)
+for key, valu in testnum.items():
+    print(f'{key} : {valu}')
