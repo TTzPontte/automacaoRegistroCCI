@@ -776,7 +776,7 @@ def dadosParticipantes(path, contrato):
 
         if "HE_" in path:
             listaDePara = {'nome':'RAZÃO SOCIAL:','endereço':'ENDEREÇO COMERCIAL:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:',
-            'cep':'CEP:','cpf':'CNPJ:', 'dataContituição':'DATA DA CONSTITUIÇÃO:'}
+            'cep':'CEP:','cpf':'CNPJ:', 'data de nascimento':'DATA DA CONSTITUIÇÃO:'}
             # Extraindo participantes da operação 
             começo = contrato['Titular'].strip()                    #inicio e fim da extração
             fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
@@ -843,7 +843,7 @@ def dadosParticipantes(path, contrato):
 
         elif 'FI_' in path:
             listaDePara = {'endereço':'ENDEREÇO COMERCIAL:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:',
-            'cep':'CEP:','cpf':'CNPJ:', 'dataContituição':'DATA DA CONSTITUIÇÃO:'}
+            'cep':'CEP:','cpf':'CNPJ:', 'data de nascimento':'DATA DA CONSTITUIÇÃO:'}
             # Extraindo participantes da operação 
             começo = contrato['Titular'].strip()                    #inicio e fim da extração
             fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
@@ -871,7 +871,7 @@ def dadosParticipantes(path, contrato):
                     if 'CONTRATO DE EMPRÉSTIMO' in valorExtraido:
                         apagar = removerText(valorExtraido)
                         valorExtraido = valorExtraido.replace(apagar,'')
-                        
+
                 elif key == 'nome':
                         valorExtraido = começo
 
