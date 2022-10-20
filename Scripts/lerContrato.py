@@ -133,7 +133,7 @@ def lerContrato(path):
                 if '%' in valorExtraido:
                     valorExtraido = valorExtraido.replace(",", ".")
                     valorExtraido = valorExtraido.replace("%", "")
-                    valorExtraido = round(float(valorExtraido)/100,4)
+                    valorExtraido = round(float(valorExtraido)/100,6)
                 elif 'IPCA' or 'IGPM' in valorExtraido:
                     valorExtraido = valorExtraido.replace(",", "")
 
@@ -256,14 +256,19 @@ def lerContrato(path):
         # Extraindo data do contrato
 
         text=''
-        #Ler Página PDF
-        pageObj = read_pdf.getPage(number_of_pages-2)
-        text=text+pageObj.extractText()
-
-        #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
-        text = re.sub('\r', '', text) 
-        text = re.sub('\n', '', text)
-        text = re.sub(' {2,}', ' ', text).strip(' ')
+        valid = False
+        cont = 0
+        while valid == False:
+            text=''
+            cont = cont + 1
+            pageObj = read_pdf.getPage(number_of_pages - cont)
+            text=text+pageObj.extractText()
+            #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
+            text = re.sub('\r', '', text) 
+            text = re.sub('\n', '', text)
+            text = re.sub(' {2,}', ' ', text).strip(' ')
+            if 'SÃO PAULO,' in text:
+                break
         inicioFrase = text.find('SÃO PAULO, ',0)
         finalFrase = inicioFrase + len('SÃO PAULO, ')
         ultimaMatricula = text.find(".", finalFrase)
@@ -340,7 +345,7 @@ def lerContrato(path):
             if '%' in valorExtraido:
                 valorExtraido = valorExtraido.replace(",", ".")
                 valorExtraido = valorExtraido.replace("%", "")
-                valorExtraido = round(float(valorExtraido)/100,4)
+                valorExtraido = round(float(valorExtraido)/100,6)
             elif 'IPCA' or 'IGPM' in valorExtraido:
                 valorExtraido = valorExtraido.replace(",", "")
             
@@ -462,13 +467,22 @@ def lerContrato(path):
 
         # Extraindo data do contrato
         text=''
-        #Ler Página PDF
-        pageObj = read_pdf.getPage(number_of_pages-3)
-        text=text+pageObj.extractText()
-        #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
-        text = re.sub('\r', '', text) 
-        text = re.sub('\n', '', text)
-        text = re.sub(' {2,}', ' ', text).strip(' ')
+        
+        #Ler Página PDF    
+        valid = False
+        cont = 0
+        while valid == False:
+            text=''
+            cont = cont + 1
+            pageObj = read_pdf.getPage(number_of_pages - cont)
+            text=text+pageObj.extractText()
+            #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
+            text = re.sub('\r', '', text) 
+            text = re.sub('\n', '', text)
+            text = re.sub(' {2,}', ' ', text).strip(' ')
+            if 'SÃO PAULO,' in text:
+                break
+
 
         inicioFrase = text.find('SÃO PAULO, ',0)
         finalFrase = inicioFrase + len('SÃO PAULO, ')
@@ -639,6 +653,8 @@ def dadosParticipantes(path, contrato):
             partida = (inicioTopico - partida) + partida + 5
             listaKey.append(f'participação{qtdParticipantes+1}')
             listaValues.append(0)
+            listaKey.append(f'operação{qtdParticipantes+1}')
+            listaValues.append('PF')
     
     elif "FI_" in path:
         for i in range(0,6):
@@ -768,6 +784,8 @@ def dadosParticipantes(path, contrato):
             partida = (inicioTopico - partida) + partida + 5
             listaKey.append(f'participação{qtdParticipantes+1}')
             listaValues.append(0)
+            listaKey.append(f'operação{qtdParticipantes+1}')
+            listaValues.append('PF')
 
 
     
@@ -846,6 +864,8 @@ def dadosParticipantes(path, contrato):
                 listaValues.append('N/A')
                 listaKey.append(f'email{contador+1}')
                 listaValues.append('N/A')
+                listaKey.append(f'operação{contador+1}')
+                listaValues.append('PJ')
 
         elif 'FI_' in path:
             listaDePara = {'endereço':'ENDEREÇO COMERCIAL:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:',
@@ -914,6 +934,9 @@ def dadosParticipantes(path, contrato):
                 listaValues.append('N/A')
                 listaKey.append(f'email{contador+1}')
                 listaValues.append('N/A')
+                listaKey.append(f'operação{contador+1}')
+                listaValues.append('PJ')
+
 
         #   elif contrato['operação'] == 'PF':
     #     if "HE_" in path:
