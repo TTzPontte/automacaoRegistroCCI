@@ -122,7 +122,7 @@ def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes
         emailParticipantes = driver.find_element('xpath',f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{quantidade+3}]/div/label[4]/input')
         participação = driver.find_element('xpath',f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{quantidade+3}]/div/label[5]/input')
         cnpjCpf = driver.find_element('xpath',f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{quantidade+3}]/div/label[6]/input')
-        pjOuPf = driver.find_element('xpath','/html/body/div[1]/main/div/section[1]/div/div/form/fieldset[4]/div/label[7]/select')
+        pjOuPf = driver.find_element('xpath',f'/html/body/div[1]/main/div/section[1]/div/div/form/fieldset[{quantidade+3}]/div/label[7]/select')
         sexo = driver.find_element('xpath',f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{quantidade+3}]/div/label[8]/input')
         relacao = driver.find_element('xpath',f'/html/body/div[1]/main/div/section[1]/div/div/form/fieldset[{quantidade+3}]/div/label[2]/select')
         dataNacimento = driver.find_element('xpath',f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{quantidade+3}]/div/label[9]/input')
