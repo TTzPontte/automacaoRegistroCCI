@@ -3,6 +3,7 @@
 from selenium import webdriver
 from time import sleep
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 
 
 
@@ -39,17 +40,20 @@ def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes
     Contrato = textoContrato
     matriculaC = Contrato['Matrícula']
     dataContatoC = Contrato['dataContrato']
-    codigoIntegracaoC = Contrato['CCI']
+    codigoIntegracaoC = ''.join([d for d in Contrato['CCI'] if d.isdigit()])
     contadorC = int(Contrato['Quantidade'])
     indiceC = Contrato['indice']
     tabelaC = Contrato['tabela']
-    taxaC = str(Contrato['taxaAoAno'].replace('.',','))
+    taxaC = round(float(Contrato['taxaAoAno']),4)
+    
 
     ### Abrir Front-End da API ###
 
     # ChromeDriver
     driver = webdriver.Chrome(executable_path=r'G:\Drives compartilhados\Pontte\Operações\Automações\Scripts\Pontte\Driver\chromedriver.exe')
-
+    chrome_options = Options()
+    chrome_options.add_experimental_option("detach", True)
+    
     # Abrir Link do Front-End
     driver.get('http://aztronic.s3-website-us-east-1.amazonaws.com/')
     sleep(5)
@@ -202,4 +206,5 @@ def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes
     dataBase.send_keys(dataContatoC)
 
     print("Valide os dados antes de confirmar o cadastramento!")
-    sleep(30)
+    print('Você tem 10 minutos para validação')
+    sleep(600)
