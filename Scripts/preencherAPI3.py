@@ -156,6 +156,7 @@ def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes
         emailParticipantes.send_keys(Participantes[f'emailP{quantidade+1}'])
         participação.send_keys(Participantes[f'participacaoNaOperacaoP{quantidade+1}'].replace('%',''))
         cnpjCpf.send_keys(Participantes[f'cpfP{quantidade+1}'])
+        pjOuPf.click()
         if Participantes[f'operação{quantidade+1}'] == 'PF': driver.find_element(by='xpath', value=f'/html/body/div[1]/main/div/section[1]/div/div/form/fieldset[{quantidade+3}]/div/label[7]/select/option[1]').click()
         else:driver.find_element(by='xpath', value=f'/html/body/div[1]/main/div/section[1]/div/div/form/fieldset[{quantidade+3}]/div/label[7]/select/option[2]').click()
         sexo.send_keys(Participantes[f'sexoP{quantidade+1}'])
