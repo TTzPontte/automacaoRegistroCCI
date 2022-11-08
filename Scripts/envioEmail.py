@@ -1,16 +1,22 @@
+from datetime import date
 import os 
 import smtplib
 from email.message import EmailMessage
+import time
 
-def enviarEmail(EMAIL_ADDRESS,EMAIL_PASSWORD):
+def enviarEmail(EMAIL_ADDRESS,EMAIL_PASSWORD,textoContrato, textoParticipantes):
     # Criar e-mail 
     msg = EmailMessage()
-    msg['Subject'] = 'TESTE Nova operação em carteira'          # Titulo do e-mail
+    msg['Subject'] = f'Entrada de Novo Cliente no Aztronic - {date.today()}'          # Titulo do e-mail
     msg['From'] = 'opscontrole@pontte.com.br'
     msg['To'] = 'matheus.pereira@pontte.com.br; matheus.duarte@pontte.com.br'            
-    msg.set_content('''Prezados, 
+    msg.set_content(f'''Prezados, 
 
-    O cliente FULANO foi add a carteira
+   ID: {130333}
+   Nome do Cliente: {"tem que pegar o titular"}
+   Produto: {"extrair o produto"}
+   Valor Bruto: {textoContrato['valorTotal']}
+
 
     Att, 
     Ops team. ''')                                          # mensagem corpo do e-mail
