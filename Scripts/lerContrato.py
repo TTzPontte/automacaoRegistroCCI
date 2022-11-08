@@ -52,7 +52,7 @@ def lerContrato(path):
         elif 'Data de Desembolso:' in text:
             dataLib = 'Data de Desembolso:'
         
-        listaDePara = {'Taxa ao Mes':'2.1.1. Juros de','registro':'4.3. Despesas','valorLiquido': '7. Valor Líquido a Liberar do Financiamento: R$',
+        listaDePara = {'Taxa ao Mes':'mês, equivalente a de','registro':'4.3. Despesas','valorLiquido': '7. Valor Líquido a Liberar do Financiamento: R$',
                 'prazoMes': 'PRAZO DE AMORTIZAÇÃO:','valorPrimeiraParcelaComEncargos':'VALOR TOTAL DO PRIMEIRO ENCARGO, NESTA DATA: R$',
                 'valorImóvel':'Imóvel para fins de leilão: R$','prazoContrato': 'N.º DE PRESTAÇÕES:','ultimaParcela':'DATA DE VENCIMENTO DA ÚLTIMA PRESTAÇÃO:','dataLiberação': dataLib,
                 'valorPrimeiraParcela':'), NESTA DATA: R$','primeiraParcela':'DATA DE VENCIMENTO DA PRIMEIRA PRESTAÇÃO:','indice':'ÍNDICE: MENSAL do'
