@@ -11,7 +11,8 @@ from selenium.webdriver.chrome.options import Options
 
 def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes):
 
-
+    # Dicionario com os dados dos participantes
+    Participantes = textoParticipantes
 
     ### Funções Auxiliares ###
 
@@ -112,9 +113,6 @@ def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes
     sleep(0.5)      
     selectCartorio = driver.find_element('xpath','//*[@id="numero_cartorio"]/div[2]/ul/li[1]').click() # esta clicando sempre no primeito por enquanto.
 
-    # Dicionario com os dados dos participantes
-    Participantes = textoParticipantes
-
     # Adicionar campos de participantes
     numCamposParticipantes = contadorC
     for addCampo in range(0, numCamposParticipantes - 1):
@@ -160,8 +158,9 @@ def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes
         emailParticipantes.send_keys(Participantes[f'emailP{quantidade+1}'])
         participação.send_keys(Participantes[f'participacaoNaOperacaoP{quantidade+1}'].replace('%',''))
         cnpjCpf.send_keys(Participantes[f'cpfP{quantidade+1}'])
+        #Clicar em PF ou PJ
         pjOuPf.click()
-        if Participantes[f'operação{quantidade+1}'] == 'PF': driver.find_element(by='xpath', value=f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{quantidade+3}]/div/label[7]/select/option[1]').click()
+        if Participantes[f'tipoOperacaoP{quantidade+1}'] == 'PF': driver.find_element(by='xpath', value=f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{quantidade+3}]/div/label[7]/select/option[1]').click()
         else:driver.find_element(by='xpath', value=f'/html/body/div/main/div/section[1]/div/div/form/fieldset[{quantidade+3}]/div/label[7]/select/option[2]').click()
         sexo.send_keys(Participantes[f'sexoP{quantidade+1}'])
         relacao.click()

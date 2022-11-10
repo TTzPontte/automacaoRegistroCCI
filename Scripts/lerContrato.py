@@ -211,7 +211,7 @@ def lerContrato(path):
             listaKey.append('Titular')
             listaValues.append(valorExtraido.strip())
 
-        # Extraindo participantes da operação 
+        # Extraindo participantes da operacao 
         campo5 = 'fins de indenização do Seguro'                         #inicio e fim da extração
         campo6 = 'VI – CLÁUSULA(S)'
 
@@ -246,8 +246,8 @@ def lerContrato(path):
             participantesValues.append(participacaoExtraido.strip())
             dict_participantes = dict(zip(participantesKey,participantesValues))
 
-        # Tipo de operação 
-        listaKey.append('operação')
+        # Tipo de operacao 
+        listaKey.append('operacao')
         listaValues.append(operacao)
 
         #Criar Dicionario das duas Listas
@@ -387,7 +387,7 @@ def lerContrato(path):
         listaKey.append('CCI')
         listaValues.append(valorExtraido)
 
-        # Extraindo participantes da operação 
+        # Extraindo participantes da operacao 
 
         campo7 = 'CAMPO 7'                         #Definir Variáveis Auxiliares
         campo8 = 'CAMPO 8 – CLÁUSULA(S)'
@@ -455,8 +455,8 @@ def lerContrato(path):
             listaKey.append('Titular')
             listaValues.append(valorExtraido)
 
-        # Tipo de operação e Qtd de participantes
-        listaKey.append('operação')
+        # Tipo de operacao e Qtd de participantes
+        listaKey.append('operacao')
         listaValues.append(operacao)
         listaKey.append('Quantidade')
         listaValues.append(totalParticipantes)
@@ -536,7 +536,7 @@ def dadosParticipantes(path, contrato):
         text = re.sub('\n', '', text)
         text = re.sub(' {2,}', ' ', text).strip(' ')
 
-        # Extraindo participantes da operação 
+        # Extraindo participantes da operacao 
         campo7 = 'CAMPO 7'                         #inicio e fim da extração
         campo8 = 'CAMPO 8 – CLÁUSULA(S)'
 
@@ -568,7 +568,7 @@ def dadosParticipantes(path, contrato):
 
         partida = text.find('CAMPO 2 -', 0)
 
-        if  contrato['operação'] == 'PJ':
+        if  contrato['operacao'] == 'PJ':
             contador = contrato['Quantidade'] -1
 
         else:
@@ -576,7 +576,7 @@ def dadosParticipantes(path, contrato):
 
         for qtdParticipantes in range(0, contador):
             
-            # Extraindo participantes da operação 
+            # Extraindo participantes da operacao 
             começo = 'NOME:'                       #inicio e fim da extração
             fim = 'CAMPO 3 -'
             #Pegar posição das variáveis auxiliares no texto
@@ -653,7 +653,7 @@ def dadosParticipantes(path, contrato):
             partida = (inicioTopico - partida) + partida + 5
             listaKey.append(f'participação{qtdParticipantes+1}')
             listaValues.append(0)
-            listaKey.append(f'operação{qtdParticipantes+1}')
+            listaKey.append(f'operacao{qtdParticipantes+1}')
             listaValues.append('PF')
     
     elif "FI_" in path:
@@ -668,7 +668,7 @@ def dadosParticipantes(path, contrato):
         text = re.sub('\n', '', text)
         text = re.sub(' {2,}', ' ', text).strip(' ')
 
-        # Extraindo participantes da operação 
+        # Extraindo participantes da operacao 
         campo5 = 'fins de indenização do Seguro'                         #inicio e fim da extração
         campo6 = 'VI – CLÁUSULA(S)'
 
@@ -700,14 +700,14 @@ def dadosParticipantes(path, contrato):
             return remover
 
         partida = text.find('CAMPO 3 -', 0)
-        if  contrato['operação'] == 'PJ':
+        if  contrato['operacao'] == 'PJ':
             contador = contrato['Quantidade'] -1
 
         else:
             contador = contrato['Quantidade']
         
         for qtdParticipantes in range(0, contador):
-            # Extraindo participantes da operação 
+            # Extraindo participantes da operacao 
             começo = 'NOME:'                       #inicio e fim da extração
             fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
             #Pegar posição das variáveis auxiliares no texto
@@ -784,19 +784,19 @@ def dadosParticipantes(path, contrato):
             partida = (inicioTopico - partida) + partida + 5
             listaKey.append(f'participação{qtdParticipantes+1}')
             listaValues.append(0)
-            listaKey.append(f'operação{qtdParticipantes+1}')
+            listaKey.append(f'operacao{qtdParticipantes+1}')
             listaValues.append('PF')
 
 
     
     # Estrair dados do Titular
-    if contrato['operação'] == 'PJ':
+    if contrato['operacao'] == 'PJ':
         contador = contrato['Quantidade'] -1
 
         if "HE_" in path:
             listaDePara = {'nome':'RAZÃO SOCIAL:','endereço':'ENDEREÇO COMERCIAL:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:',
             'cep':'CEP:','cpf':'CNPJ:', 'data de nascimento':'DATA DA CONSTITUIÇÃO:'}
-            # Extraindo participantes da operação 
+            # Extraindo participantes da operacao 
             começo = contrato['Titular'].strip()                    #inicio e fim da extração
             fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
             #Pegar posição das variáveis auxiliares no texto
@@ -864,13 +864,13 @@ def dadosParticipantes(path, contrato):
                 listaValues.append('N/A')
                 listaKey.append(f'email{contador+1}')
                 listaValues.append('N/A')
-                listaKey.append(f'operação{contador+1}')
+                listaKey.append(f'operacao{contador+1}')
                 listaValues.append('PJ')
 
         elif 'FI_' in path:
             listaDePara = {'endereço':'ENDEREÇO COMERCIAL:','complemento':'COMPLEMENTO:','bairro':'BAIRRO:','cidade':'CIDADE:','uf':'UF:',
             'cep':'CEP:','cpf':'CNPJ:', 'data de nascimento':'DATA DA CONSTITUIÇÃO:'}
-            # Extraindo participantes da operação 
+            # Extraindo participantes da operacao 
             começo = contrato['Titular'].strip()                    #inicio e fim da extração
             fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
             #Pegar posição das variáveis auxiliares no texto
@@ -934,15 +934,15 @@ def dadosParticipantes(path, contrato):
                 listaValues.append('N/A')
                 listaKey.append(f'email{contador+1}')
                 listaValues.append('N/A')
-                listaKey.append(f'operação{contador+1}')
+                listaKey.append(f'operacao{contador+1}')
                 listaValues.append('PJ')
 
 
-        #   elif contrato['operação'] == 'PF':
+        #   elif contrato['operacao'] == 'PF':
     #     if "HE_" in path:
     #         listaDePara = {'cpfTitular':'CPF:','data de nascimentoTitular':'DATA DE NASCIMENTO:','endereçoTitular':'ENDEREÇO RESIDENCIAL E DOMICILIAR:','complementoTitular':'COMPLEMENTO:','bairroTitular':'BAIRRO:','cidadeTitular':'CIDADE:','ufTitular':'UF:','cepTitular':'CEP:',
     #                 'telefoneTitular':'TELEFONE(S)','emailTitular':'EMAIL:'}
-    #         # Extraindo participantes da operação 
+    #         # Extraindo participantes da operacao 
     #         começo = contrato['Titular'].strip()                    #inicio e fim da extração
     #         fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
     #         #Pegar posição das variáveis auxiliares no texto
@@ -1012,7 +1012,7 @@ def dadosParticipantes(path, contrato):
         elif 'FI_' in path:
             listaDePara = {'cpfTitular':'CPF:','data de nascimentoTitular':'DATA DE NASCIMENTO:','endereçoTitular':'ENDEREÇO RESIDENCIAL E DOMICILIAR:','complementoTitular':'COMPLEMENTO:','bairroTitular':'BAIRRO:','cidadeTitular':'CIDADE:','ufTitular':'UF:','cepTitular':'CEP:',
                     'telefoneTitular':'TELEFONE(S)','emailTitular':'EMAIL:'}
-            # Extraindo participantes da operação 
+            # Extraindo participantes da operacao 
             começo = contrato['Titular'].strip()                    #inicio e fim da extração
             fim = 'CARACTERÍSTICAS DO FINANCIAMENTO'
             #Pegar posição das variáveis auxiliares no texto
