@@ -197,13 +197,18 @@ def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes
     if tabelaC == 'PRICE' or tabelaC == 'Price' or tabelaC == 'price':
         tipoAmortização.click()
         tipoAmortização =driver.find_element(by='xpath',value='//*[@id="tipo_amortizacao"]/option[3]').click()
+        driver.find_element(by='xpath', value='/html/body/div[1]/main/div/section[1]/div/div/form/fieldset[1]/div[2]/label[15]/select').click()
+        driver.find_element(by='xpath', value='/html/body/div[1]/main/div/section[1]/div/div/form/fieldset[1]/div[2]/label[15]/select/option[2]').click()
 
     elif tabelaC == 'SAC':
         tipoAmortização.click()
         tipoAmortização =driver.find_element(by='xpath',value='//*[@id="tipo_amortizacao"]/option[2]').click()
+        driver.find_element(by='xpath', value='/html/body/div[1]/main/div/section[1]/div/div/form/fieldset[1]/div[2]/label[15]/select').click()
+        driver.find_element(by='xpath', value='/html/body/div[1]/main/div/section[1]/div/div/form/fieldset[1]/div[2]/label[15]/select/option[1]').click()
     taxaJuros.send_keys(taxaC)
     dataBase.send_keys(dataContatoC)
-
+    driver.find_element(by='xpath', value='/html/body/div[1]/main/div/section[1]/div/div/form/div[2]/label[4]/select').click()
+    driver.find_element(by='xpath', value='/html/body/div[1]/main/div/section[1]/div/div/form/div[2]/label[4]/select/option[2]').click()
     print("Valide os dados antes de confirmar o cadastramento!")
     print('Você tem 10 minutos para validação')
     sleep(600)
