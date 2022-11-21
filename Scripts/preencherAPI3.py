@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.options import Options
 
 ### Função para preencher os campos da API ###
 
-def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes):
+def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes, produto):
 
     # Dicionario com os dados dos participantes
     Participantes = textoParticipantes
@@ -188,6 +188,18 @@ def preencherAPI(calculoFluxoPath, textoContrato, textoLaudo, textoParticipantes
 
     limparCampo(dataBase)
     limparCampo(taxaJuros)
+    # Selecionando venda em id tipo da venda
+    driver.find_element(by='xpath', value='/html/body/div[1]/main/div/section[1]/div/div/form/div[2]/label[4]/select').click()
+    driver.find_element(by='xpath', value='/html/body/div[1]/main/div/section[1]/div/div/form/div[2]/label[4]/select/option[2]').click()
+
+    # Selecionar produto
+    if produto == 'FI':
+        driver.find_element(by='xpath', value='/html/body/div[1]/main/div/section[1]/div/div/form/div[2]/label[4]/select').click()
+        driver.find_element(by='xpath', value='//*[@id="id_tipocontrato"]/option[17]').click()
+    elif produto == 'HE':
+        driver.find_element(by='xpath', value='/html/body/div[1]/main/div/section[1]/div/div/form/div[2]/label[4]/select').click()
+        driver.find_element(by='xpath', value='//*[@id="id_tipocontrato"]/option[16]').click()
+
 
     if indiceC == 'IPCA':
         indice.click()
