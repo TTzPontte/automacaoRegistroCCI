@@ -305,7 +305,7 @@ def lerContrato(path):
 
         # pega o numero de páginas
         number_of_pages = read_pdf.getNumPages()
-
+        print(number_of_pages)
         #Extriar Texto Página 1 a 5
         text=''
         for i in range(0,9):
@@ -474,12 +474,14 @@ def lerContrato(path):
         while valid == False:
             text=''
             cont = cont + 1
+            print(cont)
             pageObj = read_pdf.getPage(number_of_pages - cont)
             text=text+pageObj.extractText()
             #Tratar Texto (Remover Quebra de Linhas e espaços duplos)
             text = re.sub('\r', '', text) 
             text = re.sub('\n', '', text)
             text = re.sub(' {2,}', ' ', text).strip(' ')
+            print(text)
             if 'SÃO PAULO,' in text:
                 break
 
@@ -1096,3 +1098,7 @@ def dadosParticipantes(path, contrato):
     return dict_keyValue
 
 
+### Teste
+contr = r'G:\Drives compartilhados\Pontte Crédito\0_HOME EQUITY\0_Analises\Valquiria Maria Falcao Benevides de Souza Leão - ID 592631549\KIT QI\HE_Contrato_Valquiria_Assinatura Digital_VFinal-Assinado.pdf'
+test1 = lerContrato(contr)
+print(test1)
