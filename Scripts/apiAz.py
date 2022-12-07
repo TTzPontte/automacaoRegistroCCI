@@ -155,6 +155,7 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
         }
         }
     
+    print(jsonFinal)
     return jsonFinal
     
     
