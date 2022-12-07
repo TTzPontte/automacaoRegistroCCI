@@ -74,7 +74,7 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
     listaDeParaP = {"codigo_integracao": 0,"relacao": 0,"nome": 0,"email": 0,"participacao": 0,"cnpj_cpf": 0,"pf_pj": 0,"sexo": 0,"telefone": 0,"data_nascimento": 0,"rua": 0,"numero": 0,"complemento": 0,
 "cidade": 0,"bairro": 0,"UF": 0,"cep": 0
             }
-    quant = Contrato["Quantidade"]
+    quant = int(Contrato["Quantidade"])
     dadosParticipantes={}
     participantesJson = []
     for cont in range(0,quant):
@@ -82,7 +82,7 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
             if key == "relacao":
                 dadosParticipantes[key] = participantes[f"relacaoDoP{cont+1}"]
             elif key == "nome":
-                dadosParticipantes[key]= participantes[f"nomeDoP{cont+1}"]
+                dadosParticipantes[key]= participantes[f"nomeCompletoP{cont+1}"]
             elif key == "email":
                 dadosParticipantes[key]= participantes[f"emailP{cont+1}"]
             elif key == "participacao":
