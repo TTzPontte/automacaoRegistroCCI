@@ -1,5 +1,5 @@
 # automacaoRegistroCCI
-Automação da atividade de registro da CCI na API da Aztronic
+#Automa#ção da atividade de registro da CCI na API da Aztronic
 
 #Bibliotecas Necessárias
 pip install selenium
