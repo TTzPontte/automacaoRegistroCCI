@@ -74,7 +74,7 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
     listaDeParaP = {"codigo_integracao": 0,"relacao": 0,"nome": 0,"email": 0,"participacao": 0,"cnpj_cpf": 0,"pf_pj": 0,"sexo": 0,"telefone": 0,"data_nascimento": 0,"rua": 0,"numero": 0,"complemento": 0,
 "cidade": 0,"bairro": 0,"UF": 0,"cep": 0
             }
-    quant = participantes["Quantidade"]
+    quant = Contrato["Quantidade"]
     dadosParticipantes={}
     participantesJson = []
     for cont in range(0,quant):
