@@ -2,13 +2,15 @@
 
 import requests
 import json
-
+from lerCalculoFluxo import lerCF
 ### Função para preencher os campos da API ###
 
-def preencherAPI(fluxoJson, textoContrato, textoLaudo, textoParticipantes, produto):
+def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto):
 
     # Url da API
     url = "https://dev.aztronic.com.br/AZ/APICollect/api/contrato/set"
+
+
 
     # Dicionario com os dados
     participantes = textoParticipantes
@@ -28,6 +30,22 @@ def preencherAPI(fluxoJson, textoContrato, textoLaudo, textoParticipantes, produ
     blocoL = Laudo['blocoImovel']
     valorL = Laudo['valorImovel']
 
+    # Contrato
+    Contrato = textoContrato
+    matriculaC = Contrato['Matrícula']
+    dataContatoC = Contrato['dataContrato']
+    codigoIntegracaoC = ''.join([d for d in Contrato['CCI'] if d.isdigit()])
+    contadorC = int(Contrato['Quantidade'])
+    indiceC = Contrato['indice']
+    tabelaC = 1 if Contrato['tabela'] == "SAC" else 2
+    taxaC = round(float(Contrato['taxaAoAno']),4)
+    if produto == "HE":
+        produtoC = "15"
+    elif produto == "FI":
+        produtoC = "16"
+
+    #Fluxo
+    fluxoJson = lerCF(pathCF, codigoIntegracaoC)
 
     unidadeJson = { 
             "codigo_integracao": codigoIntegracaoC,
@@ -49,19 +67,7 @@ def preencherAPI(fluxoJson, textoContrato, textoLaudo, textoParticipantes, produ
             "data_habitese": "01/01/2000"
             }
 
-    # Contrato
-    Contrato = textoContrato
-    matriculaC = Contrato['Matrícula']
-    dataContatoC = Contrato['dataContrato']
-    codigoIntegracaoC = ''.join([d for d in Contrato['CCI'] if d.isdigit()])
-    contadorC = int(Contrato['Quantidade'])
-    indiceC = Contrato['indice']
-    tabelaC = 1 if Contrato['tabela'] == "SAC" else 2
-    taxaC = round(float(Contrato['taxaAoAno']),4)
-    if produto == "HE":
-        produtoC = "15"
-    elif produto == "FI":
-        produtoC = "16"
+
 
     
 # Montar Dicionario dos participantes
@@ -108,6 +114,8 @@ def preencherAPI(fluxoJson, textoContrato, textoLaudo, textoParticipantes, produ
 
     participantesJson.append(dadosParticipantes.copy())
 
+
+
     
     
     # Montar o Json (contrato, participantes, tabela de vendas, fluxo)
@@ -147,7 +155,7 @@ def preencherAPI(fluxoJson, textoContrato, textoLaudo, textoParticipantes, produ
         }
         }
     
-    
+    return jsonFinal
     
     
     
