@@ -371,8 +371,8 @@ def lerContrato(path):
         listaValues.append(valorExtraido.strip())
 
         # Extraindo cartório
-        inicioFrase = text.find(' do Livro N°',0)
-        finalFrase = inicioFrase + len(' do Livro N°') + 1
+        inicioFrase = text.find(' de Registro Geral do',0)
+        finalFrase = inicioFrase + len(' de Registro Geral do') + 1
         ultimaMatricula = text.find(".", finalFrase)
         valorExtraido = text[finalFrase:ultimaMatricula]
 
