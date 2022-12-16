@@ -39,7 +39,7 @@ def lerCF(pathCF, numeroCCI):
     #Percorrer Coluna B e transformar em DF
     date_rows = []
     
-    print(f'\nLastRow: {lastRow}\n')
+    #print(f'\nLastRow: {lastRow}\n')
     
     for row in ws['B18':f'B{lastRow}']:
         date_cols = []
@@ -91,7 +91,7 @@ def lerCF(pathCF, numeroCCI):
     df_remove = df.loc[(df['numParcela'] == 0)]
     df = df.drop(df_remove.index)
 
-    print(f'\nDF Novo:\n{df}\n')
+    #print(f'\nDF Novo:\n{df}\n')
 
     if df['numParcela'].iloc[0] == 2:
         df['numParcela'] = df['numParcela'] - 1
