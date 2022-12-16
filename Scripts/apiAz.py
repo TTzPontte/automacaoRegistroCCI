@@ -37,7 +37,7 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
     Contrato = textoContrato
     matriculaC = Contrato['Matrícula']
     dataContratoCon = Contrato['dataContrato']
-    date = datetime.datetime.strptime(dataContratoCon, '%m/%d/%Y')
+    date = datetime.datetime.strptime(dataContratoCon, '%d/%m/%Y')
     dataContratoC = '{}/{}/{}'.format(date.month, date.day,date.year)
     codigoIntegracaoC = ''.join([d for d in Contrato['CCI'] if d.isdigit()])
     valorC = Contrato["valorBruto"]
@@ -45,6 +45,8 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
     indiceC = Contrato['indice']
     tabelaC = 1 if Contrato['tabela'] == "SAC" else 2
     taxaC = round(float(Contrato['taxaAoAno']),4)
+    CartorioC = Contrato['nomeCartorio']
+    idCartorioC = Contrato['idCartorio']
     if produto == "HE":
         produtoC = "15"
     elif produto == "FI":
@@ -64,12 +66,12 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
             "cep": cepL,
             "cnpj_SPE": "32.402.502/0001-35",
             "SPE": "QI SOCIEDADE DE CREDITO DIRETO S.A.",
-            "cartorio": "1º OFÍCIO DE REGISTRO DE IMÓVEIS", # nome do cartório
+            "cartorio": CartorioC, # nome do cartório
             "valor_avaliacao": valorL,
             "unidade": unidadeL,
             "Bloco": blocoL,
             "matricula": matriculaC,
-            "numero_cartorio": 4146224, # id do cartório
+            "numero_cartorio": idCartorioC, # id do cartório
             "data_habitese": "01/01/2000"
             }
 
