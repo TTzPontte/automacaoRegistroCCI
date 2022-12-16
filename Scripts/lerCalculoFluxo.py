@@ -38,6 +38,9 @@ def lerCF(pathCF, numeroCCI):
 
     #Percorrer Coluna B e transformar em DF
     date_rows = []
+    
+    print(f'\nLastRow: {lastRow}\n')
+    
     for row in ws['B18':f'B{lastRow}']:
         date_cols = []
         for cell in row:
@@ -78,13 +81,17 @@ def lerCF(pathCF, numeroCCI):
     df['Aplica_Juros'] = "S"
     df['periodicidade'] = "1" 
     
+    print(f'\nDF Antigo:\n{df}\n')
+
     #Gerar Novo DF
     df = df[['codigo_integracao', 'data_vencto', 'id_tipo_parcela', 'numParcela', 'valor_principal', 'valor_futuro', 'Aplica_Correcao', 'Aplica_Juros', 'periodicidade']]
     df['data_vencto'] = pd.to_datetime(df['data_vencto'], format='%d/%m/%y').dt.strftime('%d/%m/%Y')
 
     #Tratar DF
-    df_remove = df.loc[(df['valor_principal'] == 0)]
+    df_remove = df.loc[(df['numParcela'] == 0)]
     df = df.drop(df_remove.index)
+
+    print(f'\nDF Novo:\n{df}\n')
 
     if df['numParcela'].iloc[0] == 2:
         df['numParcela'] = df['numParcela'] - 1
@@ -96,3 +103,10 @@ def lerCF(pathCF, numeroCCI):
     jsonValue = df.to_json(orient='records').replace("\\/", str('/'))
 
     return jsonValue
+
+###### teste #######
+# pathExcel = r"G:\Drives compartilhados\Pontte Crédito\0_HOME EQUITY\0_Analises\MARIA SONIA PAULO DA SILVA ID 586505100\KIT QI\Cálculo_Fluxo.xlsx"
+# numCCI = 123456
+
+# from pprint import pprint
+# pprint(lerCF(pathExcel, numCCI))
