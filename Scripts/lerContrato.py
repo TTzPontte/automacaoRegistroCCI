@@ -307,7 +307,6 @@ def lerContrato(path):
 
         # pega o numero de páginas
         number_of_pages = read_pdf.getNumPages()
-        print(number_of_pages)
         #Extriar Texto Página 1 a 5
         text=''
         for i in range(0,9):
