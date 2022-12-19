@@ -16,7 +16,7 @@ def lerContrato(path):
         listaValues = []
         #Extriar Texto Página 1 a 5
         text=''
-        for i in range(0,6):
+        for i in range(0,9):
             #Ler Página PDF
             pageObj = read_pdf.getPage(i)
             #Extrair Texto
@@ -29,6 +29,7 @@ def lerContrato(path):
         text = re.sub(' :', ':', text)
         text = re.sub(' /', '/', text)
         text = re.sub('/ ', '/', text)
+        text = re.sub(' ,', ',', text)
         listaDePara = {'valorTotal':'1. Valor do Financiamento: R$','tabela': 'Sistema de Amortização:'}
         for key, value in listaDePara.items():
             inicioFrase = text.find(value,0)
@@ -149,12 +150,13 @@ def lerContrato(path):
         valorExtraido = valorExtraido.replace(" ", "")
         if 3> len(valorExtraido) or len(valorExtraido) > 9:
             valorExtraido = 0
-            inicioFrase = text.find('Matriculados sob nºs',0)
-            finalFrase = inicioFrase + len('Matriculados sob nºs') + 1
+            inicioFrase = text.find('Matriculados sob nº',0)
+            finalFrase = inicioFrase + len('Matriculados sob nº') + 1
             ultimaMatricula = text.find("no", finalFrase)
             valorExtraido = text[finalFrase:ultimaMatricula]
             valorExtraido = valorExtraido.replace(",", "")
             valorExtraido = valorExtraido.replace("e ", "")
+            valorExtraido = valorExtraido.replace("s ", "")
 
         listaKey.append('Matrícula')
         listaValues.append(valorExtraido)
