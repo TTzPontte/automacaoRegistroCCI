@@ -4,18 +4,18 @@ import smtplib
 from email.message import EmailMessage
 import time
 
-def enviarEmail(EMAIL_ADDRESS,EMAIL_PASSWORD,textoContrato, textoParticipantes):
+def enviarEmail(idContrato, produto, valorBruto):
     # Criar e-mail 
     msg = EmailMessage()
-    msg['Subject'] = f'Entrada de Novo Cliente no Aztronic - {date.today()}'          # Titulo do e-mail
+    msg['Subject'] = f'Entrada de Novo Cliente no Aztronic - {date.today().strftime("%d/%m")}'          # Titulo do e-mail
     msg['From'] = 'opscontrole@pontte.com.br'
-    msg['To'] = 'matheus.pereira@pontte.com.br; matheus.duarte@pontte.com.br'            
-    msg.set_content(f'''Prezados, 
+    msg['To'] = 'henrique.scripelliti@pontte.com.br'
+    msg['CC'] = ['luis.caram@pontte.com.br', 'solange.souza@pontte.com.br', 'ops@pontte.com.br']
+    msg.set_content(f'''Prezados, foi realizado uma nova implantação no Aztronic, segue os dados da operação abaixo:
 
-   ID: {130333}
-   Nome do Cliente: {"tem que pegar o titular"}
-   Produto: {"extrair o produto"}
-   Valor Bruto: {textoContrato['valorTotal']}
+   ID: {idContrato}
+   Produto: {produto}
+   Valor Bruto: {valorBruto}
 
 
     Att, 
@@ -23,7 +23,7 @@ def enviarEmail(EMAIL_ADDRESS,EMAIL_PASSWORD,textoContrato, textoParticipantes):
 
     # Enviar um e-mail
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-        smtp.login(EMAIL_ADDRESS,EMAIL_PASSWORD)
+        smtp.login("matheus.duarte@pontte.com.br","ifovusblhzjwazpa")
         smtp.send_message(msg)
 
 
@@ -32,6 +32,4 @@ def enviarEmail(EMAIL_ADDRESS,EMAIL_PASSWORD,textoContrato, textoParticipantes):
 
 ### Teste
 
-# EMAIL_ADDRESS = "opscontrole@pontte.com.br"
-# EMAIL_PASSWORD = "PontteOps22"
-# test = enviarEmail(EMAIL_ADDRESS,EMAIL_PASSWORD)
+#test = enviarEmail("123456","HE",100)

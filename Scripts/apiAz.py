@@ -9,7 +9,8 @@ import datetime
 def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto):
 
     # Url da API
-    url = "https://dev.aztronic.com.br/AZ/APICollect/api/contrato/set"
+    url = "https://srv1.aztronic.com.br/AZ/APICollect/api/contrato/set" #prod
+    #url = "https://dev.aztronic.com.br/AZ/APICollect/api/contrato/set" #DEV
 
     # Data do dia
     dataHoje = datetime.date.today()
@@ -31,7 +32,7 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
     cepL = Laudo['cepImovel']
     unidadeL = Laudo['unidadeImovel']
     blocoL = Laudo['blocoImovel']
-    valorL = Laudo['valorImovel']
+    valorL = float(Laudo['valorImovel'].replace(".","").replace(",","."))
 
     # Contrato
     Contrato = textoContrato
@@ -40,7 +41,7 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
     date = datetime.datetime.strptime(dataContratoCon, '%d/%m/%Y')
     dataContratoC = '{}/{}/{}'.format(date.month, date.day,date.year)
     codigoIntegracaoC = ''.join([d for d in Contrato['CCI'] if d.isdigit()])
-    valorC = Contrato["valorBruto"]
+    valorC = float(Contrato["valorBruto"].replace(".","").replace(",","."))
     contadorC = int(Contrato['Quantidade'])
     indiceC = Contrato['indice']
     tabelaC = 1 if Contrato['tabela'] == "SAC" else 2
@@ -186,14 +187,16 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
         }
         }
     ## Json POST ##
-    print(jsonFinal)
+    #print(jsonFinal)
     payload = json.dumps(jsonFinal)
     headers = {
-    'Authorization': 'Basic QVotQVBJS0VZOkM4NTE5QTJCLTJGNjYtNDI4Mi1CRTQzLUQwMkNBNTE2NzE3MQ==',
+    #'Authorization': 'Basic QVotQVBJS0VZOkM4NTE5QTJCLTJGNjYtNDI4Mi1CRTQzLUQwMkNBNTE2NzE3MQ==', #Dev
+    'Authorization': 'Basic QVotQVBJS0VZOjZCRjRDNDg5LTFCREEtNDc3QS05MTA4LTNGRUY0NUZCRTU4OQ==',
     'Content-Type': 'application/json'
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)
+
     print(response.text)
 
-    return jsonFinal
+    return response.text
