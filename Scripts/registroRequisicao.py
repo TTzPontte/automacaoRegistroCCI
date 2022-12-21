@@ -1,11 +1,11 @@
 import datetime 
 import os
 
-def registrarRequisicao(json, nomeDoCliente, codigoAztrnic):
+def registrarRequisicao(json, nomeDoCliente, codigoCliente):
     
     jsonFile = json
     nomeCliente = nomeDoCliente.lower()
-    codigoAz = codigoAztrnic
+    codigoAz = codigoCliente
     
     path = rf'G:\Drives compartilhados\Pontte\Operações\Implantação\{nomeCliente+" - "+codigoAz}'
 

@@ -9,8 +9,8 @@ import datetime
 def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto):
 
     # Url da API
-    url = "https://srv1.aztronic.com.br/AZ/APICollect/api/contrato/set" #prod
-    #url = "https://dev.aztronic.com.br/AZ/APICollect/api/contrato/set" #DEV
+    #url = "https://srv1.aztronic.com.br/AZ/APICollect/api/contrato/set" #prod
+    url = "https://dev.aztronic.com.br/AZ/APICollect/api/contrato/set" #DEV
 
     # Data do dia
     dataHoje = datetime.date.today()
@@ -190,8 +190,8 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
     #print(jsonFinal)
     payload = json.dumps(jsonFinal)
     headers = {
-    #'Authorization': 'Basic QVotQVBJS0VZOkM4NTE5QTJCLTJGNjYtNDI4Mi1CRTQzLUQwMkNBNTE2NzE3MQ==', #Dev
-    'Authorization': 'Basic QVotQVBJS0VZOjZCRjRDNDg5LTFCREEtNDc3QS05MTA4LTNGRUY0NUZCRTU4OQ==',
+    'Authorization': 'Basic QVotQVBJS0VZOkM4NTE5QTJCLTJGNjYtNDI4Mi1CRTQzLUQwMkNBNTE2NzE3MQ==', #Dev
+    #'Authorization': 'Basic QVotQVBJS0VZOjZCRjRDNDg5LTFCREEtNDc3QS05MTA4LTNGRUY0NUZCRTU4OQ==',
     'Content-Type': 'application/json'
     }
 
@@ -199,4 +199,4 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
 
     print(response.text)
 
-    return response.text
+    return response.text, jsonFinal
