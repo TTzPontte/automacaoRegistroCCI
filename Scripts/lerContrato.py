@@ -1020,7 +1020,7 @@ def dadosParticipantes(path, contrato):
 
     else:
         for comparar in range(0, dict_keyValue['Quantidade']):
-            for comparar2 in range(0, contrato['Quantidade']-1):
+            for comparar2 in range(0, contrato['Quantidade']):
                 if contrato[f"Participante{comparar+1}"] == dict_keyValue[f"nome{comparar2+1}"]:
                     dict_keyValue[f"participação{comparar2+1}"] = contrato[f"Participação{comparar+1}"]
 

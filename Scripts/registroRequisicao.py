@@ -8,6 +8,7 @@ def registrarRequisicao(json, nomeDoCliente, codigoCliente):
     codigoAz = codigoCliente
     
     path = rf'G:\Drives compartilhados\Pontte\Operações\Implantação\{nomeCliente+" - "+codigoAz}'
+    path = path.replace('/','')
 
     #Verifica se existe a pasta
     isExist = os.path.exists(path)
@@ -21,3 +22,4 @@ def registrarRequisicao(json, nomeDoCliente, codigoCliente):
     
     with open(os.path.join(path, f'Requisicao - {dataHoje}.txt'), "w") as f:
         f.write(f'Realizado por: {namePC} em {dataHoje}\n'+'\n'+str(jsonFile)+'\n')
+    

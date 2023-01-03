@@ -4,7 +4,7 @@ import smtplib
 from email.message import EmailMessage
 import time
 
-def enviarEmail(idContrato, produto, valorBruto):
+def enviarEmail(idContrato, produto, valorBruto,nomeCliente):
     # Criar e-mail 
     msg = EmailMessage()
     msg['Subject'] = f'Entrada de Novo Cliente no Aztronic - {date.today().strftime("%d/%m")}'          # Titulo do e-mail
@@ -13,6 +13,7 @@ def enviarEmail(idContrato, produto, valorBruto):
     msg['CC'] = ['luis.caram@pontte.com.br', 'solange.souza@pontte.com.br', 'ops@pontte.com.br']
     msg.set_content(f'''Prezados, foi realizado uma nova implantação no Aztronic, segue os dados da operação abaixo:
 
+   Nome: {nomeCliente} 
    ID: {idContrato}
    Produto: {produto}
    Valor Bruto: {valorBruto}
