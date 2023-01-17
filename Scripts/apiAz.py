@@ -148,7 +148,13 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
 
         participantesJson.append(dadosParticipantes.copy())
 
-
+    try:
+        for item in participantesJson:
+            if item['relacao'] == '1':
+                nomeTitular = item['nome']
+    except:
+        nomeTitular = ''
+        print('Erro ao Gerar nome do Titular\nScript: apiAz.py Linha 151')
 
     
     
@@ -201,4 +207,4 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
 
     print(response.text)
 
-    return response.text, jsonFinal
+    return response.text, jsonFinal, nomeTitular

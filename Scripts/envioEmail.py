@@ -5,18 +5,23 @@ from email.message import EmailMessage
 import time
 
 def enviarEmail(idContrato, produto, valorBruto,nomeCliente):
-    # Criar e-mail 
+    #Criar Texto Valor
+    textoValor = f'R${float(valorBruto):_.2f}'
+    textoValor = textoValor.replace(".", ",").replace("_",".")
+    
+    # Criar e-mail
     msg = EmailMessage()
     msg['Subject'] = f'Entrada de Novo Cliente no Aztronic - {date.today().strftime("%d/%m")}'          # Titulo do e-mail
     msg['From'] = 'opscontrole@pontte.com.br'
     msg['To'] = 'henrique.scripelliti@pontte.com.br'
+    #msg['To'] = 'matheus.pereira@pontte.com.br'
     msg['CC'] = ['luis.caram@pontte.com.br', 'solange.souza@pontte.com.br', 'ops@pontte.com.br']
     msg.set_content(f'''Prezados, foi realizado uma nova implantação no Aztronic, segue os dados da operação abaixo:
 
    Nome: {nomeCliente} 
    ID: {idContrato}
    Produto: {produto}
-   Valor Bruto: {valorBruto}
+   Valor Bruto: {textoValor}
 
 
     Att, 
@@ -32,5 +37,4 @@ def enviarEmail(idContrato, produto, valorBruto,nomeCliente):
 
 
 ### Teste
-
-#test = enviarEmail("123456","HE",100)
+#enviarEmail()
