@@ -15,7 +15,7 @@ def enviarEmail(idContrato, produto, valorBruto,nomeCliente):
     msg['From'] = 'opscontrole@pontte.com.br'
     msg['To'] = 'henrique.scripelliti@pontte.com.br'
     #msg['To'] = 'matheus.pereira@pontte.com.br'
-    msg['CC'] = ['luis.caram@pontte.com.br', 'solange.souza@pontte.com.br', 'ops@pontte.com.br']
+    msg['CC'] = ['solange.souza@pontte.com.br', 'ops@pontte.com.br']
     msg.set_content(f'''Prezados, foi realizado uma nova implantação no Aztronic, segue os dados da operação abaixo:
 
    Nome: {nomeCliente} 
