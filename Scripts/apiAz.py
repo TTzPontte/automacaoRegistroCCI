@@ -154,6 +154,7 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
                 nomeTitular = item['nome']
                 dataNascimentoTitular = item['data_nascimento']
                 cpfTitular = item['cnpj_cpf']
+                participacaoTitular = item['participacao']
     except:
         nomeTitular = ''
         print('Erro ao Gerar nome do Titular\nScript: apiAz.py Linha 151')
@@ -209,4 +210,4 @@ def preencherAPI(pathCF, textoContrato, textoLaudo, textoParticipantes, produto)
 
     print(response.text)
 
-    return response.text, jsonFinal, nomeTitular, dataNascimentoTitular, cpfTitular
+    return response.text, jsonFinal, nomeTitular, dataNascimentoTitular, cpfTitular, participacaoTitular

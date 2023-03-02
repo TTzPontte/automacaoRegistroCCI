@@ -9,3 +9,4 @@ pip install pikepdf
 pip install DateTime
 pip install openpyxl
 pip install pycep-correios
+pip install unidecode 

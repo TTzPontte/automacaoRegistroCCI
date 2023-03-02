@@ -1,37 +1,44 @@
 import requests
 import json
+from unidecode import unidecode
 
-def createCardPipefy(dadosPipefy, ):
-    nomeTitular = "Teste Cardoso"
-    idAztronic = "12345"
-    idPipefy = "123456789"
-    produto = "HE"
-    operação = "PF"
-    cpfTitular = "45899217820"
-    dataNascimentoTitular = "23/01/1998"
-    participacaoTitular = "0.85"
-    valorBruto = "100000"
-    taxaAoAno = "0.142"
-    tabela = "SAC"
-    indice = "IPCA"
-    pularMes = "Nenhum"
-    prazoOps = "180"
-    numeroParcelas = "180"
-    dataDesembolso = "01/01/2023"
-    dataUltimaParcela = "01/01/2023"
-    valorPriParcela = "1456"
-    valorTotalPriParcela = "2000"
-    dataContrato = "29/12/2022"
-    enderecoImovel = "Rua Teste"
-    numeroImovel = "3"
-    complementoImovel = "N/A"
-    bairroImovel = "Bairro Teste"
-    cidadeImovel = "Sao Paulo"
-    estadoImovel = "SP"
-    cepImovel = "08311120"
-    valorImovel = "1250000"
-    Matricula = "1234"
-    nomeCartorio = "Cartorio Teste"
+def createCardPipefy(dadosPipefy, dadosC, dadosI, nomeTitular, dataNascimentoTitular, cpfTitular, idPipefy, pularMes, idAztronic, participacaoTitular, produto):
+    
+    try:
+        print(f'Caso de erro, segue algumas informações úteis para teste:\nDadosPipefy: {dadosPipefy}\n\n\nDados do contrato: {dadosC}\n\n\nDados Imóvel: {dadosI}')
+    except:
+        print("Não foi possível apresentar os dados úteis em caso de erro.")
+    
+    nomeTitular = unidecode(str(nomeTitular))
+    idAztronic = str(idAztronic)
+    idPipefy = str(idPipefy)
+    produto = str(produto)
+    operação = str(dadosC['operação'])
+    cpfTitular = str(cpfTitular)
+    dataNascimentoTitular = str(dataNascimentoTitular)
+    participacaoTitular = str(participacaoTitular).replace(".", "").replace(",",".").replace("%","")
+    valorBruto = str(dadosC['valorBruto']).replace(".", "").replace(",",".")
+    taxaAoAno = str(dadosC['taxaAoAno']).replace(".", "").replace(",",".").replace("%","")
+    tabela = str(dadosC['tabela'])
+    indice = str(dadosC['indice'])
+    pularMes = str(pularMes)
+    prazoOps = str(dadosPipefy['prazoOps'])
+    numeroParcelas = str(dadosPipefy['numeroParcelas'])
+    dataDesembolso = str(dadosPipefy['dataDesembolso'])
+    dataUltimaParcela = str(dadosPipefy['dataUltimaParcela'])
+    valorPriParcela = str(dadosPipefy['valorPriParcela']).replace(".", "").replace(",",".")
+    valorTotalPriParcela = str(dadosPipefy['valorTotalPriParcela']).replace(".", "").replace(",",".")
+    dataContrato = str(dadosC['dataContrato'])
+    enderecoImovel = unidecode(str(dadosI['enderecoImovel']))
+    numeroImovel = str(dadosI['numeroImovel'])
+    complementoImovel = unidecode(str(dadosI['complementoImovel']))
+    bairroImovel = unidecode(str(dadosI['bairroImovel']))
+    cidadeImovel = unidecode(str(dadosI['cidadeImovel']))
+    estadoImovel = unidecode(str(dadosI['estadoImovel']))
+    cepImovel = str(dadosI['cepImovel'])
+    valorImovel = str(dadosI['valorImovel']).replace(".", "").replace(",",".")
+    Matricula = str(dadosC['Matrícula'])
+    nomeCartorio = unidecode(str(dadosC['nomeCartorio']))
 
 
 
@@ -45,7 +52,4 @@ def createCardPipefy(dadosPipefy, ):
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)
-
     print(response.text)
-
-createCardPipefy()
