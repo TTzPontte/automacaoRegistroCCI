@@ -107,13 +107,18 @@ def lerSimulador(path):
     #Pegar nome do Cliente
     nomeCliente = ws3.cell(row=1, column=7).value
 
+    #Pegar ID pipefy
+    ws4 = wb['Inputs']
+    idPipefy = ws4.cell(row=11, column=6).value
+
     #Fechar Planilha
     wb.close()
 
     #Criar Chave Valor com Resultados de Saída
     keyValue = {'valorTotal':round(valorBruto,2),'tabela': amortizacao,'registro': round(registro,2),'taxaAM':taxaAM,'valorLiquido': round(valorLiquido,2),'prazoMes': prazo,
                 'valorPrimeiraParcelaComEncargos':round(primeiraParcela,2), 'valorImóvel':round(valorAvaliacao,2),'prazoContrato': prestacoes,'ultimaParcela':dataUltimaParcela.strftime("%d/%m/%Y"),
-                'dataContrato': dataDesembolco.strftime("%d/%m/%Y"), 'valorPrimeiraParcela': round(amortizacaoEJuros,2), 'primeiraParcela':dataPriParcela.strftime("%d/%m/%Y"),'indice': indexador
+                'dataContrato': dataDesembolco.strftime("%d/%m/%Y"), 'valorPrimeiraParcela': round(amortizacaoEJuros,2), 'primeiraParcela':dataPriParcela.strftime("%d/%m/%Y"),'indice': indexador,
+                'pularParcela':pularParcela, 'idPipefy':idPipefy
                 }
     
     #Retornar Chave e Valor
