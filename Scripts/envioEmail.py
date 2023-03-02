@@ -6,6 +6,7 @@ import time
 
 def enviarEmail(idContrato, produto, valorBruto,nomeCliente):
     #Criar Texto Valor
+    valorBruto = str(valorBruto).replace(".","").replace(",", ".")
     textoValor = f'R${float(valorBruto):_.2f}'
     textoValor = textoValor.replace(".", ",").replace("_",".")
     
