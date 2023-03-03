@@ -18,7 +18,7 @@ def createCardPipefy(dadosPipefy, dadosC, dadosI, nomeTitular, dataNascimentoTit
     print(cpfTitular)
     dataNascimentoTitular = str(dataNascimentoTitular)
     participacaoTitular = str(participacaoTitular)
-    valorBruto = str(dadosC['valorBruto']).replace(".", "").replace(",",".")
+    valorBruto = str(dadosC['valorBruto'])
     taxaAoAno = str(dadosC['taxaAoAno'])
     tabela = str(dadosC['tabela'])
     indice = str(dadosC['indice'])
@@ -27,8 +27,8 @@ def createCardPipefy(dadosPipefy, dadosC, dadosI, nomeTitular, dataNascimentoTit
     numeroParcelas = str(dadosPipefy['numeroParcelas'])
     dataDesembolso = str(dadosPipefy['dataDesembolso'])
     dataUltimaParcela = str(dadosPipefy['dataUltimaParcela'])
-    valorPriParcela = str(dadosPipefy['valorPriParcela']).replace(".", "").replace(",",".")
-    valorTotalPriParcela = str(dadosPipefy['valorTotalPriParcela']).replace(".", "").replace(",",".")
+    valorPriParcela = str(dadosPipefy['valorPriParcela'])
+    valorTotalPriParcela = str(dadosPipefy['valorTotalPriParcela'])
     dataContrato = str(dadosC['dataContrato'])
     enderecoImovel = unidecode(str(dadosI['enderecoImovel']))
     numeroImovel = str(dadosI['numeroImovel'])
@@ -37,7 +37,7 @@ def createCardPipefy(dadosPipefy, dadosC, dadosI, nomeTitular, dataNascimentoTit
     cidadeImovel = unidecode(str(dadosI['cidadeImovel']))
     estadoImovel = unidecode(str(dadosI['estadoImovel']))
     cepImovel = str(dadosI['cepImovel'])
-    valorImovel = str(dadosI['valorImovel']).replace(".", "").replace(",",".")
+    valorImovel = str(dadosI['valorImovel'])
     Matricula = str(dadosC['Matrícula'])
     nomeCartorio = unidecode(str(dadosC['nomeCartorio']))
 
@@ -56,22 +56,22 @@ def createCardPipefy(dadosPipefy, dadosC, dadosI, nomeTitular, dataNascimentoTit
     print(response.text)
 
 
-# #Realizar Testes
+#Realizar Testes
 
-# #Dict para teste
-# dadosPipefyT = {'prazoOps': '240', 'numeroParcelas': '239', 'dataDesembolso': '06/03/2023', 'dataUltimaParcela': '20/03/2043', 'valorPriParcela': '4694,02', 'valorTotalPriParcela': '4844,41'}
-# dadosContratoT = {'tabela': 'PRICE', 'indice': 'IPCA', 'dataContrato': '02/03/2023', 'taxaAoAno': '14.4353', 'Matrícula': '49661', 'Quantidade': '1', 'operação': 'PF', 'CCI': '0004474693/TJS', 'valorBruto': '380667,43', 'nomeCartorio': '1º OFÍCIO DE REGISTRO DE IMÓVEIS', 'idCartorio': 4155801}
-# dadosImovelT = {'enderecoImovel': 'Rua Barão de Loreto', 'numeroImovel': '154', 'complementoImovel': 'N/A', 'bairroImovel': 'Vila Fujita', 'cepImovel': '86015-550', 'cidadeImovel': 'Londrina', 'estadoImovel': 'PR', 'unidadeImovel': '154', 'blocoImovel': 'ÚNICO', 'valorImovel': '1192000,00'}
+#Dict para teste
+dadosPipefyT = {'prazoOps': '240', 'numeroParcelas': '239', 'dataDesembolso': '06/03/2023', 'dataUltimaParcela': '20/03/2043', 'valorPriParcela': '4694,02', 'valorTotalPriParcela': '4844,41'}
+dadosContratoT = {'tabela': 'PRICE', 'indice': 'IPCA', 'dataContrato': '02/03/2023', 'taxaAoAno': '14.4353', 'Matrícula': '49661', 'Quantidade': '1', 'operação': 'PF', 'CCI': '0004474693/TJS', 'valorBruto': '380667,43', 'nomeCartorio': '1º OFÍCIO DE REGISTRO DE IMÓVEIS', 'idCartorio': 4155801}
+dadosImovelT = {'enderecoImovel': 'Rua Barão de Loreto', 'numeroImovel': '154', 'complementoImovel': 'N/A', 'bairroImovel': 'Vila Fujita', 'cepImovel': '86015-550', 'cidadeImovel': 'Londrina', 'estadoImovel': 'PR', 'unidadeImovel': '154', 'blocoImovel': 'ÚNICO', 'valorImovel': '1192000,00'}
 
-# #Variáveis para teste
-# nomeTeste = "THIAGO JOSÉ SILVESTRE POLONIO OLIVEIRA"
-# dataTeste = "13/09/1984"
-# cpfTeste = "052.610.509-79"
-# idPipefyTeste = 638253932
-# pularMesTeste = "Nenhum"
-# idAztronicTeste = 130424
-# participacaoTeste = 100
-# produtoTeste = "HE"
+#Variáveis para teste
+nomeTeste = "THIAGO JOSÉ SILVESTRE POLONIO OLIVEIRA"
+dataTeste = "13/09/1984"
+cpfTeste = "052.610.509-79"
+idPipefyTeste = 638253932
+pularMesTeste = "Nenhum"
+idAztronicTeste = 130424
+participacaoTeste = 100
+produtoTeste = "HE"
 
-# createCardPipefy(dadosPipefyT, dadosContratoT, dadosImovelT, nomeTeste, dataTeste, cpfTeste, idPipefyTeste,
-#                  pularMesTeste, idAztronicTeste, participacaoTeste, produtoTeste)
+createCardPipefy(dadosPipefyT, dadosContratoT, dadosImovelT, nomeTeste, dataTeste, cpfTeste, idPipefyTeste,
+                 pularMesTeste, idAztronicTeste, participacaoTeste, produtoTeste)
