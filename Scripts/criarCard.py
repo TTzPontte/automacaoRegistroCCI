@@ -10,15 +10,16 @@ def createCardPipefy(dadosPipefy, dadosC, dadosI, nomeTitular, dataNascimentoTit
         print("Não foi possível apresentar os dados úteis em caso de erro.")
     
     nomeTitular = unidecode(str(nomeTitular))
-    idAztronic = str(idAztronic)
-    idPipefy = str(idPipefy)
+    idAztronic = idAztronic
+    idPipefy = idPipefy
     produto = str(produto)
     operação = str(dadosC['operação'])
-    cpfTitular = str(cpfTitular)
+    cpfTitular = str(cpfTitular).replace(".","").replace("-","")
+    print(cpfTitular)
     dataNascimentoTitular = str(dataNascimentoTitular)
-    participacaoTitular = str(participacaoTitular).replace(".", "").replace(",",".").replace("%","")
+    participacaoTitular = str(participacaoTitular)
     valorBruto = str(dadosC['valorBruto']).replace(".", "").replace(",",".")
-    taxaAoAno = str(dadosC['taxaAoAno']).replace(".", "").replace(",",".").replace("%","")
+    taxaAoAno = str(dadosC['taxaAoAno'])
     tabela = str(dadosC['tabela'])
     indice = str(dadosC['indice'])
     pularMes = str(pularMes)
@@ -44,7 +45,7 @@ def createCardPipefy(dadosPipefy, dadosC, dadosI, nomeTitular, dataNascimentoTit
 
     url = "https://api.pipefy.com/graphql"
 
-    payload = payload = "{\"query\":\"mutation {\\r\\n  createCard(input:{\\r\\n    pipe_id: 303034998 \\r\\n fields_attributes: [\\r\\n       \\r\\n        {field_id:\\\"nome_do_cliente\\\", field_value: \\\""+nomeTitular+"\\\"}{field_id:\\\"id_aztronic\\\", field_value: "+str(idAztronic)+"}{field_id:\\\"id_pipefy_antigo\\\", field_value: "+str(idPipefy)+"}{field_id:\\\"produto\\\", field_value: \\\""+produto+"\\\"}{field_id:\\\"tipo_de_opera_o\\\", field_value: \\\""+operação+"\\\"}{field_id:\\\"cpf\\\", field_value: "+str(cpfTitular)+"}{field_id:\\\"data_de_nascimento\\\", field_value: \\\""+dataNascimentoTitular+"\\\"}{field_id:\\\"participa_o\\\", field_value: "+str(participacaoTitular)+"}{field_id:\\\"valor_bruto\\\", field_value: "+str(valorBruto)+"}{field_id:\\\"taxa_de_juros_aa\\\", field_value: "+str(taxaAoAno)+"}{field_id:\\\"sistema_de_amortiza_o\\\", field_value: \\\""+tabela+"\\\"}{field_id:\\\"ndice_de_corre_o\\\", field_value: \\\""+indice+"\\\"}{field_id:\\\"pular_m_s\\\", field_value: \\\""+pularMes+"\\\"}{field_id:\\\"prazo_da_opera_o\\\", field_value: "+str(prazoOps)+"}{field_id:\\\"n_mero_de_parcelas\\\", field_value: "+str(numeroParcelas)+"}{field_id:\\\"data_de_desembolso\\\", field_value: \\\""+dataDesembolso+"\\\"}{field_id:\\\"data_da_ltima_parcela\\\", field_value: \\\""+dataUltimaParcela+"\\\"}{field_id:\\\"primeira_parcela_amortiza_o_juros\\\", field_value: "+str(valorPriParcela)+"}{field_id:\\\"primeira_parcela_total\\\", field_value: "+str(valorTotalPriParcela)+"}{field_id:\\\"data_de_assinatura\\\", field_value: \\\""+dataContrato+"\\\"}{field_id:\\\"endere_o_do_im_vel_em_garantia\\\", field_value: \\\""+enderecoImovel+"\\\"}{field_id:\\\"n_mero_do_im_vel_em_garantia\\\", field_value: "+str(numeroImovel)+"}{field_id:\\\"complemento_do_im_vel_em_garantia\\\", field_value: \\\""+complementoImovel+"\\\"}{field_id:\\\"bairro_do_im_vel_em_garantia\\\", field_value: \\\""+bairroImovel+"\\\"}{field_id:\\\"cidade_do_im_vel_em_garantia\\\", field_value: \\\""+cidadeImovel+"\\\"}{field_id:\\\"estado_do_im_vel_em_garantia\\\", field_value: \\\""+estadoImovel+"\\\"}{field_id:\\\"cep_do_im_vel_em_garantia\\\", field_value: \\\""+cepImovel+"\\\"}{field_id:\\\"valor_de_avalia_o_do_im_vel_em_garantia\\\", field_value: "+str(valorImovel)+"}{field_id:\\\"matr_cula_do_im_vel_em_garantia\\\", field_value: "+str(Matricula)+"}{field_id:\\\"cart_rio_do_im_vel_em_garantia\\\", field_value: \\\""+nomeCartorio+"\\\"}    \\r\\n        ] \\r\\n  }){\\r\\n    card {\\r\\n      id\\r\\n      title\\r\\n    }\\r\\n  }\\r\\n}\",\"variables\":{}}"
+    payload = "{\"query\":\"mutation {\\r\\n  createCard(input:{\\r\\n    pipe_id: 303034998 \\r\\n fields_attributes: [\\r\\n       \\r\\n        {field_id:\\\"nome_do_cliente\\\", field_value: \\\""+nomeTitular+"\\\"}{field_id:\\\"id_aztronic\\\", field_value: "+str(idAztronic)+"}{field_id:\\\"id_pipefy_antigo\\\", field_value: "+str(idPipefy)+"}{field_id:\\\"produto\\\", field_value: \\\""+produto+"\\\"}{field_id:\\\"tipo_de_opera_o\\\", field_value: \\\""+operação+"\\\"}{field_id:\\\"cpf\\\", field_value: "+str(cpfTitular)+"}{field_id:\\\"data_de_nascimento\\\", field_value: \\\""+dataNascimentoTitular+"\\\"}{field_id:\\\"participa_o\\\", field_value: "+str(participacaoTitular)+"}{field_id:\\\"valor_bruto\\\", field_value: "+str(valorBruto)+"}{field_id:\\\"taxa_de_juros_aa\\\", field_value: "+str(taxaAoAno)+"}{field_id:\\\"sistema_de_amortiza_o\\\", field_value: \\\""+tabela+"\\\"}{field_id:\\\"ndice_de_corre_o\\\", field_value: \\\""+indice+"\\\"}{field_id:\\\"pular_m_s\\\", field_value: \\\""+pularMes+"\\\"}{field_id:\\\"prazo_da_opera_o\\\", field_value: "+str(prazoOps)+"}{field_id:\\\"n_mero_de_parcelas\\\", field_value: "+str(numeroParcelas)+"}{field_id:\\\"data_de_desembolso\\\", field_value: \\\""+dataDesembolso+"\\\"}{field_id:\\\"data_da_ltima_parcela\\\", field_value: \\\""+dataUltimaParcela+"\\\"}{field_id:\\\"primeira_parcela_amortiza_o_juros\\\", field_value: "+str(valorPriParcela)+"}{field_id:\\\"primeira_parcela_total\\\", field_value: "+str(valorTotalPriParcela)+"}{field_id:\\\"data_de_assinatura\\\", field_value: \\\""+dataContrato+"\\\"}{field_id:\\\"endere_o_do_im_vel_em_garantia\\\", field_value: \\\""+enderecoImovel+"\\\"}{field_id:\\\"n_mero_do_im_vel_em_garantia\\\", field_value: "+str(numeroImovel)+"}{field_id:\\\"complemento_do_im_vel_em_garantia\\\", field_value: \\\""+complementoImovel+"\\\"}{field_id:\\\"bairro_do_im_vel_em_garantia\\\", field_value: \\\""+bairroImovel+"\\\"}{field_id:\\\"cidade_do_im_vel_em_garantia\\\", field_value: \\\""+cidadeImovel+"\\\"}{field_id:\\\"estado_do_im_vel_em_garantia\\\", field_value: \\\""+estadoImovel+"\\\"}{field_id:\\\"cep_do_im_vel_em_garantia\\\", field_value: \\\""+cepImovel+"\\\"}{field_id:\\\"valor_de_avalia_o_do_im_vel_em_garantia\\\", field_value: "+str(valorImovel)+"}{field_id:\\\"matr_cula_do_im_vel_em_garantia\\\", field_value: "+str(Matricula)+"}{field_id:\\\"cart_rio_do_im_vel_em_garantia\\\", field_value: \\\""+nomeCartorio+"\\\"}    \\r\\n        ] \\r\\n  }){\\r\\n    card {\\r\\n      id\\r\\n      title\\r\\n    }\\r\\n  }\\r\\n}\",\"variables\":{}}"
     headers = {
     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjozMDEyNjA0NzYsImVtYWlsIjoiZGV2QHBvbnR0ZS5jb20uYnIiLCJhcHBsaWNhdGlvbiI6MzAwMjI0MjU1fX0.mETDV7VXfKgr7ubBcEqtf1IyJ2OHbOjgUFKF3Bk7J2We_UUXNh0oq0N6ZEmVsLYaqPyQR2qx7yn7KfpztPoqcg',
     'Content-Type': 'application/json',
@@ -53,3 +54,24 @@ def createCardPipefy(dadosPipefy, dadosC, dadosI, nomeTitular, dataNascimentoTit
 
     response = requests.request("POST", url, headers=headers, data=payload)
     print(response.text)
+
+
+# #Realizar Testes
+
+# #Dict para teste
+# dadosPipefyT = {'prazoOps': '240', 'numeroParcelas': '239', 'dataDesembolso': '06/03/2023', 'dataUltimaParcela': '20/03/2043', 'valorPriParcela': '4694,02', 'valorTotalPriParcela': '4844,41'}
+# dadosContratoT = {'tabela': 'PRICE', 'indice': 'IPCA', 'dataContrato': '02/03/2023', 'taxaAoAno': '14.4353', 'Matrícula': '49661', 'Quantidade': '1', 'operação': 'PF', 'CCI': '0004474693/TJS', 'valorBruto': '380667,43', 'nomeCartorio': '1º OFÍCIO DE REGISTRO DE IMÓVEIS', 'idCartorio': 4155801}
+# dadosImovelT = {'enderecoImovel': 'Rua Barão de Loreto', 'numeroImovel': '154', 'complementoImovel': 'N/A', 'bairroImovel': 'Vila Fujita', 'cepImovel': '86015-550', 'cidadeImovel': 'Londrina', 'estadoImovel': 'PR', 'unidadeImovel': '154', 'blocoImovel': 'ÚNICO', 'valorImovel': '1192000,00'}
+
+# #Variáveis para teste
+# nomeTeste = "THIAGO JOSÉ SILVESTRE POLONIO OLIVEIRA"
+# dataTeste = "13/09/1984"
+# cpfTeste = "052.610.509-79"
+# idPipefyTeste = 638253932
+# pularMesTeste = "Nenhum"
+# idAztronicTeste = 130424
+# participacaoTeste = 100
+# produtoTeste = "HE"
+
+# createCardPipefy(dadosPipefyT, dadosContratoT, dadosImovelT, nomeTeste, dataTeste, cpfTeste, idPipefyTeste,
+#                  pularMesTeste, idAztronicTeste, participacaoTeste, produtoTeste)
