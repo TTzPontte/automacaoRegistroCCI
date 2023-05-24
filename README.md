@@ -8,4 +8,4 @@ pip install pyPDF2==2.5
 pip install pikepdf
 pip install DateTime
 pip install openpyxl
-pip install pycep-correios
+pip install pycep-correios==5.1.0
